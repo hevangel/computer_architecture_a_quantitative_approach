@@ -4,7 +4,10 @@ The software school of ILP: the compiler packs independent operations into one l
 hardware simply issues it. Techniques: loop unrolling, software pipelining, trace scheduling, predication, and (in
 Itanium/EPIC) rotating registers and speculative loads. Prominent in the 3rd and 4th editions' main text.
 
-## Status
+## Examples
 
-Empty so far -- see [`docs/roadmap.md`](../docs/roadmap.md). The first planned example is a 4-slot VLIW core with
-a small assembler-as-functions testbench, run on the same DAXPY kernel as [`vector_lanes`](../ch04_dlp/vector_lanes).
+| Example | What it shows |
+|---------|---------------|
+| [`vliw4`](vliw4) | 4-slot bundles, exposed latencies, no interlocks; one DAXPY kernel scheduled three ways (IPC 1.01 / 1.77 / 1.94) |
+
+Planned: software-pipelined loop, predication, delayed branches (see [`docs/roadmap.md`](../docs/roadmap.md)).

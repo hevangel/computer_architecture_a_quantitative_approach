@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `30/30 passed`.
+A passing run ends with `34/34 passed`.
 
 ## What is in the box
 
@@ -33,6 +33,7 @@ A passing run ends with `30/30 passed`.
 |--------------------|---------|-------|
 | [Ch 1 Fundamentals](ch01_fundamentals) | [`amdahl_speedup`](ch01_fundamentals/amdahl_speedup) | Amdahl's Law in fixed point |
 | [Ch 2 Memory hierarchy](ch02_memory_hierarchy) | [`set_assoc_cache`](ch02_memory_hierarchy/set_assoc_cache) | set-associative write-back LRU cache with hit/miss counters |
+| | [`tlb_walker`](ch02_memory_hierarchy/tlb_walker) | TLB + page-table walker, page and protection faults |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
 | | [`tomasulo_rob`](ch03_ilp/tomasulo_rob) | Tomasulo + reorder buffer: out-of-order completion, in-order commit, renaming |
 | [Ch 4 DLP](ch04_dlp) | [`vector_lanes`](ch04_dlp/vector_lanes) | vector unit, DAXPY, `ceil(VL/lanes)` scaling |
@@ -42,9 +43,10 @@ A passing run ends with `30/30 passed`.
 | | [`mips_pipeline5`](appC_pipelining/mips_pipeline5) | DLX / MIPS32 and MIPS64 5-stage pipeline (branches in ID); CPI = 84/53 |
 | [App D Storage](appD_storage) | [`hamming_secded`](appD_storage/hamming_secded), [`raid5_parity`](appD_storage/raid5_parity) | ECC DIMM code; RAID-5 rebuild |
 | [App F Interconnect](appF_interconnect) | [`rr_crossbar`](appF_interconnect/rr_crossbar) | crossbar with round-robin arbitration |
+| [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (VLIW, GPU warp scheduler, TLB, scoreboard, branch speculation, ...):
+Not yet written (GPU warp scheduler, scoreboard, branch speculation, prefetching, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization

@@ -3,12 +3,12 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (15 examples, 30 tests)
+## Done (17 examples, 34 tests)
 
 | Topic | Example |
 |-------|---------|
 | Ch 1 | `amdahl_speedup` |
-| Ch 2 | `set_assoc_cache` |
+| Ch 2 | `set_assoc_cache`, `tlb_walker` |
 | Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `tomasulo_rob` |
 | Ch 4 | `vector_lanes` |
 | Ch 5 | `mesi_snoopy` |
@@ -16,13 +16,14 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 | App C | `rv32i_pipeline5`, `mips_pipeline5` (DLX/MIPS32 and MIPS64) |
 | App D | `hamming_secded`, `raid5_parity` |
 | App F | `rr_crossbar` |
+| App H | `vliw4` |
 | App J | `carry_lookahead_adder`, `booth_multiplier`, `restoring_divider` |
 
 ## Planned, by chapter
 
 **Ch 1 -** performance counters / CPI-breakdown unit; dynamic-power estimator from toggle counts.
 
-**Ch 2 -** TLB with page-table walker; victim cache; stride prefetcher; hit-under-miss (non-blocking) cache;
+**Ch 2 -** victim cache; stride prefetcher; hit-under-miss (non-blocking) cache;
 banked DRAM controller with row buffer.
 
 **Ch 3 / ILP -** scoreboard (CDC 6600); branch speculation and ROB flush in `tomasulo_rob`, plus load/store;
@@ -40,7 +41,7 @@ tournament predictor + BTB; dual-issue in-order superscalar.
 
 **App F -** mesh router with dimension-order routing and credit flow control.
 
-**App H -** 4-slot VLIW core; software-pipelined DAXPY; predication.
+**App H -** software-pipelined DAXPY, predication, delayed branches for `vliw4`.
 
 **App J -** IEEE 754 adder / multiplier / FMA; SRT divider.
 
