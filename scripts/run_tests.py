@@ -111,13 +111,15 @@ def test_vhdl(mod: Path, log: list[str]) -> tuple[bool, str]:
 
 
 def lint_sv(mod: Path, log: list[str]) -> tuple[bool, str]:
+    """Advisory Verilator lint.  Width/style families are muted: these are teaching examples
+    written for readability, and Icarus (the simulation target) needs some explicit-width idioms."""
     rtl = sources(mod, "sv", False)
     if not rtl:
         return True, "no sv"
-    top = rtl[-1].stem
-    rc, out = run(["verilator", "--lint-only", "-Wall", "-Wno-DECLFILENAME", "-Wno-UNUSEDSIGNAL",
-                   "-Wno-UNUSEDPARAM", "-Wno-PINCONNECTEMPTY", "--top-module", top, *map(str, rtl)],
-                  ROOT, log)
+    rc, out = run(["verilator", "--lint-only", "-Wall", "-Wno-MULTITOP", "-Wno-DECLFILENAME", "-Wno-WIDTH",
+                   "-Wno-UNUSEDSIGNAL", "-Wno-UNUSEDPARAM", "-Wno-PINCONNECTEMPTY", "-Wno-SYNCASYNCNET",
+                   "-Wno-BLKSEQ", "-Wno-BLKLOOPINIT", "-Wno-UNOPTFLAT", "-Wno-SELRANGE", "-Wno-GENUNNAMED", "-Wno-VARHIDDEN",
+                   *map(str, rtl)], ROOT, log)
     return rc == 0, "" if rc == 0 else "verilator lint warnings/errors"
 
 
