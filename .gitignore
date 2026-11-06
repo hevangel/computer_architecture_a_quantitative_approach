@@ -1,0 +1,7 @@
+build/
+*.vcd
+*.vvp
+*.cf
+*.o
+work-obj*.cf
+__pycache__/
