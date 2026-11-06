@@ -54,7 +54,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 |-------|-----------|------------------------|:------:|
 | Amdahl's Law | [`ch01_fundamentals/amdahl_speedup`](../ch01_fundamentals/amdahl_speedup) | 1-7 | done |
 | 5-stage pipeline, hazards, forwarding (RV32I) | [`appC_pipelining/rv32i_pipeline5`](../appC_pipelining/rv32i_pipeline5) | 6-7 ISA; the pipeline itself 1-7 | done |
-| 5-stage pipeline (DLX / MIPS) | `appC_pipelining/mips_pipeline5` | 1-5 ISA | planned |
+| 5-stage pipeline, branches in ID (DLX = `XLEN 32`, MIPS64 = `XLEN 64`) | [`appC_pipelining/mips_pipeline5`](../appC_pipelining/mips_pipeline5) | 1-2 (DLX), 3-5 (MIPS64) | done |
 | 1-bit, 2-bit, correlating (gshare) prediction | [`ch03_ilp/branch_predictor`](../ch03_ilp/branch_predictor) | 1-7 | done |
 | Cache: associativity, write-back, LRU | [`ch02_memory_hierarchy/set_assoc_cache`](../ch02_memory_hierarchy/set_assoc_cache) | 1-7 | done |
 | Vector processor / lanes, DAXPY | [`ch04_dlp/vector_lanes`](../ch04_dlp/vector_lanes) | 1-7 (main chapter from 5th) | done |
@@ -63,7 +63,8 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Computer arithmetic: CLA, Booth, division | [`appJ_arithmetic`](../appJ_arithmetic) | 1-7 (appendix) | done |
 | ECC (SECDED) and RAID-5 parity | [`appD_storage`](../appD_storage) | 1-7 (main chapter through 4th, then supplemental) | done |
 | Crossbar and arbitration | [`appF_interconnect/rr_crossbar`](../appF_interconnect/rr_crossbar) | 2-7 | done |
-| Tomasulo / scoreboard / reorder buffer | `ch03_ilp/...` | 2-7 | planned |
+| Tomasulo + reorder buffer | [`ch03_ilp/tomasulo_rob`](../ch03_ilp/tomasulo_rob) | dynamic scheduling 2-7; ROB form from the 3rd | done |
+| Scoreboard, branch speculation in the ROB core | `ch03_ilp/...` | 2-7 | planned |
 | VLIW / EPIC | `appH_vliw/...` | 3-4 main, later appendix | planned |
 | GPU SIMT warp scheduling | `ch04_dlp/...` | 5-7 | planned |
 | TLB / virtual memory, prefetch | `ch02_memory_hierarchy/...` | 1-7 | planned |
