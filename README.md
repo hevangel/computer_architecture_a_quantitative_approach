@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `34/34 passed`.
+A passing run ends with `36/36 passed`.
 
 ## What is in the box
 
@@ -35,6 +35,7 @@ A passing run ends with `34/34 passed`.
 | [Ch 2 Memory hierarchy](ch02_memory_hierarchy) | [`set_assoc_cache`](ch02_memory_hierarchy/set_assoc_cache) | set-associative write-back LRU cache with hit/miss counters |
 | | [`tlb_walker`](ch02_memory_hierarchy/tlb_walker) | TLB + page-table walker, page and protection faults |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
+| | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
 | | [`tomasulo_rob`](ch03_ilp/tomasulo_rob) | Tomasulo + reorder buffer: out-of-order completion, in-order commit, renaming |
 | [Ch 4 DLP](ch04_dlp) | [`vector_lanes`](ch04_dlp/vector_lanes) | vector unit, DAXPY, `ceil(VL/lanes)` scaling |
 | [Ch 5 TLP](ch05_tlp) | [`mesi_snoopy`](ch05_tlp/mesi_snoopy) | MESI snooping coherence, invariants under random traffic |
@@ -46,7 +47,7 @@ A passing run ends with `34/34 passed`.
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (GPU warp scheduler, scoreboard, branch speculation, prefetching, ...):
+Not yet written (GPU warp scheduler, branch speculation, prefetching, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization

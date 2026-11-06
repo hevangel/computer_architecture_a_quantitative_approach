@@ -3,13 +3,13 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (17 examples, 34 tests)
+## Done (18 examples, 36 tests)
 
 | Topic | Example |
 |-------|---------|
 | Ch 1 | `amdahl_speedup` |
 | Ch 2 | `set_assoc_cache`, `tlb_walker` |
-| Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `tomasulo_rob` |
+| Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `scoreboard`, `tomasulo_rob` |
 | Ch 4 | `vector_lanes` |
 | Ch 5 | `mesi_snoopy` |
 | Ch 7 | `systolic_array` |
@@ -26,7 +26,7 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 **Ch 2 -** victim cache; stride prefetcher; hit-under-miss (non-blocking) cache;
 banked DRAM controller with row buffer.
 
-**Ch 3 / ILP -** scoreboard (CDC 6600); branch speculation and ROB flush in `tomasulo_rob`, plus load/store;
+**Ch 3 / ILP -** branch speculation and ROB flush in `tomasulo_rob`, plus load/store;
 tournament predictor + BTB; dual-issue in-order superscalar.
 
 **Ch 4 -** vector chaining; SIMD packed-subword ALU; GPU SIMT warp scheduler with divergence stack.

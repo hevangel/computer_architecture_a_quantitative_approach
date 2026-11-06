@@ -15,7 +15,7 @@ Toolchain: `iverilog` 12 (SystemVerilog, `-g2012`), `ghdl` 4.x mcode (VHDL, `--s
 Python 3 (stdlib only). Install with `apt-get install iverilog ghdl verilator`.
 
 ```bash
-make test                          # all examples, both languages (expect "34/34 passed" -- update if you add examples)
+make test                          # all examples, both languages (expect "36/36 passed" -- update if you add examples)
 make test T=set_assoc_cache        # one example: T is a substring filter on the path (several words allowed)
 make test-sv T=ch03                # one language, one chapter  (also: make test-vhdl)
 make list                          # show discovered examples
@@ -65,6 +65,7 @@ Icarus Verilog (`-g2012` is a subset of SystemVerilog):
 * A ternary result cannot be assigned to an enum-typed variable without a cast; use `if`/`case`.
 * `always_comb` blocks that index arrays print `sorry: constant selects in always_* processes ...` -- benign.
 * `int x = 0;` initializers on declarations inside tasks/blocks need `automatic` or a separate assignment.
+* Array literals (`a = '{1, 2, 3};`) cannot be assigned ("Assignment to an entire array ... not yet supported"); assign element by element.
 * Part-selecting a function call (`f(x)[15:0]`) is a syntax error; assign to a variable first.
 * `vvp` can die with `Assertion 'value' failed` (event.cc) on `always_comb` blocks that index unpacked arrays with `int`-typed array
   elements; use fixed-width `logic` vectors for indices/counters held in arrays (see `tomasulo_rob.sv`).

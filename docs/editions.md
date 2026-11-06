@@ -64,7 +64,8 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | ECC (SECDED) and RAID-5 parity | [`appD_storage`](../appD_storage) | 1-7 (main chapter through 4th, then supplemental) | done |
 | Crossbar and arbitration | [`appF_interconnect/rr_crossbar`](../appF_interconnect/rr_crossbar) | 2-7 | done |
 | Tomasulo + reorder buffer | [`ch03_ilp/tomasulo_rob`](../ch03_ilp/tomasulo_rob) | dynamic scheduling 2-7; ROB form from the 3rd | done |
-| Scoreboard, branch speculation in the ROB core | `ch03_ilp/...` | 2-7 | planned |
+| CDC 6600 scoreboard | [`ch03_ilp/scoreboard`](../ch03_ilp/scoreboard) | 2-7 (the early editions' dynamic-scheduling intro) | done |
+| Branch speculation in the ROB core | `ch03_ilp/...` | 2-7 | planned |
 | VLIW (static multiple issue, exposed latencies) | [`appH_vliw/vliw4`](../appH_vliw/vliw4) | 3-4 main, later appendix | done |
 | GPU SIMT warp scheduling | `ch04_dlp/...` | 5-7 | planned |
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
