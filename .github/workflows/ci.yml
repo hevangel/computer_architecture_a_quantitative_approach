@@ -1,0 +1,16 @@
+name: hdl-tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install simulators
+        run: sudo apt-get update && sudo apt-get install -y iverilog ghdl verilator
+      - name: Run every example (SystemVerilog + VHDL)
+        run: make test
+      - name: Verilator lint (advisory profile)
+        run: make lint
