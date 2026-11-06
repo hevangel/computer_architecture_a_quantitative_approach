@@ -67,7 +67,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | CDC 6600 scoreboard | [`ch03_ilp/scoreboard`](../ch03_ilp/scoreboard) | 2-7 (the early editions' dynamic-scheduling intro) | done |
 | Branch speculation in the ROB core | `ch03_ilp/...` | 2-7 | planned |
 | VLIW (static multiple issue, exposed latencies) | [`appH_vliw/vliw4`](../appH_vliw/vliw4) | 3-4 main, later appendix | done |
-| GPU SIMT warp scheduling | `ch04_dlp/...` | 5-7 | planned |
+| GPU SIMT core: warps, latency hiding, divergence | [`ch04_dlp/simt_core`](../ch04_dlp/simt_core) | 5-7 | done |
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
 | Prefetch, victim cache | `ch02_memory_hierarchy/...` | 1-7 | planned |
 | Warehouse-scale computing | `ch06_wsc` | 5-7 | no RTL planned (see its README) |
