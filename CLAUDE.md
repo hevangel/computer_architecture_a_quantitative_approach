@@ -15,7 +15,7 @@ Toolchain: `iverilog` 12 (SystemVerilog, `-g2012`), `ghdl` 4.x mcode (VHDL, `--s
 Python 3 (stdlib only). Install with `apt-get install iverilog ghdl verilator`.
 
 ```bash
-make test                          # all examples, both languages (expect "44/44 passed" -- update if you add examples)
+make test                          # all examples, both languages (expect "46/46 passed" -- update if you add examples)
 make test T=set_assoc_cache        # one example: T is a substring filter on the path (several words allowed)
 make test-sv T=ch03                # one language, one chapter  (also: make test-vhdl)
 make list                          # show discovered examples
@@ -64,6 +64,7 @@ Icarus Verilog (`-g2012` is a subset of SystemVerilog):
   same in testbench golden models.
 * A ternary result cannot be assigned to an enum-typed variable without a cast; use `if`/`case`.
 * `always_comb` blocks that index arrays print `sorry: constant selects in always_* processes ...` -- benign.
+* A function that needs `#delay` cannot be a function: make it a task with an `output` and call it as a statement (it cannot sit inside an expression).
 * `int x = 0;` initializers on declarations inside tasks/blocks need `automatic` or a separate assignment.
 * Array literals (`a = '{1, 2, 3};`) cannot be assigned ("Assignment to an entire array ... not yet supported"); assign element by element.
 * Part-selecting a function call (`f(x)[15:0]`) is a syntax error; assign to a variable first.
@@ -84,6 +85,7 @@ GHDL / VHDL-2008:
 * A `process(all)` that runs at time 0 can see undriven `U` values from another process; guard array indexing with `is_x(...)`.
 * Integer literals above 2^31-1 (`16#A5A50000#`) overflow; use bit-string literals (`x"A5A50000"`).
 * Dividing/multiplying `numeric_std` values widens the result; `resize` it back explicitly.
+* A user-defined 64-bit integer type with extreme bounds (`range -(2**62) to 2**62`) crashed GHDL 4.1 mcode ("GHDL Bug occurred ... overflow check failed"); bounds like `2**56` are fine. VHDL `integer` is only 32 bits, so 64-bit golden models need such a type (or `signed`/`unsigned`).
 
 Verilator is used for lint only; `scripts/run_tests.py` mutes the width/style rules deliberately (the examples favor
 readability and Icarus compatibility over lint-cleanliness).

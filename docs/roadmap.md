@@ -3,14 +3,14 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (22 examples, 44 tests)
+## Done (23 examples, 46 tests)
 
 | Topic | Example |
 |-------|---------|
 | Ch 1 | `amdahl_speedup` |
 | Ch 2 | `set_assoc_cache`, `tlb_walker`, `victim_cache`, `stride_prefetcher` |
 | Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `scoreboard`, `tomasulo_rob`, `tomasulo_spec` |
-| Ch 4 | `vector_lanes`, `simt_core` |
+| Ch 4 | `vector_lanes`, `simd_alu`, `simt_core` |
 | Ch 5 | `mesi_snoopy` |
 | Ch 7 | `systolic_array` |
 | App C | `rv32i_pipeline5`, `mips_pipeline5` (DLX/MIPS32 and MIPS64) |
@@ -28,7 +28,7 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 **Ch 3 / ILP -** load/store with a store buffer and a history-table predictor in `tomasulo_spec`; resolve-time (rather than commit-time) recovery;
 tournament predictor + BTB; dual-issue in-order superscalar.
 
-**Ch 4 -** vector chaining; SIMD packed-subword ALU; per-register scoreboard and coalescing for `simt_core`.
+**Ch 4 -** vector chaining; pack/unpack and shuffle for `simd_alu`; per-register scoreboard and coalescing for `simt_core`.
 
 **Ch 5 -** directory coherence; atomic RMW + spin locks; consistency litmus tests.
 

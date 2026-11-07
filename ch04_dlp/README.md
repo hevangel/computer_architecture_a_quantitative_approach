@@ -10,7 +10,8 @@ execute one instruction at a time with masking). The 5th edition made this a mai
 | Example | What it shows |
 |---------|---------------|
 | [`vector_lanes`](vector_lanes) | register file, lanes, masking, DAXPY, `ceil(VL/L)` scaling |
+| [`simd_alu`](simd_alu) | packed-subword SIMD ALU: lane-isolated adder, saturation, PMADD, PSAD; kernels with 4-8x fewer instructions |
 | [`simt_core`](simt_core) | GPU-style SIMT core: warps, round-robin scheduling, latency hiding, divergence stack |
 
-Planned: chaining, SIMD packed-subword ALU (see
+Planned: vector chaining (see
 [`docs/roadmap.md`](../docs/roadmap.md)).
