@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `50/50 passed`.
+A passing run ends with `52/52 passed`.
 
 ## What is in the box
 
@@ -42,6 +42,7 @@ A passing run ends with `50/50 passed`.
 | | [`tomasulo_spec`](ch03_ilp/tomasulo_spec) | Tomasulo + branch speculation: commit-time flush, loop 85 -> 76 cycles with a better predictor |
 | | [`tomasulo_rob`](ch03_ilp/tomasulo_rob) | Tomasulo + reorder buffer: out-of-order completion, in-order commit, renaming |
 | [Ch 4 DLP](ch04_dlp) | [`vector_lanes`](ch04_dlp/vector_lanes) | vector unit, DAXPY, `ceil(VL/lanes)` scaling |
+| | [`vector_chaining`](ch04_dlp/vector_chaining) | pipelined vector units + chaining: DAXPY idle at cycle 49 chained vs 79 unchained (3 convoys x 16) |
 | | [`simd_alu`](ch04_dlp/simd_alu) | 64-bit packed SIMD ALU (partitioned adder, saturating ops, PMADD, PSAD); 8 instructions for 64 pixels |
 | | [`simt_core`](ch04_dlp/simt_core) | GPU SIMT core: warps hide load latency (54 vs 72 cycles), divergence costs lane efficiency (0.77) |
 | [Ch 5 TLP](ch05_tlp) | [`mesi_snoopy`](ch05_tlp/mesi_snoopy) | MESI snooping coherence, invariants under random traffic |
@@ -54,7 +55,7 @@ A passing run ends with `50/50 passed`.
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (vector chaining, virtual channels, ...):
+Not yet written (virtual channels, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization

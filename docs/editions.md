@@ -58,6 +58,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | 1-bit, 2-bit, correlating (gshare) prediction | [`ch03_ilp/branch_predictor`](../ch03_ilp/branch_predictor) | 1-7 | done |
 | Cache: associativity, write-back, LRU | [`ch02_memory_hierarchy/set_assoc_cache`](../ch02_memory_hierarchy/set_assoc_cache) | 1-7 | done |
 | Vector processor / lanes, DAXPY | [`ch04_dlp/vector_lanes`](../ch04_dlp/vector_lanes) | 1-7 (main chapter from 5th) | done |
+| Vector chaining, convoys and chimes | [`ch04_dlp/vector_chaining`](../ch04_dlp/vector_chaining) | 1-7 (appendix G / Ch 4) | done |
 | Snooping coherence (MESI) | [`ch05_tlp/mesi_snoopy`](../ch05_tlp/mesi_snoopy) | 2-7 | done |
 | Systolic matrix unit (TPU) | [`ch07_dsa/systolic_array`](../ch07_dsa/systolic_array) | 6-7 | done |
 | Computer arithmetic: CLA, Booth, division | [`appJ_arithmetic`](../appJ_arithmetic) | 1-7 (appendix) | done |
