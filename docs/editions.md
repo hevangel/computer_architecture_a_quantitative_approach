@@ -73,7 +73,8 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
 | Victim cache | [`ch02_memory_hierarchy/victim_cache`](../ch02_memory_hierarchy/victim_cache) | cache-optimization material (placement varies) | done |
 | Hardware stride prefetching | [`ch02_memory_hierarchy/stride_prefetcher`](../ch02_memory_hierarchy/stride_prefetcher) | cache-optimization material (placement varies) | done |
-| Banked DRAM / row buffers, write buffer, non-blocking cache | `ch02_memory_hierarchy/...` | 2-7 | planned |
+| Banked DRAM controller: row buffers, FR-FCFS, refresh | [`ch02_memory_hierarchy/dram_controller`](../ch02_memory_hierarchy/dram_controller) | 2-7 | done |
+| Write buffer, non-blocking cache | `ch02_memory_hierarchy/...` | 2-7 | planned |
 | Warehouse-scale computing | `ch06_wsc` | 5-7 | no RTL planned (see its README) |
 
 ## 4. Which editions to read
