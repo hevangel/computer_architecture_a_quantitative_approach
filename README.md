@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `40/40 passed`.
+A passing run ends with `44/44 passed`.
 
 ## What is in the box
 
@@ -34,6 +34,8 @@ A passing run ends with `40/40 passed`.
 | [Ch 1 Fundamentals](ch01_fundamentals) | [`amdahl_speedup`](ch01_fundamentals/amdahl_speedup) | Amdahl's Law in fixed point |
 | [Ch 2 Memory hierarchy](ch02_memory_hierarchy) | [`set_assoc_cache`](ch02_memory_hierarchy/set_assoc_cache) | set-associative write-back LRU cache with hit/miss counters |
 | | [`tlb_walker`](ch02_memory_hierarchy/tlb_walker) | TLB + page-table walker, page and protection faults |
+| | [`victim_cache`](ch02_memory_hierarchy/victim_cache) | victim buffer turns thrashing conflict misses into swaps (random trace -33 % cycles) |
+| | [`stride_prefetcher`](ch02_memory_hierarchy/stride_prefetcher) | stride prefetcher (misses 48 -> 3 on a strided walk); loses when there is no idle time |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
 | | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
 | | [`tomasulo_spec`](ch03_ilp/tomasulo_spec) | Tomasulo + branch speculation: commit-time flush, loop 85 -> 76 cycles with a better predictor |
@@ -49,7 +51,7 @@ A passing run ends with `40/40 passed`.
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (prefetching, SIMD, mesh routing, ...):
+Not yet written (SIMD, mesh routing, DRAM controller, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization

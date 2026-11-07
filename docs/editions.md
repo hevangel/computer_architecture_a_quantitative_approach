@@ -69,7 +69,9 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | VLIW (static multiple issue, exposed latencies) | [`appH_vliw/vliw4`](../appH_vliw/vliw4) | 3-4 main, later appendix | done |
 | GPU SIMT core: warps, latency hiding, divergence | [`ch04_dlp/simt_core`](../ch04_dlp/simt_core) | 5-7 | done |
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
-| Prefetch, victim cache | `ch02_memory_hierarchy/...` | 1-7 | planned |
+| Victim cache | [`ch02_memory_hierarchy/victim_cache`](../ch02_memory_hierarchy/victim_cache) | cache-optimization material (placement varies) | done |
+| Hardware stride prefetching | [`ch02_memory_hierarchy/stride_prefetcher`](../ch02_memory_hierarchy/stride_prefetcher) | cache-optimization material (placement varies) | done |
+| Banked DRAM / row buffers, write buffer, non-blocking cache | `ch02_memory_hierarchy/...` | 2-7 | planned |
 | Warehouse-scale computing | `ch06_wsc` | 5-7 | no RTL planned (see its README) |
 
 ## 4. Which editions to read
