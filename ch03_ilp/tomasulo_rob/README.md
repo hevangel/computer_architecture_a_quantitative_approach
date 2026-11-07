@@ -49,6 +49,8 @@ flowchart LR
 * **Operand capture at issue:** a source register that is not renamed is read from the register file; one that is renamed
   is taken from the ROB if that entry is already complete, from the CDB if it is being broadcast right now, and otherwise
   the station records the tag and waits.
+* When several stations are ready for a unit, the **lowest-numbered** one starts first (not necessarily the oldest). That is harmless here, but with speculation it is not: see
+  [`tomasulo_spec`](../tomasulo_spec), which selects the oldest ready station and explains why.
 * `issue_ready` is low when the ROB is full or no station of the right kind is free: the front end sees back-pressure.
 
 **Exact timing** (counting clock edges; edge 1 accepts the first instruction):
@@ -105,8 +107,7 @@ make test T=tomasulo
 
 ## Exercises
 
-1. Add a **branch** instruction with a predictor from [`branch_predictor`](../branch_predictor) and **flush the ROB** on a
-   misprediction -- speculation, the reason the ROB exists.
+1. Add a **branch** with prediction and a ROB flush -- done in [`tomasulo_spec`](../tomasulo_spec); try the variants listed in its exercises.
 2. Add `LOAD`/`STORE` with an address queue and memory disambiguation.
 3. Make the functional units **pipelined** and add a second CDB; plot IPC against the number of buses.
 4. Remove the ROB (write registers at broadcast time) and demonstrate an imprecise state after an exception.

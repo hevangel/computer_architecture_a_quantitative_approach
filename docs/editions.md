@@ -65,7 +65,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Crossbar and arbitration | [`appF_interconnect/rr_crossbar`](../appF_interconnect/rr_crossbar) | 2-7 | done |
 | Tomasulo + reorder buffer | [`ch03_ilp/tomasulo_rob`](../ch03_ilp/tomasulo_rob) | dynamic scheduling 2-7; ROB form from the 3rd | done |
 | CDC 6600 scoreboard | [`ch03_ilp/scoreboard`](../ch03_ilp/scoreboard) | 2-7 (the early editions' dynamic-scheduling intro) | done |
-| Branch speculation in the ROB core | `ch03_ilp/...` | 2-7 | planned |
+| Hardware speculation (Tomasulo + ROB past branches) | [`ch03_ilp/tomasulo_spec`](../ch03_ilp/tomasulo_spec) | ROB form from the 3rd | done |
 | VLIW (static multiple issue, exposed latencies) | [`appH_vliw/vliw4`](../appH_vliw/vliw4) | 3-4 main, later appendix | done |
 | GPU SIMT core: warps, latency hiding, divergence | [`ch04_dlp/simt_core`](../ch04_dlp/simt_core) | 5-7 | done |
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
