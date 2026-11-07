@@ -1,0 +1,10 @@
+// Flit format and port numbering shared by the mesh router and the mesh network.
+//   flit = { type[1:0] | payload[31:0] }          FW = 34 bits
+//   type : 0 body, 1 head, 2 tail, 3 head+tail (single-flit packet)
+//   payload (every flit)   [15:0]  packet id        [23:16] flit index within the packet
+//   payload (head flits)   [27:24] destination x    [31:28] destination y        (body/tail: [31:24] unused)
+package mesh_pkg;
+  localparam int FW = 34;
+  localparam logic [1:0] T_BODY = 2'd0, T_HEAD = 2'd1, T_TAIL = 2'd2, T_SINGLE = 2'd3;
+  localparam int P_N = 0, P_E = 1, P_S = 2, P_W = 3, P_L = 4;      // y grows towards the south; the local port connects to the node itself
+endpackage

@@ -3,7 +3,7 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (23 examples, 46 tests)
+## Done (24 examples, 48 tests)
 
 | Topic | Example |
 |-------|---------|
@@ -15,7 +15,7 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 | Ch 7 | `systolic_array` |
 | App C | `rv32i_pipeline5`, `mips_pipeline5` (DLX/MIPS32 and MIPS64) |
 | App D | `hamming_secded`, `raid5_parity` |
-| App F | `rr_crossbar` |
+| App F | `rr_crossbar`, `mesh_router` |
 | App H | `vliw4` |
 | App J | `carry_lookahead_adder`, `booth_multiplier`, `restoring_divider` |
 
@@ -38,7 +38,7 @@ tournament predictor + BTB; dual-issue in-order superscalar.
 
 **App A / C -** unpipelined multicycle baseline for the pipeline speedup comparison; pipelined FPU; delayed-branch variant of `mips_pipeline5`.
 
-**App F -** mesh router with dimension-order routing and credit flow control.
+**App F -** virtual channels for `mesh_router`; torus with dateline routing; adaptive (west-first) routing.
 
 **App H -** software-pipelined DAXPY, predication, delayed branches for `vliw4`.
 
