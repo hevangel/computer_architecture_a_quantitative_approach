@@ -9,5 +9,6 @@ routing, flow control, arbitration and the cost/performance of each. Introduced 
 |---------|---------------|
 | [`rr_crossbar`](rr_crossbar) | N x N crossbar, per-output round-robin arbitration, parallel permutation traffic |
 | [`mesh_router`](mesh_router) | wormhole mesh router + 2-D mesh: XY routing, credit flow control, round-robin allocation, credit-loop sizing |
+| [`vc_router`](vc_router) | virtual channels: VC allocation, separable switch allocation, per-VC credits, head-of-line blocking removed |
 
-Planned: virtual channels, torus with dateline routing, adaptive routing.
+Planned: torus with dateline routing, adaptive routing.
