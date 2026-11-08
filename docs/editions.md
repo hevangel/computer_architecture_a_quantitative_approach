@@ -75,7 +75,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Victim cache | [`ch02_memory_hierarchy/victim_cache`](../ch02_memory_hierarchy/victim_cache) | cache-optimization material (placement varies) | done |
 | Hardware stride prefetching | [`ch02_memory_hierarchy/stride_prefetcher`](../ch02_memory_hierarchy/stride_prefetcher) | cache-optimization material (placement varies) | done |
 | Banked DRAM controller: row buffers, FR-FCFS, refresh | [`ch02_memory_hierarchy/dram_controller`](../ch02_memory_hierarchy/dram_controller) | 2-7 | done |
-| Write buffer, non-blocking cache | `ch02_memory_hierarchy/...` | 2-7 | planned |
+| Non-blocking cache (MSHRs, hit/miss under miss), coalescing write buffer | [`ch02_memory_hierarchy/nonblocking_cache`](../ch02_memory_hierarchy/nonblocking_cache) | 1-7 (write buffer), 2-7 (non-blocking) | done |
 | Warehouse-scale computing | `ch06_wsc` | 5-7 | no RTL planned (see its README) |
 
 ## 4. Which editions to read
