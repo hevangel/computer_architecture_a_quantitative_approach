@@ -100,12 +100,13 @@ def test_vhdl(mod: Path, log: list[str]) -> tuple[bool, str]:
     shutil.rmtree(b, ignore_errors=True)
     b.mkdir(parents=True)
     common = ["--std=08", f"--workdir={b}"]
-    rc, out = run(["ghdl", "-a", *common, *map(str, files)], b, log)
+    # import every file, then let GHDL's make mode (-m) analyse them in dependency order (alphabetical file order is not a valid order in general)
+    rc, out = run(["ghdl", "-i", *common, *map(str, files)], b, log)
     if rc != 0:
-        return False, "ghdl analyse error"
-    rc, out = run(["ghdl", "-e", *common, tbs[0].stem], b, log)
+        return False, "ghdl import error"
+    rc, out = run(["ghdl", "-m", *common, tbs[0].stem], b, log)
     if rc != 0:
-        return False, "ghdl elaborate error"
+        return False, "ghdl analyse/elaborate error"
     rc, out = run(["ghdl", "-r", *common, tbs[0].stem, "--assert-level=error"], b, log)
     return judge(rc, out), "" if judge(rc, out) else "simulation failed"
 

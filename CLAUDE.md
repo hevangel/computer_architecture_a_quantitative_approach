@@ -15,7 +15,7 @@ Toolchain: `iverilog` 12 (SystemVerilog, `-g2012`), `ghdl` 4.x mcode (VHDL, `--s
 Python 3 (stdlib only). Install with `apt-get install iverilog ghdl verilator`.
 
 ```bash
-make test                          # all examples, both languages (expect "34/34 passed" -- update if you add examples)
+make test                          # all examples, both languages (expect "54/54 passed" -- update if you add examples)
 make test T=set_assoc_cache        # one example: T is a substring filter on the path (several words allowed)
 make test-sv T=ch03                # one language, one chapter  (also: make test-vhdl)
 make list                          # show discovered examples
@@ -33,7 +33,8 @@ Build products go to `build/<example path>/{sv,vhdl}/` (git-ignored). To debug b
 * **Per language, one testbench per example:** exactly one file named `tb_*.sv` / `tb_*.vhd`; its basename is the
   simulation top (`tb_foo.sv` -> module `tb_foo`, `tb_foo.vhd` -> entity `tb_foo`). All other files in the folder are RTL.
 * **Compile order:** `deps.txt` (optional, one repo-relative example path per line, `#` comments) pulls in another
-  example's RTL first; within a folder `*_pkg.sv` files sort before the rest (GHDL resolves VHDL order itself).
+  example's RTL first; within a folder `*_pkg.sv` files sort before the rest. VHDL files are imported with `ghdl -i` and built with `ghdl -m`, which analyses them in dependency order
+  (plain `ghdl -a` in alphabetical order fails when an entity is instantiated by a file that sorts earlier).
   Several modules per file is fine (e.g. `hamming_secded.sv` holds `secded_encoder` and `secded_decoder`).
 * **Pass protocol:** the simulator must exit 0, print `TEST PASSED` and never `TEST FAILED`. SV testbenches end with
   `$finish`; VHDL testbenches `use std.env.all` and call `finish`, reporting with `report "TEST PASSED"` /
@@ -47,6 +48,9 @@ Build products go to `build/<example path>/{sv,vhdl}/` (git-ignored). To debug b
   letters for appendices (`appC_pipelining`, `appJ_arithmetic`, ...). Edition differences are documented, not encoded in
   directory names. ISA-specific examples are named by ISA: `rv32i_pipeline5` (6th/7th) and `mips_pipeline5` (one core, `XLEN=32` = DLX/MIPS32
   flavor for the 1st-2nd editions, `XLEN=64` = MIPS64 for the 3rd-5th). Other ISA-dependent examples still lack DLX/MIPS64 variants.
+* **Network-style testbenches:** VHDL cannot call procedures of another entity, so a reusable harness is an entity with one process that owns all state and runs a
+  scenario chosen by a generic (`mesh_router`); the SystemVerilog harness exposes tasks that the top calls hierarchically. Draw random numbers into variables first
+  (argument evaluation order is not specified) so both languages see the same stream.
 * **Multi-configuration testbenches:** when one design serves several configurations (e.g. `mips_pipeline5`), the testbench file
   holds a harness module/entity with the generic plus a top `tb_*` that instantiates it once per configuration.
 * **New example checklist:** `sv/` + `vhdl/` with testbenches, `README.md` (background / design / verification /
@@ -64,7 +68,9 @@ Icarus Verilog (`-g2012` is a subset of SystemVerilog):
   same in testbench golden models.
 * A ternary result cannot be assigned to an enum-typed variable without a cast; use `if`/`case`.
 * `always_comb` blocks that index arrays print `sorry: constant selects in always_* processes ...` -- benign.
+* A function that needs `#delay` cannot be a function: make it a task with an `output` and call it as a statement (it cannot sit inside an expression).
 * `int x = 0;` initializers on declarations inside tasks/blocks need `automatic` or a separate assignment.
+* Array literals (`a = '{1, 2, 3};`) cannot be assigned ("Assignment to an entire array ... not yet supported"); assign element by element.
 * Part-selecting a function call (`f(x)[15:0]`) is a syntax error; assign to a variable first.
 * `vvp` can die with `Assertion 'value' failed` (event.cc) on `always_comb` blocks that index unpacked arrays with `int`-typed array
   elements; use fixed-width `logic` vectors for indices/counters held in arrays (see `tomasulo_rob.sv`).
@@ -77,12 +83,14 @@ GHDL / VHDL-2008:
   in a `process(all)` sensitivity list.** Calling one from a combinational process silently misses updates (this made a MIPS64-only
   failure in `mips_pipeline.vhd`). In combinational processes pass every signal as an argument to a *pure* function; impure is fine
   in clocked processes and testbenches.
+* Context clauses (`use ieee.numeric_std.all;`) belong to ONE design unit: a second entity in the same file needs its own `library`/`use` lines. Identifiers cannot end in `_`.
 * `sll`, `srl`, `rol`, `and`, `xor`... are reserved words: an assembler function named `sll` will not parse (use `shl`).
 * GHDL stops the run at the first `report ... severity error`, so with several failures you only see the first one; after fixing it,
   later checks (e.g. cycle counters) may still fail. Don't assume the unseen checks pass.
 * A `process(all)` that runs at time 0 can see undriven `U` values from another process; guard array indexing with `is_x(...)`.
 * Integer literals above 2^31-1 (`16#A5A50000#`) overflow; use bit-string literals (`x"A5A50000"`).
 * Dividing/multiplying `numeric_std` values widens the result; `resize` it back explicitly.
+* A user-defined 64-bit integer type with extreme bounds (`range -(2**62) to 2**62`) crashed GHDL 4.1 mcode ("GHDL Bug occurred ... overflow check failed"); bounds like `2**56` are fine. VHDL `integer` is only 32 bits, so 64-bit golden models need such a type (or `signed`/`unsigned`).
 
 Verilator is used for lint only; `scripts/run_tests.py` mutes the width/style rules deliberately (the examples favor
 readability and Icarus compatibility over lint-cleanliness).
