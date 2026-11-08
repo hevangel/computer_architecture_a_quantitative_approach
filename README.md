@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `54/54 passed`.
+A passing run ends with `56/56 passed`.
 
 ## What is in the box
 
@@ -37,6 +37,7 @@ A passing run ends with `54/54 passed`.
 | | [`victim_cache`](ch02_memory_hierarchy/victim_cache) | victim buffer turns thrashing conflict misses into swaps (random trace -33 % cycles) |
 | | [`stride_prefetcher`](ch02_memory_hierarchy/stride_prefetcher) | stride prefetcher (misses 48 -> 3 on a strided walk); loses when there is no idle time |
 | | [`nonblocking_cache`](ch02_memory_hierarchy/nonblocking_cache) | non-blocking write-through cache: MSHRs, hit/miss under miss (2157 -> 1881 -> 674 cycles), coalescing write buffer |
+| | [`writeback_nbcache`](ch02_memory_hierarchy/writeback_nbcache) | write-back / write-allocate non-blocking cache: dirty bits, write-back buffer, 125 stores -> 34 line writes |
 | | [`dram_controller`](ch02_memory_hierarchy/dram_controller) | banked DRAM controller: row-buffer hit/miss/conflict = 9/12/15 cycles, FR-FCFS (2 ACT) vs FCFS (8 ACT), refresh, streaming at 96 % of peak |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
 | | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
