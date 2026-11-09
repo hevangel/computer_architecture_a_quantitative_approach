@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `60/60 passed`.
+A passing run ends with `62/62 passed`.
 
 ## What is in the box
 
@@ -42,6 +42,7 @@ A passing run ends with `60/60 passed`.
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
 | | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
 | | [`tomasulo_spec`](ch03_ilp/tomasulo_spec) | Tomasulo + branch speculation: commit-time flush, loop 85 -> 76 cycles with a better predictor |
+| | [`tomasulo_lsq`](ch03_ilp/tomasulo_lsq) | speculative Tomasulo + load/store queue: stores write at commit, store-to-load forwarding (8 vs 11 cycles), conservative disambiguation, wrong-path store never reaches memory |
 | | [`tomasulo_rob`](ch03_ilp/tomasulo_rob) | Tomasulo + reorder buffer: out-of-order completion, in-order commit, renaming |
 | [Ch 4 DLP](ch04_dlp) | [`vector_lanes`](ch04_dlp/vector_lanes) | vector unit, DAXPY, `ceil(VL/lanes)` scaling |
 | | [`vector_chaining`](ch04_dlp/vector_chaining) | pipelined vector units + chaining: DAXPY idle at cycle 49 chained vs 79 unchained (3 convoys x 16) |

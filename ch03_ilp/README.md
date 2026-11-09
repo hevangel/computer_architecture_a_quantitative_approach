@@ -15,6 +15,7 @@ reorder buffer, multiple issue.
 | [`branch_predictor`](branch_predictor) | 1-bit, 2-bit and gshare predictors on the same trace |
 | [`scoreboard`](scoreboard) | CDC 6600 scoreboard: RAW / WAR / WAW / structural stalls, no renaming |
 | [`tomasulo_spec`](tomasulo_spec) | Tomasulo + speculation: branch prediction, commit-time flush, wrong-path safety |
+| [`tomasulo_lsq`](tomasulo_lsq) | + load/store queue: stores at commit, memory disambiguation, store-to-load forwarding |
 | [`tomasulo_rob`](tomasulo_rob) | reservation stations, CDB, renaming, reorder buffer; out-of-order completion, in-order commit |
 
 Planned: tournament predictor and BTB, dual-issue

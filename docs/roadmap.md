@@ -3,13 +3,13 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (30 examples, 60 tests)
+## Done (31 examples, 62 tests)
 
 | Topic | Example |
 |-------|---------|
 | Ch 1 | `amdahl_speedup` |
 | Ch 2 | `set_assoc_cache`, `tlb_walker`, `victim_cache`, `stride_prefetcher`, `dram_controller`, `nonblocking_cache`, `writeback_nbcache` |
-| Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `scoreboard`, `tomasulo_rob`, `tomasulo_spec` |
+| Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `scoreboard`, `tomasulo_rob`, `tomasulo_spec`, `tomasulo_lsq` |
 | Ch 4 | `vector_lanes`, `vector_chaining`, `simd_alu`, `simt_core` |
 | Ch 5 | `mesi_snoopy` |
 | Ch 7 | `systolic_array` |
@@ -25,7 +25,7 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 
 **Ch 2 -** a separate prefetch stream buffer; store forwarding from the write / write-back buffers; set-associative non-blocking caches.
 
-**Ch 3 / ILP -** load/store with a store buffer and a history-table predictor in `tomasulo_spec`; resolve-time (rather than commit-time) recovery;
+**Ch 3 / ILP -** a history-table predictor in `tomasulo_spec`; memory dependence speculation (loads bypassing unknown store addresses) in `tomasulo_lsq`; resolve-time (rather than commit-time) recovery;
 tournament predictor + BTB; dual-issue in-order superscalar.
 
 **Ch 4 -** pack/unpack and shuffle for `simd_alu`; per-register scoreboard and coalescing for `simt_core`.
