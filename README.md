@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `54/54 passed`.
+A passing run ends with `66/66 passed`.
 
 ## What is in the box
 
@@ -37,26 +37,32 @@ A passing run ends with `54/54 passed`.
 | | [`victim_cache`](ch02_memory_hierarchy/victim_cache) | victim buffer turns thrashing conflict misses into swaps (random trace -33 % cycles) |
 | | [`stride_prefetcher`](ch02_memory_hierarchy/stride_prefetcher) | stride prefetcher (misses 48 -> 3 on a strided walk); loses when there is no idle time |
 | | [`nonblocking_cache`](ch02_memory_hierarchy/nonblocking_cache) | non-blocking write-through cache: MSHRs, hit/miss under miss (2157 -> 1881 -> 674 cycles), coalescing write buffer |
+| | [`writeback_nbcache`](ch02_memory_hierarchy/writeback_nbcache) | write-back / write-allocate non-blocking cache: dirty bits, write-back buffer, 125 stores -> 34 line writes |
 | | [`dram_controller`](ch02_memory_hierarchy/dram_controller) | banked DRAM controller: row-buffer hit/miss/conflict = 9/12/15 cycles, FR-FCFS (2 ACT) vs FCFS (8 ACT), refresh, streaming at 96 % of peak |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
 | | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
 | | [`tomasulo_spec`](ch03_ilp/tomasulo_spec) | Tomasulo + branch speculation: commit-time flush, loop 85 -> 76 cycles with a better predictor |
+| | [`tomasulo_lsq`](ch03_ilp/tomasulo_lsq) | speculative Tomasulo + load/store queue: stores write at commit, store-to-load forwarding (8 vs 11 cycles), conservative disambiguation, wrong-path store never reaches memory |
 | | [`tomasulo_rob`](ch03_ilp/tomasulo_rob) | Tomasulo + reorder buffer: out-of-order completion, in-order commit, renaming |
 | [Ch 4 DLP](ch04_dlp) | [`vector_lanes`](ch04_dlp/vector_lanes) | vector unit, DAXPY, `ceil(VL/lanes)` scaling |
 | | [`vector_chaining`](ch04_dlp/vector_chaining) | pipelined vector units + chaining: DAXPY idle at cycle 49 chained vs 79 unchained (3 convoys x 16) |
 | | [`simd_alu`](ch04_dlp/simd_alu) | 64-bit packed SIMD ALU (partitioned adder, saturating ops, PMADD, PSAD); 8 instructions for 64 pixels |
 | | [`simt_core`](ch04_dlp/simt_core) | GPU SIMT core: warps hide load latency (54 vs 72 cycles), divergence costs lane efficiency (0.77) |
 | [Ch 5 TLP](ch05_tlp) | [`mesi_snoopy`](ch05_tlp/mesi_snoopy) | MESI snooping coherence, invariants under random traffic |
+| | [`spinlock_atomic`](ch05_tlp/spinlock_atomic) | spin locks on a snooping bus: TAS vs TTAS vs ticket (FIFO), hand-derived 33/45-cycle two-core runs, transactions per acquisition at 2/4/8 cores |
+| | [`directory_msi`](ch05_tlp/directory_msi) | directory MSI: sharer vectors, 2/4-hop transactions, 2k+2 messages for a write to k sharers; 4.1 messages per miss at 16 nodes vs a 15-way broadcast |
 | [Ch 7 DSA](ch07_dsa) | [`systolic_array`](ch07_dsa/systolic_array) | TPU-style weight-stationary matrix unit |
 | [App C Pipelining](appC_pipelining) | [`rv32i_pipeline5`](appC_pipelining/rv32i_pipeline5) | RISC-V 5-stage pipeline (branches in EX); CPI = 78/49 |
 | | [`mips_pipeline5`](appC_pipelining/mips_pipeline5) | DLX / MIPS32 and MIPS64 5-stage pipeline (branches in ID); CPI = 84/53 |
 | [App D Storage](appD_storage) | [`hamming_secded`](appD_storage/hamming_secded), [`raid5_parity`](appD_storage/raid5_parity) | ECC DIMM code; RAID-5 rebuild |
 | [App F Interconnect](appF_interconnect) | [`rr_crossbar`](appF_interconnect/rr_crossbar) | crossbar with round-robin arbitration |
 | | [`mesh_router`](appF_interconnect/mesh_router) | wormhole mesh router + 4x4 mesh: XY routing, credits (FIFO depth 4 = the 4-cycle credit loop), zero-load latency `2(hops+1)+flits-1` |
+| | [`vc_router`](appF_interconnect/vc_router) | virtual-channel router: VC + switch allocation, per-VC credits; removes head-of-line blocking (short packet done at cycle 13 vs 93); 2 VC x 4 beats 1 VC x 8 under load |
+| | [`torus_dateline`](appF_interconnect/torus_dateline) | 4x4 torus: shorter-way-round routing, dateline VC classes; the ring and shift traffic deadlock with 1 VC and complete with 2; hops 2.01 vs 2.59 on a mesh |
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (virtual channels, ...):
+Not yet written (adaptive routing, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization

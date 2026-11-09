@@ -1,0 +1,2 @@
+# the flit format, package and the routers' structure come from the virtual-channel router
+appF_interconnect/vc_router
