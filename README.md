@@ -25,7 +25,7 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `58/58 passed`.
+A passing run ends with `60/60 passed`.
 
 ## What is in the box
 
@@ -55,10 +55,11 @@ A passing run ends with `58/58 passed`.
 | [App F Interconnect](appF_interconnect) | [`rr_crossbar`](appF_interconnect/rr_crossbar) | crossbar with round-robin arbitration |
 | | [`mesh_router`](appF_interconnect/mesh_router) | wormhole mesh router + 4x4 mesh: XY routing, credits (FIFO depth 4 = the 4-cycle credit loop), zero-load latency `2(hops+1)+flits-1` |
 | | [`vc_router`](appF_interconnect/vc_router) | virtual-channel router: VC + switch allocation, per-VC credits; removes head-of-line blocking (short packet done at cycle 13 vs 93); 2 VC x 4 beats 1 VC x 8 under load |
+| | [`torus_dateline`](appF_interconnect/torus_dateline) | 4x4 torus: shorter-way-round routing, dateline VC classes; the ring and shift traffic deadlock with 1 VC and complete with 2; hops 2.01 vs 2.59 on a mesh |
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
 
-Not yet written (torus with dateline routing, ...):
+Not yet written (adaptive routing, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.
 
 ## Organization
