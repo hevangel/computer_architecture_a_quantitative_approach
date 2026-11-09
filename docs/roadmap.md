@@ -3,7 +3,7 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Done (32 examples, 64 tests)
+## Done (33 examples, 66 tests)
 
 | Topic | Example |
 |-------|---------|
@@ -11,7 +11,7 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 | Ch 2 | `set_assoc_cache`, `tlb_walker`, `victim_cache`, `stride_prefetcher`, `dram_controller`, `nonblocking_cache`, `writeback_nbcache` |
 | Ch 3 | `branch_predictor` (1-bit, 2-bit, gshare), `scoreboard`, `tomasulo_rob`, `tomasulo_spec`, `tomasulo_lsq` |
 | Ch 4 | `vector_lanes`, `vector_chaining`, `simd_alu`, `simt_core` |
-| Ch 5 | `mesi_snoopy`, `directory_msi` |
+| Ch 5 | `mesi_snoopy`, `directory_msi`, `spinlock_atomic` |
 | Ch 7 | `systolic_array` |
 | App C | `rv32i_pipeline5`, `mips_pipeline5` (DLX/MIPS32 and MIPS64) |
 | App D | `hamming_secded`, `raid5_parity` |
@@ -30,7 +30,7 @@ tournament predictor + BTB; dual-issue in-order superscalar.
 
 **Ch 4 -** pack/unpack and shuffle for `simd_alu`; per-register scoreboard and coalescing for `simt_core`.
 
-**Ch 5 -** atomic RMW + spin locks; consistency litmus tests; replacements and limited-pointer sharing for `directory_msi`.
+**Ch 5 -** consistency litmus tests; LL/SC and back-off locks, barriers for `spinlock_atomic`; replacements and limited-pointer sharing for `directory_msi`.
 
 **Ch 6 -** Python queueing / tail-latency / PUE model (no RTL).
 

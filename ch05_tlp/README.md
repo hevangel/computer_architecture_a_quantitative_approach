@@ -10,7 +10,8 @@ use **snooping** on a shared bus; larger ones use **directories**.
 | Example | What it shows |
 |---------|---------------|
 | [`mesi_snoopy`](mesi_snoopy) | MESI write-invalidate protocol, bus transactions, invariants |
+| [`spinlock_atomic`](spinlock_atomic) | atomic exchange / fetch-and-add, TAS vs TTAS vs ticket locks on a snooping bus, bus traffic per acquisition |
 | [`directory_msi`](directory_msi) | directory MSI protocol: sharer bit vectors, point-to-point messages, 2- and 4-hop transactions, message counts |
 
-Planned: atomic RMW and spin locks, simple memory-consistency litmus tests (see
+Planned: simple memory-consistency litmus tests (see
 [`docs/roadmap.md`](../docs/roadmap.md)).
