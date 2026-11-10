@@ -60,6 +60,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Vector processor / lanes, DAXPY | [`ch04_dlp/vector_lanes`](../ch04_dlp/vector_lanes) | 1-7 (main chapter from 5th) | done |
 | Vector chaining, convoys and chimes | [`ch04_dlp/vector_chaining`](../ch04_dlp/vector_chaining) | 1-7 (appendix G / Ch 4) | done |
 | Snooping coherence (MESI) | [`ch05_tlp/mesi_snoopy`](../ch05_tlp/mesi_snoopy) | 2-7 | done |
+| Memory consistency: SC vs TSO vs PSO, store buffers, fences, exhaustive litmus tests | [`ch05_tlp/memory_consistency`](../ch05_tlp/memory_consistency) | 2-7 | done |
 | Atomic RMW and spin locks (TAS, TTAS, ticket) on a snooping bus: traffic per acquisition | [`ch05_tlp/spinlock_atomic`](../ch05_tlp/spinlock_atomic) | 2-7 | done |
 | Directory coherence (MSI, sharer vectors, message counts) | [`ch05_tlp/directory_msi`](../ch05_tlp/directory_msi) | 2-7 | done |
 | Systolic matrix unit (TPU) | [`ch07_dsa/systolic_array`](../ch07_dsa/systolic_array) | 6-7 | done |
