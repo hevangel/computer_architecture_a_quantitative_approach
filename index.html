@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse 33 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches.">
+  <title>Computer Architecture: A Quantitative Approach</title>
+  <style>
+    :root { color-scheme: light; --ink: #202b36; --muted: #4e5e6b; --paper: #f7f6f1; --line: #cbd3d6; --link: #16536b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.65 system-ui, sans-serif; }
+    header, main, footer { width: min(74rem, 100% - 2.5rem); margin-inline: auto; }
+    header { padding-block: 3rem 2rem; border-bottom: 1px solid var(--line); }
+    h1, h2 { font-family: Georgia, serif; line-height: 1.15; text-wrap: balance; }
+    h1 { max-width: 24ch; font-size: clamp(2.3rem, 6vw, 4.7rem); margin: .3em 0; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); margin-top: 0; }
+    h3 { margin: 0 0 .5rem; line-height: 1.4; overflow-wrap: anywhere; }
+    p { max-width: 78ch; }
+    a { color: var(--link); text-underline-offset: .2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 3px solid var(--link); outline-offset: 4px; }
+    .eyebrow { color: var(--muted); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+    nav ul, .resources { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; padding: 0; list-style: none; }
+    section { padding-block: 2rem; border-bottom: 1px solid var(--line); scroll-margin-top: 1rem; }
+    .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem; padding: 0; list-style: none; }
+    article { height: 100%; padding: 1.2rem; border: 1px solid var(--line); border-radius: .5rem; background: #fff; }
+    article p { margin: .5rem 0; }
+    code { font-family: ui-monospace, Consolas, monospace; }
+    pre { padding: 1rem; overflow: auto; border-radius: .4rem; background: #e8edf0; }
+    footer { padding-block: 1.5rem; color: var(--muted); }
+    .skip { position: absolute; top: -5rem; left: 1rem; padding: .5rem; background: white; }
+    .skip:focus { top: .5rem; }
+    @media (max-width: 480px) { header, main, footer { width: calc(100% - 2rem); } header { padding-top: 2rem; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <p class="eyebrow">Hardware examples · SystemVerilog + VHDL</p>
+    <h1>Computer Architecture: A Quantitative Approach</h1>
+    <p>Browse 33 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches.</p>
+    <nav aria-label="Chapters and appendices"><ul>
+      <li><a href="#start">Start here</a></li>
+      <li><a href="#ch01_fundamentals">Chapter 1 · Fundamentals of Quantitative Design and Analysis</a></li>
+      <li><a href="#ch02_memory_hierarchy">Chapter 2 · Memory Hierarchy Design (with Appendix B)</a></li>
+      <li><a href="#ch03_ilp">Chapter 3 · Instruction-Level Parallelism and Its Exploitation</a></li>
+      <li><a href="#ch04_dlp">Chapter 4 · Data-Level Parallelism in Vector, SIMD and GPU Architectures</a></li>
+      <li><a href="#ch05_tlp">Chapter 5 · Thread-Level Parallelism</a></li>
+      <li><a href="#ch06_wsc">Chapter 6 · Warehouse-Scale Computers</a></li>
+      <li><a href="#ch07_dsa">Chapter 7 · Domain-Specific Architectures</a></li>
+      <li><a href="#appC_pipelining">Appendix C · Pipelining: Basic and Intermediate Concepts</a></li>
+      <li><a href="#appD_storage">Appendix D · Storage Systems</a></li>
+      <li><a href="#appF_interconnect">Appendix F · Interconnection Networks</a></li>
+      <li><a href="#appH_vliw">Appendix H · Hardware and Software for VLIW and EPIC</a></li>
+      <li><a href="#appJ_arithmetic">Appendix J · Computer Arithmetic</a></li>
+    </ul></nav>
+  </header>
+  <main id="main">
+    <section id="start" aria-labelledby="start-title">
+      <h2 id="start-title">Start here</h2>
+      <p>Install Python 3, Icarus Verilog 12 and GHDL 4.x, then run these commands from this textbook repository. The browser links below open guides and source files; simulations run locally.</p>
+      <pre><code>make list                    # discover the examples
+make test                    # run both HDL test suites
+make test T=set_assoc_cache   # run one example
+make test-sv                 # SystemVerilog only
+make test-vhdl               # VHDL only</code></pre>
+      <ul class="resources"><li><a href="README.md">Repository guide</a></li><li><a href="docs/editions.md">Edition comparison and topic crosswalk</a></li><li><a href="docs/roadmap.md">Coverage and planned work</a></li><li><a href="LICENSE">Repository license</a></li></ul>
+      <p>Examples are organized by topic: main chapter numbers follow the sixth and seventh editions, and appendix letters follow the fifth. Use the edition guide and each example’s references to locate the material in your own edition. Coverage is selective; this index does not certify simulation results.</p>
+    </section>
+    <section id="ch01_fundamentals" aria-labelledby="ch01_fundamentals-title">
+      <h2 id="ch01_fundamentals-title">Chapter 1 · Fundamentals of Quantitative Design and Analysis</h2>
+      <p><a href="ch01_fundamentals/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch01_fundamentals/amdahl_speedup/README.md">Amdahl&#39;s Law</a></h3>
+        <p>Amdahl&#39;s Law as a fixed-point hardware unit</p>
+        <ul class="resources"><li><a href="ch01_fundamentals/amdahl_speedup/sv/amdahl_speedup.sv">SystemVerilog · amdahl_speedup.sv</a></li><li><a href="ch01_fundamentals/amdahl_speedup/sv/tb_amdahl_speedup.sv">SystemVerilog · tb_amdahl_speedup.sv</a></li><li><a href="ch01_fundamentals/amdahl_speedup/vhdl/amdahl_speedup.vhd">VHDL · amdahl_speedup.vhd</a></li><li><a href="ch01_fundamentals/amdahl_speedup/vhdl/tb_amdahl_speedup.vhd">VHDL · tb_amdahl_speedup.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="ch02_memory_hierarchy" aria-labelledby="ch02_memory_hierarchy-title">
+      <h2 id="ch02_memory_hierarchy-title">Chapter 2 · Memory Hierarchy Design (with Appendix B)</h2>
+      <p><a href="ch02_memory_hierarchy/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch02_memory_hierarchy/dram_controller/README.md">DRAM Controller: Row Buffers, FR-FCFS Scheduling and Refresh</a></h3>
+        <p>banked DRAM + timing checker; FR-FCFS vs FCFS, open vs closed page, refresh; miss 12 / hit 9 / conflict 15 cycles</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/dram_controller/sv/dram_ctrl.sv">SystemVerilog · dram_ctrl.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/sv/dram_device.sv">SystemVerilog · dram_device.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/sv/tb_dram_controller.sv">SystemVerilog · tb_dram_controller.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/dram_ctrl.vhd">VHDL · dram_ctrl.vhd</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/dram_device.vhd">VHDL · dram_device.vhd</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/tb_dram_controller.vhd">VHDL · tb_dram_controller.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/nonblocking_cache/README.md">Non-Blocking Cache with MSHRs and a Coalescing Write Buffer</a></h3>
+        <p>MSHRs, hit-under-miss / miss-under-miss, secondary misses, coalescing write buffer; blocking 2157 vs miss-under-miss 674 cycles</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/nonblocking_cache/sv/nb_cache.sv">SystemVerilog · nb_cache.sv</a></li><li><a href="ch02_memory_hierarchy/nonblocking_cache/sv/nb_mem.sv">SystemVerilog · nb_mem.sv</a></li><li><a href="ch02_memory_hierarchy/nonblocking_cache/sv/tb_nb_cache.sv">SystemVerilog · tb_nb_cache.sv</a></li><li><a href="ch02_memory_hierarchy/nonblocking_cache/vhdl/nb_cache.vhd">VHDL · nb_cache.vhd</a></li><li><a href="ch02_memory_hierarchy/nonblocking_cache/vhdl/nb_mem.vhd">VHDL · nb_mem.vhd</a></li><li><a href="ch02_memory_hierarchy/nonblocking_cache/vhdl/tb_nb_cache.vhd">VHDL · tb_nb_cache.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/set_assoc_cache/README.md">Set-Associative Write-Back Cache</a></h3>
+        <p>tag/index/offset, associativity, LRU, write-back + write-allocate, statistics</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/set_assoc_cache/sv/set_assoc_cache.sv">SystemVerilog · set_assoc_cache.sv</a></li><li><a href="ch02_memory_hierarchy/set_assoc_cache/sv/tb_set_assoc_cache.sv">SystemVerilog · tb_set_assoc_cache.sv</a></li><li><a href="ch02_memory_hierarchy/set_assoc_cache/vhdl/set_assoc_cache.vhd">VHDL · set_assoc_cache.vhd</a></li><li><a href="ch02_memory_hierarchy/set_assoc_cache/vhdl/tb_set_assoc_cache.vhd">VHDL · tb_set_assoc_cache.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/stride_prefetcher/README.md">Stride Prefetcher</a></h3>
+        <p>reference-prediction-table stride prefetcher: coverage, accuracy, pollution, timeliness</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/stride_prefetcher/sv/stride_prefetcher.sv">SystemVerilog · stride_prefetcher.sv</a></li><li><a href="ch02_memory_hierarchy/stride_prefetcher/sv/tb_stride_prefetcher.sv">SystemVerilog · tb_stride_prefetcher.sv</a></li><li><a href="ch02_memory_hierarchy/stride_prefetcher/vhdl/stride_prefetcher.vhd">VHDL · stride_prefetcher.vhd</a></li><li><a href="ch02_memory_hierarchy/stride_prefetcher/vhdl/tb_stride_prefetcher.vhd">VHDL · tb_stride_prefetcher.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/tlb_walker/README.md">TLB and Hardware Page-Table Walker</a></h3>
+        <p>fully-associative TLB, hardware page-table walker, page and protection faults</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/tlb_walker/sv/tb_tlb_walker.sv">SystemVerilog · tb_tlb_walker.sv</a></li><li><a href="ch02_memory_hierarchy/tlb_walker/sv/tlb_walker.sv">SystemVerilog · tlb_walker.sv</a></li><li><a href="ch02_memory_hierarchy/tlb_walker/vhdl/tb_tlb_walker.vhd">VHDL · tb_tlb_walker.vhd</a></li><li><a href="ch02_memory_hierarchy/tlb_walker/vhdl/tlb_walker.vhd">VHDL · tlb_walker.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/victim_cache/README.md">Victim Cache</a></h3>
+        <p>direct-mapped cache + victim buffer: conflict misses removed by swapping evicted lines back</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/victim_cache/sv/tb_victim_cache.sv">SystemVerilog · tb_victim_cache.sv</a></li><li><a href="ch02_memory_hierarchy/victim_cache/sv/victim_cache.sv">SystemVerilog · victim_cache.sv</a></li><li><a href="ch02_memory_hierarchy/victim_cache/vhdl/tb_victim_cache.vhd">VHDL · tb_victim_cache.vhd</a></li><li><a href="ch02_memory_hierarchy/victim_cache/vhdl/victim_cache.vhd">VHDL · victim_cache.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/writeback_nbcache/README.md">Non-Blocking Write-Back Cache: Dirty Lines, Write-Allocate and a Write-Back Buffer</a></h3>
+        <p>the write-back version: dirty bits, write-allocate store misses, write-back (victim) buffer, flush; 125 stores -&gt; 34 line writes</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/writeback_nbcache/sv/tb_wb_cache.sv">SystemVerilog · tb_wb_cache.sv</a></li><li><a href="ch02_memory_hierarchy/writeback_nbcache/sv/wb_cache.sv">SystemVerilog · wb_cache.sv</a></li><li><a href="ch02_memory_hierarchy/writeback_nbcache/sv/wb_mem.sv">SystemVerilog · wb_mem.sv</a></li><li><a href="ch02_memory_hierarchy/writeback_nbcache/vhdl/tb_wb_cache.vhd">VHDL · tb_wb_cache.vhd</a></li><li><a href="ch02_memory_hierarchy/writeback_nbcache/vhdl/wb_cache.vhd">VHDL · wb_cache.vhd</a></li><li><a href="ch02_memory_hierarchy/writeback_nbcache/vhdl/wb_mem.vhd">VHDL · wb_mem.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="ch03_ilp" aria-labelledby="ch03_ilp-title">
+      <h2 id="ch03_ilp-title">Chapter 3 · Instruction-Level Parallelism and Its Exploitation</h2>
+      <p><a href="ch03_ilp/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch03_ilp/branch_predictor/README.md">Dynamic Branch Prediction</a></h3>
+        <p>1-bit, 2-bit and gshare predictors on the same trace</p>
+        <ul class="resources"><li><a href="ch03_ilp/branch_predictor/sv/branch_predictor.sv">SystemVerilog · branch_predictor.sv</a></li><li><a href="ch03_ilp/branch_predictor/sv/tb_branch_predictor.sv">SystemVerilog · tb_branch_predictor.sv</a></li><li><a href="ch03_ilp/branch_predictor/vhdl/branch_predictor.vhd">VHDL · branch_predictor.vhd</a></li><li><a href="ch03_ilp/branch_predictor/vhdl/tb_branch_predictor.vhd">VHDL · tb_branch_predictor.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch03_ilp/scoreboard/README.md">The CDC 6600 Scoreboard</a></h3>
+        <p>CDC 6600 scoreboard: RAW / WAR / WAW / structural stalls, no renaming</p>
+        <ul class="resources"><li><a href="ch03_ilp/scoreboard/sv/scoreboard.sv">SystemVerilog · scoreboard.sv</a></li><li><a href="ch03_ilp/scoreboard/sv/tb_scoreboard.sv">SystemVerilog · tb_scoreboard.sv</a></li><li><a href="ch03_ilp/scoreboard/vhdl/scoreboard.vhd">VHDL · scoreboard.vhd</a></li><li><a href="ch03_ilp/scoreboard/vhdl/tb_scoreboard.vhd">VHDL · tb_scoreboard.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch03_ilp/tomasulo_lsq/README.md">Speculative Tomasulo with a Load/Store Queue</a></h3>
+        <p>+ load/store queue: stores at commit, memory disambiguation, store-to-load forwarding</p>
+        <ul class="resources"><li><a href="ch03_ilp/tomasulo_lsq/sv/tb_tomasulo_lsq.sv">SystemVerilog · tb_tomasulo_lsq.sv</a></li><li><a href="ch03_ilp/tomasulo_lsq/sv/tomasulo_lsq.sv">SystemVerilog · tomasulo_lsq.sv</a></li><li><a href="ch03_ilp/tomasulo_lsq/vhdl/tb_tomasulo_lsq.vhd">VHDL · tb_tomasulo_lsq.vhd</a></li><li><a href="ch03_ilp/tomasulo_lsq/vhdl/tomasulo_lsq.vhd">VHDL · tomasulo_lsq.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch03_ilp/tomasulo_rob/README.md">Tomasulo&#39;s Algorithm with a Reorder Buffer</a></h3>
+        <p>reservation stations, CDB, renaming, reorder buffer; out-of-order completion, in-order commit</p>
+        <ul class="resources"><li><a href="ch03_ilp/tomasulo_rob/sv/tb_tomasulo_rob.sv">SystemVerilog · tb_tomasulo_rob.sv</a></li><li><a href="ch03_ilp/tomasulo_rob/sv/tomasulo_rob.sv">SystemVerilog · tomasulo_rob.sv</a></li><li><a href="ch03_ilp/tomasulo_rob/vhdl/tb_tomasulo_rob.vhd">VHDL · tb_tomasulo_rob.vhd</a></li><li><a href="ch03_ilp/tomasulo_rob/vhdl/tomasulo_rob.vhd">VHDL · tomasulo_rob.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch03_ilp/tomasulo_spec/README.md">Tomasulo with Hardware Speculation</a></h3>
+        <p>Tomasulo + speculation: branch prediction, commit-time flush, wrong-path safety</p>
+        <ul class="resources"><li><a href="ch03_ilp/tomasulo_spec/sv/tb_tomasulo_spec.sv">SystemVerilog · tb_tomasulo_spec.sv</a></li><li><a href="ch03_ilp/tomasulo_spec/sv/tomasulo_spec.sv">SystemVerilog · tomasulo_spec.sv</a></li><li><a href="ch03_ilp/tomasulo_spec/vhdl/tb_tomasulo_spec.vhd">VHDL · tb_tomasulo_spec.vhd</a></li><li><a href="ch03_ilp/tomasulo_spec/vhdl/tomasulo_spec.vhd">VHDL · tomasulo_spec.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="ch04_dlp" aria-labelledby="ch04_dlp-title">
+      <h2 id="ch04_dlp-title">Chapter 4 · Data-Level Parallelism in Vector, SIMD and GPU Architectures</h2>
+      <p><a href="ch04_dlp/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch04_dlp/simd_alu/README.md">Packed-Subword SIMD ALU</a></h3>
+        <p>packed-subword SIMD ALU: lane-isolated adder, saturation, PMADD, PSAD; kernels with 4-8x fewer instructions</p>
+        <ul class="resources"><li><a href="ch04_dlp/simd_alu/sv/simd_alu.sv">SystemVerilog · simd_alu.sv</a></li><li><a href="ch04_dlp/simd_alu/sv/tb_simd_alu.sv">SystemVerilog · tb_simd_alu.sv</a></li><li><a href="ch04_dlp/simd_alu/vhdl/simd_alu.vhd">VHDL · simd_alu.vhd</a></li><li><a href="ch04_dlp/simd_alu/vhdl/tb_simd_alu.vhd">VHDL · tb_simd_alu.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch04_dlp/simt_core/README.md">A GPU-Style SIMT Core</a></h3>
+        <p>GPU-style SIMT core: warps, round-robin scheduling, latency hiding, divergence stack</p>
+        <ul class="resources"><li><a href="ch04_dlp/simt_core/sv/simt_core.sv">SystemVerilog · simt_core.sv</a></li><li><a href="ch04_dlp/simt_core/sv/tb_simt_core.sv">SystemVerilog · tb_simt_core.sv</a></li><li><a href="ch04_dlp/simt_core/vhdl/simt_core.vhd">VHDL · simt_core.vhd</a></li><li><a href="ch04_dlp/simt_core/vhdl/tb_simt_core.vhd">VHDL · tb_simt_core.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch04_dlp/vector_chaining/README.md">Vector Chaining: Convoys, Chimes and Element-Level Forwarding</a></h3>
+        <p>pipelined units, per-element chaining, convoys/chimes; DAXPY 49 vs 79 cycles</p>
+        <ul class="resources"><li><a href="ch04_dlp/vector_chaining/sv/tb_vector_chain.sv">SystemVerilog · tb_vector_chain.sv</a></li><li><a href="ch04_dlp/vector_chaining/sv/vector_chain.sv">SystemVerilog · vector_chain.sv</a></li><li><a href="ch04_dlp/vector_chaining/vhdl/tb_vector_chain.vhd">VHDL · tb_vector_chain.vhd</a></li><li><a href="ch04_dlp/vector_chaining/vhdl/vector_chain.vhd">VHDL · vector_chain.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch04_dlp/vector_lanes/README.md">Vector Unit with Parallel Lanes</a></h3>
+        <p>register file, lanes, masking, DAXPY, ceil(VL/L) scaling</p>
+        <ul class="resources"><li><a href="ch04_dlp/vector_lanes/sv/tb_vector_unit.sv">SystemVerilog · tb_vector_unit.sv</a></li><li><a href="ch04_dlp/vector_lanes/sv/vector_unit.sv">SystemVerilog · vector_unit.sv</a></li><li><a href="ch04_dlp/vector_lanes/vhdl/tb_vector_unit.vhd">VHDL · tb_vector_unit.vhd</a></li><li><a href="ch04_dlp/vector_lanes/vhdl/vector_unit.vhd">VHDL · vector_unit.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="ch05_tlp" aria-labelledby="ch05_tlp-title">
+      <h2 id="ch05_tlp-title">Chapter 5 · Thread-Level Parallelism</h2>
+      <p><a href="ch05_tlp/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch05_tlp/directory_msi/README.md">Directory-Based MSI Cache Coherence</a></h3>
+        <p>directory MSI protocol: sharer bit vectors, point-to-point messages, 2- and 4-hop transactions, message counts</p>
+        <ul class="resources"><li><a href="ch05_tlp/directory_msi/sv/directory_msi.sv">SystemVerilog · directory_msi.sv</a></li><li><a href="ch05_tlp/directory_msi/sv/tb_directory_msi.sv">SystemVerilog · tb_directory_msi.sv</a></li><li><a href="ch05_tlp/directory_msi/vhdl/directory_msi.vhd">VHDL · directory_msi.vhd</a></li><li><a href="ch05_tlp/directory_msi/vhdl/tb_directory_msi.vhd">VHDL · tb_directory_msi.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch05_tlp/mesi_snoopy/README.md">MESI Snooping Cache Coherence</a></h3>
+        <p>MESI write-invalidate protocol, bus transactions, invariants</p>
+        <ul class="resources"><li><a href="ch05_tlp/mesi_snoopy/sv/mesi_snoopy.sv">SystemVerilog · mesi_snoopy.sv</a></li><li><a href="ch05_tlp/mesi_snoopy/sv/tb_mesi_snoopy.sv">SystemVerilog · tb_mesi_snoopy.sv</a></li><li><a href="ch05_tlp/mesi_snoopy/vhdl/mesi_snoopy.vhd">VHDL · mesi_snoopy.vhd</a></li><li><a href="ch05_tlp/mesi_snoopy/vhdl/tb_mesi_snoopy.vhd">VHDL · tb_mesi_snoopy.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch05_tlp/spinlock_atomic/README.md">Atomic Read-Modify-Write and Spin Locks on a Snooping Bus</a></h3>
+        <p>atomic exchange / fetch-and-add, TAS vs TTAS vs ticket locks on a snooping bus, bus traffic per acquisition</p>
+        <ul class="resources"><li><a href="ch05_tlp/spinlock_atomic/sv/spinlock_bench.sv">SystemVerilog · spinlock_bench.sv</a></li><li><a href="ch05_tlp/spinlock_atomic/sv/tb_spinlock_bench.sv">SystemVerilog · tb_spinlock_bench.sv</a></li><li><a href="ch05_tlp/spinlock_atomic/vhdl/spinlock_bench.vhd">VHDL · spinlock_bench.vhd</a></li><li><a href="ch05_tlp/spinlock_atomic/vhdl/tb_spinlock_bench.vhd">VHDL · tb_spinlock_bench.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="ch06_wsc" aria-labelledby="ch06_wsc-title">
+      <h2 id="ch06_wsc-title">Chapter 6 · Warehouse-Scale Computers</h2>
+      <p><a href="ch06_wsc/README.md">Read the chapter guide</a></p>
+      <p>This chapter has no RTL examples. Its guide discusses system-level modelling; a Python companion is planned.</p>
+
+    </section>
+<section id="ch07_dsa" aria-labelledby="ch07_dsa-title">
+      <h2 id="ch07_dsa-title">Chapter 7 · Domain-Specific Architectures</h2>
+      <p><a href="ch07_dsa/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="ch07_dsa/systolic_array/README.md">Systolic Matrix-Multiply Unit (TPU-style)</a></h3>
+        <p>weight-stationary int8 matrix unit with skew/de-skew, as in the TPU</p>
+        <ul class="resources"><li><a href="ch07_dsa/systolic_array/sv/systolic_array.sv">SystemVerilog · systolic_array.sv</a></li><li><a href="ch07_dsa/systolic_array/sv/tb_systolic_array.sv">SystemVerilog · tb_systolic_array.sv</a></li><li><a href="ch07_dsa/systolic_array/vhdl/systolic_array.vhd">VHDL · systolic_array.vhd</a></li><li><a href="ch07_dsa/systolic_array/vhdl/tb_systolic_array.vhd">VHDL · tb_systolic_array.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="appC_pipelining" aria-labelledby="appC_pipelining-title">
+      <h2 id="appC_pipelining-title">Appendix C · Pipelining: Basic and Intermediate Concepts</h2>
+      <p><a href="appC_pipelining/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="appC_pipelining/mips_pipeline5/README.md">The Five-Stage Pipeline for DLX and MIPS64 (branches resolved in ID)</a></h3>
+        <p>DLX / MIPS32 (XLEN=32) and MIPS64 (XLEN=64) (branches resolved in ID, 1-cycle penalty)</p>
+        <ul class="resources"><li><a href="appC_pipelining/mips_pipeline5/sv/mips_pipeline.sv">SystemVerilog · mips_pipeline.sv</a></li><li><a href="appC_pipelining/mips_pipeline5/sv/tb_mips_pipeline.sv">SystemVerilog · tb_mips_pipeline.sv</a></li><li><a href="appC_pipelining/mips_pipeline5/vhdl/mips_pipeline.vhd">VHDL · mips_pipeline.vhd</a></li><li><a href="appC_pipelining/mips_pipeline5/vhdl/tb_mips_pipeline.vhd">VHDL · tb_mips_pipeline.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appC_pipelining/rv32i_pipeline5/README.md">The Classic Five-Stage Pipeline (RV32I)</a></h3>
+        <p>RISC-V RV32I (branches resolved in EX, 2-cycle penalty)</p>
+        <ul class="resources"><li><a href="appC_pipelining/rv32i_pipeline5/sv/rv32i_pipeline.sv">SystemVerilog · rv32i_pipeline.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/sv/rv32i_pkg.sv">SystemVerilog · rv32i_pkg.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/sv/tb_rv32i_pipeline.sv">SystemVerilog · tb_rv32i_pipeline.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/rv32i_pipeline.vhd">VHDL · rv32i_pipeline.vhd</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/rv32i_pkg.vhd">VHDL · rv32i_pkg.vhd</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/tb_rv32i_pipeline.vhd">VHDL · tb_rv32i_pipeline.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="appD_storage" aria-labelledby="appD_storage-title">
+      <h2 id="appD_storage-title">Appendix D · Storage Systems</h2>
+      <p><a href="appD_storage/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="appD_storage/hamming_secded/README.md">SECDED (72,64) Error-Correcting Code</a></h3>
+        <p>(72,64) single-error-correct / double-error-detect code, as on ECC DIMMs</p>
+        <ul class="resources"><li><a href="appD_storage/hamming_secded/sv/hamming_secded.sv">SystemVerilog · hamming_secded.sv</a></li><li><a href="appD_storage/hamming_secded/sv/tb_hamming_secded.sv">SystemVerilog · tb_hamming_secded.sv</a></li><li><a href="appD_storage/hamming_secded/vhdl/hamming_secded.vhd">VHDL · hamming_secded.vhd</a></li><li><a href="appD_storage/hamming_secded/vhdl/tb_hamming_secded.vhd">VHDL · tb_hamming_secded.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appD_storage/raid5_parity/README.md">RAID-5 Parity</a></h3>
+        <p>XOR parity, failed-disk reconstruction, small-write update</p>
+        <ul class="resources"><li><a href="appD_storage/raid5_parity/sv/raid5_parity.sv">SystemVerilog · raid5_parity.sv</a></li><li><a href="appD_storage/raid5_parity/sv/tb_raid5_parity.sv">SystemVerilog · tb_raid5_parity.sv</a></li><li><a href="appD_storage/raid5_parity/vhdl/raid5_parity.vhd">VHDL · raid5_parity.vhd</a></li><li><a href="appD_storage/raid5_parity/vhdl/tb_raid5_parity.vhd">VHDL · tb_raid5_parity.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="appF_interconnect" aria-labelledby="appF_interconnect-title">
+      <h2 id="appF_interconnect-title">Appendix F · Interconnection Networks</h2>
+      <p><a href="appF_interconnect/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="appF_interconnect/mesh_router/README.md">Wormhole Mesh Router and 2-D Mesh Network</a></h3>
+        <p>wormhole mesh router + 2-D mesh: XY routing, credit flow control, round-robin allocation, credit-loop sizing</p>
+        <ul class="resources"><li><a href="appF_interconnect/mesh_router/sv/mesh_net.sv">SystemVerilog · mesh_net.sv</a></li><li><a href="appF_interconnect/mesh_router/sv/mesh_pkg.sv">SystemVerilog · mesh_pkg.sv</a></li><li><a href="appF_interconnect/mesh_router/sv/mesh_router.sv">SystemVerilog · mesh_router.sv</a></li><li><a href="appF_interconnect/mesh_router/sv/tb_mesh_router.sv">SystemVerilog · tb_mesh_router.sv</a></li><li><a href="appF_interconnect/mesh_router/vhdl/mesh_net.vhd">VHDL · mesh_net.vhd</a></li><li><a href="appF_interconnect/mesh_router/vhdl/mesh_pkg.vhd">VHDL · mesh_pkg.vhd</a></li><li><a href="appF_interconnect/mesh_router/vhdl/mesh_router.vhd">VHDL · mesh_router.vhd</a></li><li><a href="appF_interconnect/mesh_router/vhdl/tb_mesh_router.vhd">VHDL · tb_mesh_router.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appF_interconnect/rr_crossbar/README.md">Crossbar Switch with Round-Robin Arbitration</a></h3>
+        <p>N x N crossbar, per-output round-robin arbitration, parallel permutation traffic</p>
+        <ul class="resources"><li><a href="appF_interconnect/rr_crossbar/sv/rr_crossbar.sv">SystemVerilog · rr_crossbar.sv</a></li><li><a href="appF_interconnect/rr_crossbar/sv/tb_rr_crossbar.sv">SystemVerilog · tb_rr_crossbar.sv</a></li><li><a href="appF_interconnect/rr_crossbar/vhdl/rr_crossbar.vhd">VHDL · rr_crossbar.vhd</a></li><li><a href="appF_interconnect/rr_crossbar/vhdl/tb_rr_crossbar.vhd">VHDL · tb_rr_crossbar.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appF_interconnect/torus_dateline/README.md">Torus with Dateline Virtual-Channel Classes</a></h3>
+        <p>4x4 torus with wrap-around links and dateline VC classes: deadlock demonstrated with 1 VC, removed with 2</p>
+        <ul class="resources"><li><a href="appF_interconnect/torus_dateline/sv/tb_torus_dateline.sv">SystemVerilog · tb_torus_dateline.sv</a></li><li><a href="appF_interconnect/torus_dateline/sv/torus_net.sv">SystemVerilog · torus_net.sv</a></li><li><a href="appF_interconnect/torus_dateline/sv/torus_router.sv">SystemVerilog · torus_router.sv</a></li><li><a href="appF_interconnect/torus_dateline/vhdl/tb_torus_dateline.vhd">VHDL · tb_torus_dateline.vhd</a></li><li><a href="appF_interconnect/torus_dateline/vhdl/torus_net.vhd">VHDL · torus_net.vhd</a></li><li><a href="appF_interconnect/torus_dateline/vhdl/torus_router.vhd">VHDL · torus_router.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appF_interconnect/vc_router/README.md">Virtual-Channel Router: Removing Head-of-Line Blocking</a></h3>
+        <p>virtual channels: VC allocation, separable switch allocation, per-VC credits, head-of-line blocking removed</p>
+        <ul class="resources"><li><a href="appF_interconnect/vc_router/sv/tb_vc_router.sv">SystemVerilog · tb_vc_router.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_net.sv">SystemVerilog · vc_net.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_pkg.sv">SystemVerilog · vc_pkg.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_router.sv">SystemVerilog · vc_router.sv</a></li><li><a href="appF_interconnect/vc_router/vhdl/tb_vc_router.vhd">VHDL · tb_vc_router.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_net.vhd">VHDL · vc_net.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_pkg.vhd">VHDL · vc_pkg.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_router.vhd">VHDL · vc_router.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="appH_vliw" aria-labelledby="appH_vliw-title">
+      <h2 id="appH_vliw-title">Appendix H · Hardware and Software for VLIW and EPIC</h2>
+      <p><a href="appH_vliw/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="appH_vliw/vliw4/README.md">A 4-Slot VLIW Core with an Exposed Pipeline</a></h3>
+        <p>4-slot bundles, exposed latencies, no interlocks; one DAXPY kernel scheduled three ways (IPC 1.01 / 1.77 / 1.94)</p>
+        <ul class="resources"><li><a href="appH_vliw/vliw4/sv/tb_vliw4.sv">SystemVerilog · tb_vliw4.sv</a></li><li><a href="appH_vliw/vliw4/sv/vliw4.sv">SystemVerilog · vliw4.sv</a></li><li><a href="appH_vliw/vliw4/vhdl/tb_vliw4.vhd">VHDL · tb_vliw4.vhd</a></li><li><a href="appH_vliw/vliw4/vhdl/vliw4.vhd">VHDL · vliw4.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+<section id="appJ_arithmetic" aria-labelledby="appJ_arithmetic-title">
+      <h2 id="appJ_arithmetic-title">Appendix J · Computer Arithmetic</h2>
+      <p><a href="appJ_arithmetic/README.md">Read the chapter guide</a></p>
+
+      <ul class="examples"><li><article>
+        <h3><a href="appJ_arithmetic/booth_multiplier/README.md">Radix-4 Booth Multiplier</a></h3>
+        <p>radix-4 Booth recoding, 8 partial products for 16 bits</p>
+        <ul class="resources"><li><a href="appJ_arithmetic/booth_multiplier/sv/booth_multiplier.sv">SystemVerilog · booth_multiplier.sv</a></li><li><a href="appJ_arithmetic/booth_multiplier/sv/tb_booth_multiplier.sv">SystemVerilog · tb_booth_multiplier.sv</a></li><li><a href="appJ_arithmetic/booth_multiplier/vhdl/booth_multiplier.vhd">VHDL · booth_multiplier.vhd</a></li><li><a href="appJ_arithmetic/booth_multiplier/vhdl/tb_booth_multiplier.vhd">VHDL · tb_booth_multiplier.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appJ_arithmetic/carry_lookahead_adder/README.md">Carry-Lookahead Adder</a></h3>
+        <p>generate/propagate, two-level lookahead</p>
+        <ul class="resources"><li><a href="appJ_arithmetic/carry_lookahead_adder/sv/carry_lookahead_adder.sv">SystemVerilog · carry_lookahead_adder.sv</a></li><li><a href="appJ_arithmetic/carry_lookahead_adder/sv/tb_carry_lookahead_adder.sv">SystemVerilog · tb_carry_lookahead_adder.sv</a></li><li><a href="appJ_arithmetic/carry_lookahead_adder/vhdl/carry_lookahead_adder.vhd">VHDL · carry_lookahead_adder.vhd</a></li><li><a href="appJ_arithmetic/carry_lookahead_adder/vhdl/tb_carry_lookahead_adder.vhd">VHDL · tb_carry_lookahead_adder.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appJ_arithmetic/restoring_divider/README.md">Restoring Divider</a></h3>
+        <p>shift-subtract division, one quotient bit per cycle</p>
+        <ul class="resources"><li><a href="appJ_arithmetic/restoring_divider/sv/restoring_divider.sv">SystemVerilog · restoring_divider.sv</a></li><li><a href="appJ_arithmetic/restoring_divider/sv/tb_restoring_divider.sv">SystemVerilog · tb_restoring_divider.sv</a></li><li><a href="appJ_arithmetic/restoring_divider/vhdl/restoring_divider.vhd">VHDL · restoring_divider.vhd</a></li><li><a href="appJ_arithmetic/restoring_divider/vhdl/tb_restoring_divider.vhd">VHDL · tb_restoring_divider.vhd</a></li></ul>
+      </article></li></ul>
+    </section>
+  </main>
+  <footer><p>Independently authored learning materials, not a replacement for the textbook. Repository licensing does not grant rights to reproduce the published books.</p></footer>
+</body>
+</html>

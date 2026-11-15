@@ -10,6 +10,11 @@ talks about -- a CPI, a miss rate, a speedup -- move.
 
 ## Quick start
 
+Open [the browser index](index.html) for chapter navigation and links to every example's guide,
+SystemVerilog sources and VHDL sources. The index works without JavaScript and can be opened locally.
+Its editable content lives in `data/index.json`; after changing it, regenerate with
+`node scripts/render-index.mjs` and verify with `node scripts/render-index.mjs --check` (Node.js 22+).
+
 Requires Python 3, [Icarus Verilog](https://github.com/steveicarus/iverilog) 12 (SystemVerilog), [GHDL](https://github.com/ghdl/ghdl) 4.x (VHDL),
 and optionally [Verilator](https://www.veripool.org/verilator/) 5 (lint). On Ubuntu 24.04:
 
