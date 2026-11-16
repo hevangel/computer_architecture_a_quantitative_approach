@@ -30,21 +30,35 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-A passing run ends with `66/66 passed`.
+The current tree contains 38 hardware examples. Before the tournament predictor
+was added, the complete suite passed `74/74` using Icarus Verilog 14.0 development
+and GHDL 6.0.0. The new example passed both targeted tests. The
+[CPI counters](ch01_fundamentals/cpi_power_counters/README.md) and
+[arithmetic blocks](appJ_arithmetic/csa_wallace_skip_select/README.md) also passed targeted simulations.
+
+The [quantitative fundamentals](ch01_fundamentals/python/README.md),
+[roofline and loop dependence](ch04_dlp/python/README.md), [warehouse-scale](ch06_wsc/README.md)
+and [I/O queueing](appD_storage/python/README.md) Python models have separate unittest commands
+and are not included in that HDL test count. The [ISA class traffic models](appA_isa/python/README.md)
+likewise compare synthetic instruction sets separately from the HDL examples.
 
 ## What is in the box
 
 | Chapter / appendix | Example | Shows |
 |--------------------|---------|-------|
 | [Ch 1 Fundamentals](ch01_fundamentals) | [`amdahl_speedup`](ch01_fundamentals/amdahl_speedup) | Amdahl's Law in fixed point |
+| | [`cpi_power_counters`](ch01_fundamentals/cpi_power_counters) | CPI, stall and energy counters |
 | [Ch 2 Memory hierarchy](ch02_memory_hierarchy) | [`set_assoc_cache`](ch02_memory_hierarchy/set_assoc_cache) | set-associative write-back LRU cache with hit/miss counters |
 | | [`tlb_walker`](ch02_memory_hierarchy/tlb_walker) | TLB + page-table walker, page and protection faults |
 | | [`victim_cache`](ch02_memory_hierarchy/victim_cache) | victim buffer turns thrashing conflict misses into swaps (random trace -33 % cycles) |
 | | [`stride_prefetcher`](ch02_memory_hierarchy/stride_prefetcher) | stride prefetcher (misses 48 -> 3 on a strided walk); loses when there is no idle time |
+| | [`stream_buffer`](ch02_memory_hierarchy/stream_buffer) | four-entry sequential prefetch buffer; demand and speculative read counts |
+| | [`prime_probe_qos`](ch02_memory_hierarchy/prime_probe_qos) | shared-cache replacement channel and way partitioning |
 | | [`nonblocking_cache`](ch02_memory_hierarchy/nonblocking_cache) | non-blocking write-through cache: MSHRs, hit/miss under miss (2157 -> 1881 -> 674 cycles), coalescing write buffer |
 | | [`writeback_nbcache`](ch02_memory_hierarchy/writeback_nbcache) | write-back / write-allocate non-blocking cache: dirty bits, write-back buffer, 125 stores -> 34 line writes |
 | | [`dram_controller`](ch02_memory_hierarchy/dram_controller) | banked DRAM controller: row-buffer hit/miss/conflict = 9/12/15 cycles, FR-FCFS (2 ACT) vs FCFS (8 ACT), refresh, streaming at 96 % of peak |
 | [Ch 3 ILP](ch03_ilp) | [`branch_predictor`](ch03_ilp/branch_predictor) | 1-bit, 2-bit and gshare prediction (32 / 23 / 17 mispredicts of 60) |
+| | [`tournament_btb_ras`](ch03_ilp/tournament_btb_ras) | local/global tournament prediction, target buffer and return stack |
 | | [`scoreboard`](ch03_ilp/scoreboard) | CDC 6600 scoreboard: the four hazards as exact stall cycles |
 | | [`tomasulo_spec`](ch03_ilp/tomasulo_spec) | Tomasulo + branch speculation: commit-time flush, loop 85 -> 76 cycles with a better predictor |
 | | [`tomasulo_lsq`](ch03_ilp/tomasulo_lsq) | speculative Tomasulo + load/store queue: stores write at commit, store-to-load forwarding (8 vs 11 cycles), conservative disambiguation, wrong-path store never reaches memory |
@@ -66,6 +80,7 @@ A passing run ends with `66/66 passed`.
 | | [`torus_dateline`](appF_interconnect/torus_dateline) | 4x4 torus: shorter-way-round routing, dateline VC classes; the ring and shift traffic deadlock with 1 VC and complete with 2; hops 2.01 vs 2.59 on a mesh |
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
+| | [`csa_wallace_skip_select`](appJ_arithmetic/csa_wallace_skip_select) | carry-skip / select adders and carry-save multiplier |
 
 Not yet written (adaptive routing, ...):
 see the [roadmap](docs/roadmap.md). Chapter 6 (warehouse-scale computers) is a modelling chapter with no RTL.

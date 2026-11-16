@@ -127,7 +127,8 @@ module set_assoc_cache #(
             victim_q    <= victim;
             missed      <= 1'b1;
             stat_misses <= stat_misses + 1;
-            state       <= (valid[idx*WAYS + victim] && dirty[idx*WAYS + victim]) ? S_WRITEBACK : S_REFILL;
+            if (valid[idx*WAYS + victim] && dirty[idx*WAYS + victim]) state <= S_WRITEBACK;
+            else state <= S_REFILL;
           end
         end
         S_WRITEBACK: if (mem_done) begin

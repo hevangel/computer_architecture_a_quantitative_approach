@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Browse 33 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches.">
+  <meta name="description" content="Browse 38 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.">
   <title>Computer Architecture: A Quantitative Approach</title>
   <style>
     :root { color-scheme: light; --ink: #202b36; --muted: #4e5e6b; --paper: #f7f6f1; --line: #cbd3d6; --link: #16536b; }
@@ -38,7 +38,7 @@
   <header>
     <p class="eyebrow">Hardware examples · SystemVerilog + VHDL</p>
     <h1>Computer Architecture: A Quantitative Approach</h1>
-    <p>Browse 33 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches.</p>
+    <p>Browse 38 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.</p>
     <nav aria-label="Chapters and appendices"><ul>
       <li><a href="#start">Start here</a></li>
       <li><a href="#ch01_fundamentals">Chapter 1 · Fundamentals of Quantitative Design and Analysis</a></li>
@@ -64,7 +64,7 @@ make test                    # run both HDL test suites
 make test T=set_assoc_cache   # run one example
 make test-sv                 # SystemVerilog only
 make test-vhdl               # VHDL only</code></pre>
-      <ul class="resources"><li><a href="README.md">Repository guide</a></li><li><a href="docs/editions.md">Edition comparison and topic crosswalk</a></li><li><a href="docs/roadmap.md">Coverage and planned work</a></li><li><a href="LICENSE">Repository license</a></li></ul>
+      <ul class="resources"><li><a href="README.md">Repository guide</a></li><li><a href="docs/editions.md">Edition comparison and topic crosswalk</a></li><li><a href="docs/roadmap.md">Coverage and planned work</a></li><li><a href="ch01_fundamentals/python/README.md">Quantitative fundamentals models</a></li><li><a href="ch04_dlp/python/README.md">Roofline and loop dependence models</a></li><li><a href="ch06_wsc/README.md">Warehouse-scale models</a></li><li><a href="appA_isa/python/README.md">ISA class traffic models</a></li><li><a href="appD_storage/python/README.md">I/O queueing and reliability models</a></li><li><a href="LICENSE">Repository license</a></li></ul>
       <p>Examples are organized by topic: main chapter numbers follow the sixth and seventh editions, and appendix letters follow the fifth. Use the edition guide and each example’s references to locate the material in your own edition. Coverage is selective; this index does not certify simulation results.</p>
     </section>
     <section id="ch01_fundamentals" aria-labelledby="ch01_fundamentals-title">
@@ -72,6 +72,11 @@ make test-vhdl               # VHDL only</code></pre>
       <p><a href="ch01_fundamentals/README.md">Read the chapter guide</a></p>
 
       <ul class="examples"><li><article>
+        <h3><a href="ch01_fundamentals/cpi_power_counters/README.md">CPI and Switching-Energy Counters</a></h3>
+        <p>instruction and stall classes, CPI, switching activity and energy</p>
+        <ul class="resources"><li><a href="ch01_fundamentals/cpi_power_counters/sv/cpi_power_counters.sv">SystemVerilog · cpi_power_counters.sv</a></li><li><a href="ch01_fundamentals/cpi_power_counters/sv/tb_cpi_power_counters.sv">SystemVerilog · tb_cpi_power_counters.sv</a></li><li><a href="ch01_fundamentals/cpi_power_counters/vhdl/cpi_power_counters.vhd">VHDL · cpi_power_counters.vhd</a></li><li><a href="ch01_fundamentals/cpi_power_counters/vhdl/tb_cpi_power_counters.vhd">VHDL · tb_cpi_power_counters.vhd</a></li></ul>
+      </article></li>
+<li><article>
         <h3><a href="ch01_fundamentals/amdahl_speedup/README.md">Amdahl&#39;s Law</a></h3>
         <p>Amdahl&#39;s Law as a fixed-point hardware unit</p>
         <ul class="resources"><li><a href="ch01_fundamentals/amdahl_speedup/sv/amdahl_speedup.sv">SystemVerilog · amdahl_speedup.sv</a></li><li><a href="ch01_fundamentals/amdahl_speedup/sv/tb_amdahl_speedup.sv">SystemVerilog · tb_amdahl_speedup.sv</a></li><li><a href="ch01_fundamentals/amdahl_speedup/vhdl/amdahl_speedup.vhd">VHDL · amdahl_speedup.vhd</a></li><li><a href="ch01_fundamentals/amdahl_speedup/vhdl/tb_amdahl_speedup.vhd">VHDL · tb_amdahl_speedup.vhd</a></li></ul>
@@ -82,6 +87,16 @@ make test-vhdl               # VHDL only</code></pre>
       <p><a href="ch02_memory_hierarchy/README.md">Read the chapter guide</a></p>
 
       <ul class="examples"><li><article>
+        <h3><a href="ch02_memory_hierarchy/prime_probe_qos/README.md">Prime+Probe and Way Partitioning</a></h3>
+        <p>shared-cache replacement channel and two-domain isolation</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/prime_probe_qos/sv/prime_probe_qos.sv">SystemVerilog · prime_probe_qos.sv</a></li><li><a href="ch02_memory_hierarchy/prime_probe_qos/sv/tb_prime_probe_qos.sv">SystemVerilog · tb_prime_probe_qos.sv</a></li><li><a href="ch02_memory_hierarchy/prime_probe_qos/vhdl/prime_probe_qos.vhd">VHDL · prime_probe_qos.vhd</a></li><li><a href="ch02_memory_hierarchy/prime_probe_qos/vhdl/tb_prime_probe_qos.vhd">VHDL · tb_prime_probe_qos.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch02_memory_hierarchy/stream_buffer/README.md">Sequential Stream Buffer</a></h3>
+        <p>four-entry prefetch FIFO, direct-mapped L1 and demand versus prefetch traffic</p>
+        <ul class="resources"><li><a href="ch02_memory_hierarchy/stream_buffer/sv/stream_buffer.sv">SystemVerilog · stream_buffer.sv</a></li><li><a href="ch02_memory_hierarchy/stream_buffer/sv/tb_stream_buffer.sv">SystemVerilog · tb_stream_buffer.sv</a></li><li><a href="ch02_memory_hierarchy/stream_buffer/vhdl/stream_buffer.vhd">VHDL · stream_buffer.vhd</a></li><li><a href="ch02_memory_hierarchy/stream_buffer/vhdl/tb_stream_buffer.vhd">VHDL · tb_stream_buffer.vhd</a></li></ul>
+      </article></li>
+<li><article>
         <h3><a href="ch02_memory_hierarchy/dram_controller/README.md">DRAM Controller: Row Buffers, FR-FCFS Scheduling and Refresh</a></h3>
         <p>banked DRAM + timing checker; FR-FCFS vs FCFS, open vs closed page, refresh; miss 12 / hit 9 / conflict 15 cycles</p>
         <ul class="resources"><li><a href="ch02_memory_hierarchy/dram_controller/sv/dram_ctrl.sv">SystemVerilog · dram_ctrl.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/sv/dram_device.sv">SystemVerilog · dram_device.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/sv/tb_dram_controller.sv">SystemVerilog · tb_dram_controller.sv</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/dram_ctrl.vhd">VHDL · dram_ctrl.vhd</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/dram_device.vhd">VHDL · dram_device.vhd</a></li><li><a href="ch02_memory_hierarchy/dram_controller/vhdl/tb_dram_controller.vhd">VHDL · tb_dram_controller.vhd</a></li></ul>
@@ -122,6 +137,11 @@ make test-vhdl               # VHDL only</code></pre>
       <p><a href="ch03_ilp/README.md">Read the chapter guide</a></p>
 
       <ul class="examples"><li><article>
+        <h3><a href="ch03_ilp/tournament_btb_ras/README.md">Tournament Predictor, BTB and Return Stack</a></h3>
+        <p>local and global history selection, direct-mapped targets and four nested returns</p>
+        <ul class="resources"><li><a href="ch03_ilp/tournament_btb_ras/sv/tournament_btb_ras.sv">SystemVerilog · tournament_btb_ras.sv</a></li><li><a href="ch03_ilp/tournament_btb_ras/sv/tb_tournament_btb_ras.sv">SystemVerilog · tb_tournament_btb_ras.sv</a></li><li><a href="ch03_ilp/tournament_btb_ras/vhdl/tournament_btb_ras.vhd">VHDL · tournament_btb_ras.vhd</a></li><li><a href="ch03_ilp/tournament_btb_ras/vhdl/tb_tournament_btb_ras.vhd">VHDL · tb_tournament_btb_ras.vhd</a></li></ul>
+      </article></li>
+<li><article>
         <h3><a href="ch03_ilp/branch_predictor/README.md">Dynamic Branch Prediction</a></h3>
         <p>1-bit, 2-bit and gshare predictors on the same trace</p>
         <ul class="resources"><li><a href="ch03_ilp/branch_predictor/sv/branch_predictor.sv">SystemVerilog · branch_predictor.sv</a></li><li><a href="ch03_ilp/branch_predictor/sv/tb_branch_predictor.sv">SystemVerilog · tb_branch_predictor.sv</a></li><li><a href="ch03_ilp/branch_predictor/vhdl/branch_predictor.vhd">VHDL · branch_predictor.vhd</a></li><li><a href="ch03_ilp/branch_predictor/vhdl/tb_branch_predictor.vhd">VHDL · tb_branch_predictor.vhd</a></li></ul>
@@ -278,6 +298,11 @@ make test-vhdl               # VHDL only</code></pre>
       <p><a href="appJ_arithmetic/README.md">Read the chapter guide</a></p>
 
       <ul class="examples"><li><article>
+        <h3><a href="appJ_arithmetic/csa_wallace_skip_select/README.md">Carry-Skip, Carry-Select and Carry-Save Arithmetic</a></h3>
+        <p>16-bit adders and 8-bit carry-save multiplier</p>
+        <ul class="resources"><li><a href="appJ_arithmetic/csa_wallace_skip_select/sv/arithmetic.sv">SystemVerilog · arithmetic.sv</a></li><li><a href="appJ_arithmetic/csa_wallace_skip_select/sv/tb_arithmetic.sv">SystemVerilog · tb_arithmetic.sv</a></li><li><a href="appJ_arithmetic/csa_wallace_skip_select/vhdl/arithmetic.vhd">VHDL · arithmetic.vhd</a></li><li><a href="appJ_arithmetic/csa_wallace_skip_select/vhdl/tb_arithmetic.vhd">VHDL · tb_arithmetic.vhd</a></li></ul>
+      </article></li>
+<li><article>
         <h3><a href="appJ_arithmetic/booth_multiplier/README.md">Radix-4 Booth Multiplier</a></h3>
         <p>radix-4 Booth recoding, 8 partial products for 16 bits</p>
         <ul class="resources"><li><a href="appJ_arithmetic/booth_multiplier/sv/booth_multiplier.sv">SystemVerilog · booth_multiplier.sv</a></li><li><a href="appJ_arithmetic/booth_multiplier/sv/tb_booth_multiplier.sv">SystemVerilog · tb_booth_multiplier.sv</a></li><li><a href="appJ_arithmetic/booth_multiplier/vhdl/booth_multiplier.vhd">VHDL · booth_multiplier.vhd</a></li><li><a href="appJ_arithmetic/booth_multiplier/vhdl/tb_booth_multiplier.vhd">VHDL · tb_booth_multiplier.vhd</a></li></ul>

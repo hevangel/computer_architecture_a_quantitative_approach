@@ -1,7 +1,7 @@
 {
   "title": "Computer Architecture: A Quantitative Approach",
   "eyebrow": "Hardware examples · SystemVerilog + VHDL",
-  "description": "Browse 33 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches.",
+  "description": "Browse 38 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
   "labels": {
     "skip": "Skip to content",
     "navigation": "Chapters and appendices",
@@ -32,6 +32,26 @@
       "title": "Coverage and planned work"
     },
     {
+      "path": "ch01_fundamentals/python/README.md",
+      "title": "Quantitative fundamentals models"
+    },
+    {
+      "path": "ch04_dlp/python/README.md",
+      "title": "Roofline and loop dependence models"
+    },
+    {
+      "path": "ch06_wsc/README.md",
+      "title": "Warehouse-scale models"
+    },
+    {
+      "path": "appA_isa/python/README.md",
+      "title": "ISA class traffic models"
+    },
+    {
+      "path": "appD_storage/python/README.md",
+      "title": "I/O queueing and reliability models"
+    },
+    {
       "path": "LICENSE",
       "title": "Repository license"
     }
@@ -42,6 +62,17 @@
       "path": "ch01_fundamentals",
       "title": "Chapter 1 · Fundamentals of Quantitative Design and Analysis",
       "examples": [
+        {
+          "path": "ch01_fundamentals/cpi_power_counters",
+          "title": "CPI and Switching-Energy Counters",
+          "description": "instruction and stall classes, CPI, switching activity and energy",
+          "sources": [
+            {"path": "ch01_fundamentals/cpi_power_counters/sv/cpi_power_counters.sv", "title": "SystemVerilog · cpi_power_counters.sv"},
+            {"path": "ch01_fundamentals/cpi_power_counters/sv/tb_cpi_power_counters.sv", "title": "SystemVerilog · tb_cpi_power_counters.sv"},
+            {"path": "ch01_fundamentals/cpi_power_counters/vhdl/cpi_power_counters.vhd", "title": "VHDL · cpi_power_counters.vhd"},
+            {"path": "ch01_fundamentals/cpi_power_counters/vhdl/tb_cpi_power_counters.vhd", "title": "VHDL · tb_cpi_power_counters.vhd"}
+          ]
+        },
         {
           "path": "ch01_fundamentals/amdahl_speedup",
           "title": "Amdahl's Law",
@@ -71,6 +102,28 @@
       "path": "ch02_memory_hierarchy",
       "title": "Chapter 2 · Memory Hierarchy Design (with Appendix B)",
       "examples": [
+        {
+          "path": "ch02_memory_hierarchy/prime_probe_qos",
+          "title": "Prime+Probe and Way Partitioning",
+          "description": "shared-cache replacement channel and two-domain isolation",
+          "sources": [
+            {"path": "ch02_memory_hierarchy/prime_probe_qos/sv/prime_probe_qos.sv", "title": "SystemVerilog · prime_probe_qos.sv"},
+            {"path": "ch02_memory_hierarchy/prime_probe_qos/sv/tb_prime_probe_qos.sv", "title": "SystemVerilog · tb_prime_probe_qos.sv"},
+            {"path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/prime_probe_qos.vhd", "title": "VHDL · prime_probe_qos.vhd"},
+            {"path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/tb_prime_probe_qos.vhd", "title": "VHDL · tb_prime_probe_qos.vhd"}
+          ]
+        },
+        {
+          "path": "ch02_memory_hierarchy/stream_buffer",
+          "title": "Sequential Stream Buffer",
+          "description": "four-entry prefetch FIFO, direct-mapped L1 and demand versus prefetch traffic",
+          "sources": [
+            {"path": "ch02_memory_hierarchy/stream_buffer/sv/stream_buffer.sv", "title": "SystemVerilog · stream_buffer.sv"},
+            {"path": "ch02_memory_hierarchy/stream_buffer/sv/tb_stream_buffer.sv", "title": "SystemVerilog · tb_stream_buffer.sv"},
+            {"path": "ch02_memory_hierarchy/stream_buffer/vhdl/stream_buffer.vhd", "title": "VHDL · stream_buffer.vhd"},
+            {"path": "ch02_memory_hierarchy/stream_buffer/vhdl/tb_stream_buffer.vhd", "title": "VHDL · tb_stream_buffer.vhd"}
+          ]
+        },
         {
           "path": "ch02_memory_hierarchy/dram_controller",
           "title": "DRAM Controller: Row Buffers, FR-FCFS Scheduling and Refresh",
@@ -262,6 +315,17 @@
       "path": "ch03_ilp",
       "title": "Chapter 3 · Instruction-Level Parallelism and Its Exploitation",
       "examples": [
+        {
+          "path": "ch03_ilp/tournament_btb_ras",
+          "title": "Tournament Predictor, BTB and Return Stack",
+          "description": "local and global history selection, direct-mapped targets and four nested returns",
+          "sources": [
+            {"path": "ch03_ilp/tournament_btb_ras/sv/tournament_btb_ras.sv", "title": "SystemVerilog · tournament_btb_ras.sv"},
+            {"path": "ch03_ilp/tournament_btb_ras/sv/tb_tournament_btb_ras.sv", "title": "SystemVerilog · tb_tournament_btb_ras.sv"},
+            {"path": "ch03_ilp/tournament_btb_ras/vhdl/tournament_btb_ras.vhd", "title": "VHDL · tournament_btb_ras.vhd"},
+            {"path": "ch03_ilp/tournament_btb_ras/vhdl/tb_tournament_btb_ras.vhd", "title": "VHDL · tb_tournament_btb_ras.vhd"}
+          ]
+        },
         {
           "path": "ch03_ilp/branch_predictor",
           "title": "Dynamic Branch Prediction",
@@ -870,6 +934,17 @@
       "path": "appJ_arithmetic",
       "title": "Appendix J · Computer Arithmetic",
       "examples": [
+        {
+          "path": "appJ_arithmetic/csa_wallace_skip_select",
+          "title": "Carry-Skip, Carry-Select and Carry-Save Arithmetic",
+          "description": "16-bit adders and 8-bit carry-save multiplier",
+          "sources": [
+            {"path": "appJ_arithmetic/csa_wallace_skip_select/sv/arithmetic.sv", "title": "SystemVerilog · arithmetic.sv"},
+            {"path": "appJ_arithmetic/csa_wallace_skip_select/sv/tb_arithmetic.sv", "title": "SystemVerilog · tb_arithmetic.sv"},
+            {"path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/arithmetic.vhd", "title": "VHDL · arithmetic.vhd"},
+            {"path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/tb_arithmetic.vhd", "title": "VHDL · tb_arithmetic.vhd"}
+          ]
+        },
         {
           "path": "appJ_arithmetic/booth_multiplier",
           "title": "Radix-4 Booth Multiplier",

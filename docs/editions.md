@@ -20,7 +20,14 @@ which techniques paid off best in each era, not as ever-larger versions of the s
 | 4th | 2006 | The end of the frequency race: power and energy become first-class constraints; multicore and thread-level parallelism move forward | MIPS64 |
 | 5th | 2011 | Vector/SIMD/GPU chapter and warehouse-scale computers added; memory hierarchy moves to Chapter 2; ARM Cortex-A8 and Intel Core i7 case studies | MIPS64 |
 | 6th | 2017 | Switches to RISC-V; new chapter on domain-specific architectures (TPU, Catapult, Pixel Visual Core, ...) | RISC-V |
-| 7th | 2025 | Same seven chapter topics, updated CPU/GPU/accelerator coverage, more on SoCs and heterogeneous systems | RISC-V |
+| 7th | 2025 | Updates include chiplets and yield, embodied carbon, Alloy Cache and NUCA, side channels, TAGE, Power10 and Xeon multicore case studies, warehouse-scale networks and updated accelerators | RISC-V |
+
+The 7th edition's case studies also discuss Meta servers, Google's Jupiter
+network, AWS Nitro and Graviton3, TPU v4, NVIDIA Tensor Cores and Transformer
+Engine, Graphcore IPUs, Samsung NPUs, MLPerf and sustainability. See Chapter 1
+§§1.5–1.6, Chapter 2 §§2.3–2.4, Chapter 3 §§3.3 and 3.13, Chapter 5 §5.8,
+and Chapters 6–7. Mention here does not imply the corresponding case study has
+a runnable implementation in this repository.
 
 The three eras:
 
@@ -53,9 +60,21 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Topic | Directory | Editions that cover it | Status |
 |-------|-----------|------------------------|:------:|
 | Amdahl's Law | [`ch01_fundamentals/amdahl_speedup`](../ch01_fundamentals/amdahl_speedup) | 1-7 | done |
+| CPI, stall and switching-energy counters | [`ch01_fundamentals/cpi_power_counters`](../ch01_fundamentals/cpi_power_counters) | 7th Ch 1 §§1.5, 1.8–1.9 | done |
+| Yield, cost, dependability, DVFS and benchmark summaries | [`ch01_fundamentals/python`](../ch01_fundamentals/python/README.md) | 7th Ch 1 §§1.5–1.8 | partial Python models |
+| Processor control and microprogramming | [`appC_pipelining`](../appC_pipelining) | 1st Ch 5 | multicycle and microcode baseline planned |
+| ILP limits and hardware multithreading | [`ch03_ilp`](../ch03_ilp) | 3rd–4th Ch 3; 5th–7th Ch 3 | planned |
+| Instruction set principles and ISA survey | [`appA_isa/python`](../appA_isa/python/README.md) | 1st Ch 3–4; 5th–7th App A and K | synthetic classes, RV32IM and MIPS64 subsets; compressed decoding planned |
+| Embedded systems and DSPs | — | 5th–7th App E | planned |
+| Vector processors in depth | [`ch04_dlp`](../ch04_dlp) | 1st Ch 7; 5th–7th App G | partial; bank conflicts and gather/scatter planned |
+| Roofline and loop dependence | [`ch04_dlp/python`](../ch04_dlp/python/README.md) | 7th Ch 4 §§4.3–4.5, 4.7 | partial Python models |
+| Large-scale multiprocessors | [`ch05_tlp`](../ch05_tlp) | 5th–7th App I | partial; transient coherence and scalable synchronization planned |
+| Advanced address translation | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 6th–7th App L | basic walker only; nested translation and superpages planned |
+| Historical perspectives | — | 6th–7th App M | reference material, not an RTL example |
 | 5-stage pipeline, hazards, forwarding (RV32I) | [`appC_pipelining/rv32i_pipeline5`](../appC_pipelining/rv32i_pipeline5) | 6-7 ISA; the pipeline itself 1-7 | done |
 | 5-stage pipeline, branches in ID (DLX = `XLEN 32`, MIPS64 = `XLEN 64`) | [`appC_pipelining/mips_pipeline5`](../appC_pipelining/mips_pipeline5) | 1-2 (DLX), 3-5 (MIPS64) | done |
 | 1-bit, 2-bit, correlating (gshare) prediction | [`ch03_ilp/branch_predictor`](../ch03_ilp/branch_predictor) | 1-7 | done |
+| Tournament prediction, BTB and return stack | [`ch03_ilp/tournament_btb_ras`](../ch03_ilp/tournament_btb_ras) | 7th Ch 3 §§3.3, 3.9 | done; non-speculative model |
 | Cache: associativity, write-back, LRU | [`ch02_memory_hierarchy/set_assoc_cache`](../ch02_memory_hierarchy/set_assoc_cache) | 1-7 | done |
 | Vector processor / lanes, DAXPY | [`ch04_dlp/vector_lanes`](../ch04_dlp/vector_lanes) | 1-7 (main chapter from 5th) | done |
 | Vector chaining, convoys and chimes | [`ch04_dlp/vector_chaining`](../ch04_dlp/vector_chaining) | 1-7 (appendix G / Ch 4) | done |
@@ -64,7 +83,9 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Directory coherence (MSI, sharer vectors, message counts) | [`ch05_tlp/directory_msi`](../ch05_tlp/directory_msi) | 2-7 | done |
 | Systolic matrix unit (TPU) | [`ch07_dsa/systolic_array`](../ch07_dsa/systolic_array) | 6-7 | done |
 | Computer arithmetic: CLA, Booth, division | [`appJ_arithmetic`](../appJ_arithmetic) | 1-7 (appendix) | done |
+| Carry-skip / carry-select / carry-save arithmetic | [`appJ_arithmetic/csa_wallace_skip_select`](../appJ_arithmetic/csa_wallace_skip_select) | 7th App J.8–J.9 | done |
 | ECC (SECDED) and RAID-5 parity | [`appD_storage`](../appD_storage) | 1-7 (main chapter through 4th, then supplemental) | done |
+| I/O queueing, rebuild-window probability and MTTDL | [`appD_storage/python`](../appD_storage/python/README.md) | 5-7 App D.4–D.5 | Python models with explicit reliability assumptions |
 | Crossbar and arbitration | [`appF_interconnect/rr_crossbar`](../appF_interconnect/rr_crossbar) | 2-7 | done |
 | Torus with dateline virtual-channel classes (deadlock avoidance) | [`appF_interconnect/torus_dateline`](../appF_interconnect/torus_dateline) | 2-7 (interconnect material) | done |
 | Virtual channels: VC allocation, switch allocation, no head-of-line blocking | [`appF_interconnect/vc_router`](../appF_interconnect/vc_router) | 2-7 (interconnect material) | done |
@@ -79,10 +100,12 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | TLB, page-table walker, protection | [`ch02_memory_hierarchy/tlb_walker`](../ch02_memory_hierarchy/tlb_walker) | 1-7 | done |
 | Victim cache | [`ch02_memory_hierarchy/victim_cache`](../ch02_memory_hierarchy/victim_cache) | cache-optimization material (placement varies) | done |
 | Hardware stride prefetching | [`ch02_memory_hierarchy/stride_prefetcher`](../ch02_memory_hierarchy/stride_prefetcher) | cache-optimization material (placement varies) | done |
+| Sequential stream buffer | [`ch02_memory_hierarchy/stream_buffer`](../ch02_memory_hierarchy/stream_buffer) | 7th Ch 2 §2.3 | done; idealized memory |
+| Cache timing and way partitioning | [`ch02_memory_hierarchy/prime_probe_qos`](../ch02_memory_hierarchy/prime_probe_qos) | 7th Ch 2 §2.4 | done; single-set model |
 | Banked DRAM controller: row buffers, FR-FCFS, refresh | [`ch02_memory_hierarchy/dram_controller`](../ch02_memory_hierarchy/dram_controller) | 2-7 | done |
 | Write-back / write-allocate non-blocking cache, dirty bits, write-back buffer | [`ch02_memory_hierarchy/writeback_nbcache`](../ch02_memory_hierarchy/writeback_nbcache) | 1-7 | done |
 | Non-blocking cache (MSHRs, hit/miss under miss), coalescing write buffer | [`ch02_memory_hierarchy/nonblocking_cache`](../ch02_memory_hierarchy/nonblocking_cache) | 1-7 (write buffer), 2-7 (non-blocking) | done |
-| Warehouse-scale computing | `ch06_wsc` | 5-7 | no RTL planned (see its README) |
+| Warehouse-scale computing | [`ch06_wsc`](../ch06_wsc) | 5-7 | partial Python analytical and queueing models; RTL fabric planned |
 
 ## 4. Which editions to read
 
