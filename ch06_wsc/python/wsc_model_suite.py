@@ -4,7 +4,7 @@ Service times are supplied by the caller. The separate two-server simulation
 models FIFO contention and instantaneous cancellation, not failures or networks.
 """
 
-from math import ceil, isfinite
+from math import ceil, expm1, isfinite, log1p, fsum
 from collections import deque
 from heapq import heappop, heappush
 from itertools import count
@@ -187,3 +187,213 @@ def simulate_replicas(requests, strategy="primary", hedge_delay=0):
             schedule(now, 2, "dispatch", -1, server)
     return {"response_times": responses, "busy_time": busy_time,
             "replicas_submitted": submitted, "replicas_started": started}
+
+
+def server_power_kw(server_count, idle_watts, peak_watts, utilization):
+    """Linear server power model; utilization is a fraction in [0, 1].
+
+    Identical servers stay powered on even at zero utilization. This model does
+    not estimate power consumed by networking, storage, or other IT equipment.
+    """
+    if isinstance(server_count, bool) or not isinstance(server_count, int) or server_count < 0:
+        raise ValueError("server_count must be a nonnegative integer")
+    for name, value in (("idle_watts", idle_watts), ("peak_watts", peak_watts)):
+        _nonnegative(value, name)
+    if peak_watts < idle_watts:
+        raise ValueError("peak power must be at least idle power")
+    if not isfinite(utilization) or not 0 <= utilization <= 1:
+        raise ValueError("utilization must be between zero and one")
+    return server_count * (idle_watts + utilization * (peak_watts - idle_watts)) / 1000
+
+
+def fleet_tco(server_count, server_price, lifetime_years, facility_capacity_kw,
+              facility_price_per_watt, facility_lifetime_years, facility_pue,
+              price_per_kwh, utilization_periods, annual_other_opex=0):
+    """Annualized, undiscounted server/facility cost plus one year's energy.
+
+    utilization_periods contains (hours, IT kW) pairs that must total exactly
+    8760 hours. Facility capacity is provisioned IT power, in kW; the facility
+    price is per watt of that capacity. Server and facility costs are evenly
+    amortized across their respective lifetimes. Energy uses a constant PUE;
+    annual_other_opex excludes that energy to avoid double-counting. The result
+    is an annual average, not a cash-flow or discounted net-present-value model.
+    """
+    if isinstance(server_count, bool) or not isinstance(server_count, int) or server_count < 0:
+        raise ValueError("server_count must be a nonnegative integer")
+    for name, value in (("server_price", server_price),
+                        ("facility_capacity_kw", facility_capacity_kw),
+                        ("facility_price_per_watt", facility_price_per_watt),
+                        ("price_per_kwh", price_per_kwh),
+                        ("annual_other_opex", annual_other_opex)):
+        _nonnegative(value, name)
+    for value in (lifetime_years, facility_lifetime_years):
+        if not isfinite(value) or value <= 0:
+            raise ValueError("lifetimes must be finite and positive")
+    if not isfinite(facility_pue) or facility_pue < 1:
+        raise ValueError("PUE must be finite and at least one")
+    periods = list(utilization_periods)
+    for hours, it_kw in periods:
+        _nonnegative(hours, "hours")
+        _nonnegative(it_kw, "it_kw")
+        if it_kw > facility_capacity_kw:
+            raise ValueError("IT load exceeds facility capacity")
+    if abs(sum(hours for hours, _ in periods) - 8760) > 1e-8:
+        raise ValueError("periods must cover 8760 hours")
+    it_kwh = sum(hours * it_kw for hours, it_kw in periods)
+    facility_kwh = it_kwh * facility_pue
+    server_annual = server_count * server_price / lifetime_years
+    facility_annual = facility_capacity_kw * 1000 * facility_price_per_watt / facility_lifetime_years
+    energy_annual = facility_kwh * price_per_kwh
+    return {"it_kwh": it_kwh, "facility_kwh": facility_kwh,
+            "server_amortization": server_annual,
+            "facility_amortization": facility_annual,
+            "energy_cost": energy_annual, "other_opex": annual_other_opex,
+            "annual_total": server_annual + facility_annual + energy_annual + annual_other_opex}
+
+
+def hierarchy_path(storage_latency_seconds, storage_bytes_per_second,
+                   storage_capacity_bytes, server_count, links=()):
+    """Describe a tier accessed through serial links with additive fixed latency.
+
+    links is an iterable of (fixed latency in seconds, bandwidth in bytes/s).
+    Throughput is bounded by the slowest storage or link component. Latencies
+    add; per-byte transfer is modeled as a single pipelined bottleneck, without
+    queueing, protocol overhead, or contention. Aggregate capacity assumes all
+    servers contribute independent, equally sized storage without replication.
+    """
+    _nonnegative(storage_latency_seconds, "storage_latency_seconds")
+    _nonnegative(storage_capacity_bytes, "storage_capacity_bytes")
+    if isinstance(server_count, bool) or not isinstance(server_count, int) or server_count <= 0:
+        raise ValueError("server_count must be a positive integer")
+    if not isfinite(storage_bytes_per_second) or storage_bytes_per_second <= 0:
+        raise ValueError("storage bandwidth must be finite and positive")
+    latency = storage_latency_seconds
+    bandwidth = storage_bytes_per_second
+    for link_latency, link_bandwidth in links:
+        _nonnegative(link_latency, "link latency")
+        if not isfinite(link_bandwidth) or link_bandwidth <= 0:
+            raise ValueError("link bandwidth must be finite and positive")
+        latency += link_latency
+        bandwidth = min(bandwidth, link_bandwidth)
+    return {"latency_seconds": latency, "bytes_per_second": bandwidth,
+            "capacity_bytes": storage_capacity_bytes * server_count}
+
+
+def hierarchy_access_time(paths, fractions, bytes_count=0):
+    """Weighted average request time over mutually exclusive hierarchy paths.
+
+    Fractions are unconditional probabilities and must sum to one. Each path
+    uses hierarchy_path's latency and bottleneck bandwidth; requests access one
+    selected tier, and therefore incur no sequential cache-miss probes.
+    """
+    paths = list(paths)
+    fractions = list(fractions)
+    _nonnegative(bytes_count, "bytes_count")
+    if not paths or len(paths) != len(fractions):
+        raise ValueError("one fraction per path is required")
+    for fraction in fractions:
+        _nonnegative(fraction, "fraction")
+    if abs(sum(fractions) - 1) > 1e-12:
+        raise ValueError("fractions must sum to one")
+    return sum(fraction * transfer_time(path["latency_seconds"], bytes_count,
+                                        path["bytes_per_second"])
+               for path, fraction in zip(paths, fractions))
+
+
+def monthly_capital_payment(principal, annual_interest_rate, months):
+    """Monthly level payment for a fully amortized loan at nominal annual rate.
+
+    Interest compounds monthly; principal and payment use the same currency.
+    This is a capital-recovery convention, not a prediction of tax or cash flow.
+    """
+    _nonnegative(principal, "principal")
+    _nonnegative(annual_interest_rate, "annual_interest_rate")
+    if isinstance(months, bool) or not isinstance(months, int) or months <= 0:
+        raise ValueError("months must be a positive integer")
+    rate = annual_interest_rate / 12
+    if rate == 0:
+        return principal / months
+    return principal * rate / -expm1(-months * log1p(rate))
+
+
+def monthly_wsc_cost(critical_it_kw, utilization, facility_pue, price_per_kwh,
+                     capital_assets, annual_interest_rate, monthly_people_cost,
+                     *, hours_per_month=730, server_count=None):
+    """Financed monthly cost of a WSC, separating capital, energy and people.
+
+    capital_assets maps names to (capital cost, amortization months), with all
+    amounts in one currency. Critical load is provisioned IT power; utilization
+    is the average fraction of that load, and PUE applies to average IT power.
+    Monthly energy assumes constant average power and the supplied month length.
+    Principal is financed at a nominal annual rate with monthly compounding.
+    This is a level-payment scenario, not a complete accounting or tax model.
+    """
+    for name, value in (("critical_it_kw", critical_it_kw),
+                        ("price_per_kwh", price_per_kwh),
+                        ("monthly_people_cost", monthly_people_cost),
+                        ("hours_per_month", hours_per_month)):
+        _nonnegative(value, name)
+    if not isfinite(utilization) or not 0 <= utilization <= 1:
+        raise ValueError("utilization must be between zero and one")
+    if not isfinite(facility_pue) or facility_pue < 1:
+        raise ValueError("PUE must be finite and at least one")
+    _nonnegative(annual_interest_rate, "annual_interest_rate")
+    if server_count is not None and (isinstance(server_count, bool) or
+                                     not isinstance(server_count, int) or server_count <= 0):
+        raise ValueError("server_count must be a positive integer")
+    assets = dict(capital_assets)
+    if not assets or any(not isinstance(name, str) or not name for name in assets):
+        raise ValueError("capital assets must have nonempty names")
+    payments = {name: monthly_capital_payment(amount, annual_interest_rate, months)
+                for name, (amount, months) in assets.items()}
+    average_it_kw = critical_it_kw * utilization
+    facility_kw = average_it_kw * facility_pue
+    facility_kwh = facility_kw * hours_per_month
+    electricity = facility_kwh * price_per_kwh
+    total = fsum(payments.values()) + electricity + monthly_people_cost
+    return {"capital_total": fsum(amount for amount, _ in assets.values()),
+            "capital_payments": payments, "average_it_kw": average_it_kw,
+            "facility_kw": facility_kw, "facility_kwh": facility_kwh,
+            "electricity": electricity, "people": monthly_people_cost,
+            "monthly_total": total,
+            "cost_per_server_hour": None if server_count is None or hours_per_month == 0
+                                    else total / (server_count * hours_per_month)}
+
+
+def four_m_carbon(baseline_it_kwh, model_energy_reduction, machine_energy_reduction,
+                  baseline_pue, target_pue, baseline_grid_kg_per_kwh,
+                  target_grid_kg_per_kwh, *, baseline_embodied_kg=0, target_embodied_kg=0):
+    """Compare model, machine, mechanization and map choices for equal work.
+
+    Model and machine reductions are measured multiplicative IT-energy factors,
+    not independent predictions. Mechanization changes PUE; map changes the
+    grid's carbon intensity. Embodied values are caller-allocated to the work
+    and are added separately rather than reduced by operational improvements.
+    """
+    for name, value in (("baseline_it_kwh", baseline_it_kwh),
+                        ("baseline_grid_kg_per_kwh", baseline_grid_kg_per_kwh),
+                        ("target_grid_kg_per_kwh", target_grid_kg_per_kwh),
+                        ("baseline_embodied_kg", baseline_embodied_kg),
+                        ("target_embodied_kg", target_embodied_kg)):
+        _nonnegative(value, name)
+    for name, value in (("model_energy_reduction", model_energy_reduction),
+                        ("machine_energy_reduction", machine_energy_reduction)):
+        if not isfinite(value) or value <= 0:
+            raise ValueError(f"{name} must be finite and positive")
+    if any(not isfinite(v) or v < 1 for v in (baseline_pue, target_pue)):
+        raise ValueError("PUE values must be finite and at least one")
+    base = baseline_it_kwh * baseline_pue * baseline_grid_kg_per_kwh
+    after_model = base / model_energy_reduction
+    after_machine = after_model / machine_energy_reduction
+    after_mechanization = after_machine * target_pue / baseline_pue
+    target_it = baseline_it_kwh / model_energy_reduction / machine_energy_reduction
+    target_operational = target_it * target_pue * target_grid_kg_per_kwh
+    baseline_total = base + baseline_embodied_kg
+    target_total = target_operational + target_embodied_kg
+    return {"baseline_operational_kg": base, "after_model_kg": after_model,
+            "after_machine_kg": after_machine, "after_mechanization_kg": after_mechanization,
+            "target_it_kwh": target_it, "target_facility_kwh": target_it * target_pue,
+            "target_operational_kg": target_operational,
+            "baseline_total_kg": baseline_total, "target_total_kg": target_total,
+            "operational_reduction": None if target_operational == 0 else base / target_operational,
+            "total_reduction": None if target_total == 0 else baseline_total / target_total}

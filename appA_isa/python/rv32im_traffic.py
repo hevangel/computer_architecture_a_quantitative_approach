@@ -43,6 +43,11 @@ def bge(rs1, rs2, offset):
     return (((imm >> 12) & 1) << 31) | (((imm >> 5) & 63) << 25) | (_reg(rs2) << 20) | (_reg(rs1) << 15) | (5 << 12) | (((imm >> 1) & 15) << 8) | (((imm >> 11) & 1) << 7) | 0x63
 
 
+
+def addition_program():
+    """Compute word[2] = word[0] + word[1] with 32-bit wraparound."""
+    return [lw(1, 0, 0), lw(2, 0, 4), alu("add", 3, 1, 2), sw(3, 0, 8), EBREAK]
+
 def expression_program():
     """Compute word[4] = (word[0]+word[1])*(word[2]-word[3]), modulo 2^32."""
     return [lw(1, 0, 0), lw(2, 0, 4), alu("add", 1, 1, 2), lw(2, 0, 8),

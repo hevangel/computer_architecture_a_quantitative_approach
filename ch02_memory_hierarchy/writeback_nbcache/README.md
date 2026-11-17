@@ -15,8 +15,7 @@ become one line write instead of four word writes. Two costs appear:
 
 ## Design
 
-Direct-mapped, 8 sets x 4 words, 8-bit word addresses, a valid and a dirty bit per line; generics as in the write-through version (`NM` MSHRs, `HUM` = 0 blocking,
-`WBD` = write-back buffer depth in **lines**). Memory ([`wb_mem`](sv/wb_mem.sv)) moves whole lines: read latency 10, a line write occupies the port 4 cycles.
+The default is direct-mapped, with 8 sets x 4 words and 8-bit word addresses. `WAYS=2` enables two-way LRU; `FORWARD_WB` enables buffered-victim forwarding. See [`nb_set_assoc_cache`](../nb_set_assoc_cache) for that configuration and its cycle-level reference checks. The other generics match the write-through version (`NM` MSHRs, `HUM` = 0 blocking, `WBD` = write-back buffer depth in **lines**). Memory ([`wb_mem`](sv/wb_mem.sv)) moves whole lines: read latency 10, a line write occupies the port 4 cycles.
 
 * **Hit:** loads answer next cycle; stores update the line and set the dirty bit - no memory traffic.
 * **Miss (load or store):** allocate an MSHR, or join one whose fetch has not returned yet (up to 4 targets per MSHR, loads and stores mixed, kept in program order).
@@ -64,8 +63,8 @@ make test T=writeback_nbcache
 
 ## Exercises
 
-1. Forward from the write-back buffer: let a miss to a line that is parked there read it back instead of waiting for the memory write.
+1. Extend buffered-victim forwarding to model a memory system with delayed write acknowledgments.
 2. Add **critical-word-first** and early restart, and measure the load latency of a miss.
-3. Make the cache 2-way set associative with LRU and compare dirty-eviction traffic on the streams.
+3. Compare direct-mapped and two-way LRU dirty-eviction traffic at equal total capacity.
 4. Add a per-word dirty mask and write back only the dirty words (a *sectored* write-back), and count memory bandwidth.
 5. Replace the install stall with a victim fetched *before* it is needed (eviction at fetch time) and compare latencies when the write-back buffer is full.

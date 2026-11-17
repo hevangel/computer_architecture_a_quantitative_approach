@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal, localcontext
 import unittest
 
 import io_queueing_unit as q
@@ -38,6 +39,41 @@ class QueueingTests(unittest.TestCase):
         tiny = q.rebuild_loss_probability(3, 2, 1e-8, 1e-3)
         expected = math.expm1(math.log1p(-1e-8) * 1e-3) ** 2
         self.assertLess(abs(tiny / expected - 1), 1e-12)
+
+    def test_sixth_edition_disk_queue_examples(self):
+        # Appendix D.5, pp. 884-886: 40 I/Os/s, exponential service.
+        old = q.mm1(40, 50)
+        fast = q.mm1(40, 100)
+        mirrored = q.mmm(40, 50, 2)
+        for actual, expected in zip(old, (0.8, 0.08, 0.1)):
+            self.assertAlmostEqual(actual, expected, places=12)
+        for actual, expected in zip(fast, (0.4, 1 / 150, 1 / 60)):
+            self.assertAlmostEqual(actual, expected, places=12)
+        for actual, expected in zip(mirrored, (0.4, 8 / 35, 2 / 525, 1 / 42)):
+            self.assertAlmostEqual(actual, expected, places=12)
+        self.assertAlmostEqual(old[2] / fast[2], 6)
+        self.assertAlmostEqual(old[1] / mirrored[2], 21)
+        self.assertAlmostEqual(q.mm1(45, 50)[2], 0.2)
+        self.assertGreater(q.mm1(49, 50)[2], 0.9)
+
+    def test_raid6_mttdl_against_expanded_decimal_formula(self):
+        # Independent closed form for states 0, 1, 2, loss with repairs.
+        with localcontext() as ctx:
+            ctx.prec = 60
+            for disks, afr_text, repair_text in ((4, "0.02", "0.5"),
+                                                  (12, "0.00000001", "0.001"),
+                                                  (24, "0.1", "0.02")):
+                n = Decimal(disks)
+                afr = Decimal(afr_text)
+                rate = -(Decimal(1) - afr).ln()
+                mu = 1 / Decimal(repair_text)
+                expected = (1 / (n * rate) + 1 / ((n - 1) * rate)
+                            + 1 / ((n - 2) * rate)
+                            + mu / (n * (n - 1) * rate**2)
+                            + mu / ((n - 1) * (n - 2) * rate**2)
+                            + mu**2 / (n * (n - 1) * (n - 2) * rate**3))
+                actual = q.raid_mttdl(disks, 2, float(afr), float(repair_text))
+                self.assertLess(abs(Decimal.from_float(actual) / expected - 1), Decimal("1e-9"))
 
     def test_invalid_inputs(self):
         for call in (lambda: q.mm1(10, 10), lambda: q.mmm(4, 2, 2),

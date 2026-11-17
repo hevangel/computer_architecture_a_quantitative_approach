@@ -1,0 +1,178 @@
+`timescale 1ns/1ps
+module tb_cache_3c_policies;
+ logic clk=0,reset=0,valid=0; logic [7:0] address=0;
+ wire [10:0] hit; wire [1:0] kind[0:10]; wire [31:0] ac[0:10],cc[0:10],kc[0:10],fc[0:10];
+ always #5 clk=~clk;
+ cache_3c_policies #(.SETS(4),.ASSOC(1),.POLICY(0)) d0 (clk,reset,valid,address,hit[0],kind[0],ac[0],cc[0],kc[0],fc[0]);
+ cache_3c_policies #(.SETS(2),.ASSOC(2),.POLICY(0)) d1 (clk,reset,valid,address,hit[1],kind[1],ac[1],cc[1],kc[1],fc[1]);
+ cache_3c_policies #(.SETS(1),.ASSOC(3),.POLICY(0)) d2 (clk,reset,valid,address,hit[2],kind[2],ac[2],cc[2],kc[2],fc[2]);
+ cache_3c_policies #(.SETS(1),.ASSOC(4),.POLICY(0)) d3 (clk,reset,valid,address,hit[3],kind[3],ac[3],cc[3],kc[3],fc[3]);
+ cache_3c_policies #(.SETS(1),.ASSOC(4),.POLICY(1)) d4 (clk,reset,valid,address,hit[4],kind[4],ac[4],cc[4],kc[4],fc[4]);
+ cache_3c_policies #(.SETS(1),.ASSOC(4),.POLICY(2)) d5 (clk,reset,valid,address,hit[5],kind[5],ac[5],cc[5],kc[5],fc[5]);
+ cache_3c_policies #(.SETS(1),.ASSOC(4),.POLICY(3)) d6 (clk,reset,valid,address,hit[6],kind[6],ac[6],cc[6],kc[6],fc[6]);
+ cache_3c_policies #(.SETS(1),.ASSOC(3),.POLICY(3)) d7 (clk,reset,valid,address,hit[7],kind[7],ac[7],cc[7],kc[7],fc[7]);
+ cache_3c_policies #(.SETS(1),.ASSOC(3),.POLICY(2)) d8 (clk,reset,valid,address,hit[8],kind[8],ac[8],cc[8],kc[8],fc[8]);
+ cache_3c_policies #(.SETS(2),.ASSOC(2),.POLICY(3)) d9 (clk,reset,valid,address,hit[9],kind[9],ac[9],cc[9],kc[9],fc[9]);
+ cache_3c_policies #(.SETS(4),.ASSOC(1),.POLICY(3)) d10 (clk,reset,valid,address,hit[10],kind[10],ac[10],cc[10],kc[10],fc[10]);
+ integer expected[0:2][0:10][0:2]; logic [511:0] expected_kind[0:2][0:10]; integer misses[0:10];
+ initial begin
+  expected_kind[0][7]=512'h22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222255;
+  expected[0][7][0]=4;
+  expected[0][7][1]=126;
+  expected[0][7][2]=0;
+  expected_kind[0][8]=512'h82a088aa2088820a2820820a0a0aa2082882082282a88a0a0a0a82a8288208a822082a2a2a08208a88a888220822228a28820828282082a22a2088a088a0a055;
+  expected[0][8][0]=4;
+  expected[0][8][1]=129;
+  expected[0][8][2]=0;
+  expected_kind[0][9]=512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55;
+  expected[0][9][0]=4;
+  expected[0][9][1]=0;
+  expected[0][9][2]=252;
+  expected_kind[0][10]=512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55;
+  expected[0][10][0]=4;
+  expected[0][10][1]=0;
+  expected[0][10][2]=252;
+  expected_kind[1][7]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa955;
+  expected[1][7][0]=5;
+  expected[1][7][1]=251;
+  expected[1][7][2]=0;
+  expected_kind[1][8]=512'haa2a2282a88a8aaaa8aa2a0a2828a8a8a2a2a2288aa8a2a2a28aaa82a0a28aaaaa0a2aa0a82a22a22a28aa8aa2a8aaa8a2a0a2a82aaaaaa0aaa28aaa2a8a8155;
+  expected[1][8][0]=5;
+  expected[1][8][1]=185;
+  expected[1][8][2]=0;
+  expected_kind[1][9]=512'ha2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288955;
+  expected[1][9][0]=5;
+  expected[1][9][1]=151;
+  expected[1][9][2]=0;
+  expected_kind[1][10]=512'ha0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280955;
+  expected[1][10][0]=5;
+  expected[1][10][1]=101;
+  expected[1][10][2]=0;
+  expected_kind[2][7]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected[2][7][0]=10;
+  expected[2][7][1]=246;
+  expected[2][7][2]=0;
+  expected_kind[2][8]=512'haaa8a2aa2aa2aaaaaa2a2aa2aaaaa2aa2aaaaaaa2aaaaaa2aaaaaaaaa2aaaaaaaaaaaaaaaaaaa2a2aaa2aaa2a2aaaa2aaaa2aaaaa2aaaaaa82aaa8aa999a5155;
+  expected[2][8][0]=10;
+  expected[2][8][1]=222;
+  expected[2][8][2]=0;
+  expected_kind[2][9]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected[2][9][0]=10;
+  expected[2][9][1]=246;
+  expected[2][9][2]=0;
+  expected_kind[2][10]=512'haa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2991a5155;
+  expected[2][10][0]=10;
+  expected[2][10][1]=204;
+  expected[2][10][2]=0;
+  expected_kind[0][0]=512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55;
+  expected_kind[0][1]=512'hffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55;
+  expected_kind[0][2]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55;
+  expected_kind[0][3]=512'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055;
+  expected_kind[0][4]=512'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055;
+  expected_kind[0][5]=512'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055;
+  expected_kind[0][6]=512'h00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055;
+  expected_kind[1][0]=512'ha0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280a0280955;
+  expected_kind[1][1]=512'ha2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288a2288955;
+  expected_kind[1][2]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa955;
+  expected_kind[1][3]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa955;
+  expected_kind[1][4]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa955;
+  expected_kind[1][5]=512'h2280a8828aa20280888828880a88a08820228202208820a028a080828a080820a0820a0a820280aa282282022202222022202080a02808882888088882822155;
+  expected_kind[1][6]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa8955;
+  expected_kind[2][0]=512'haa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2aa2991a5155;
+  expected_kind[2][1]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected_kind[2][2]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected_kind[2][3]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected_kind[2][4]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected_kind[2][5]=512'h2a2a0aaa2a22aa2a22aaa88a2aa0aa2aaaaaaa8aaaaaaa2aaa28222a28a2aa28a2aaaaaaaa22aa2aa2aa2a2aaaaa20aa2a82aaaaaaaaaaaaaa2aa8aa99985155;
+  expected_kind[2][6]=512'haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa999a5955;
+  expected[0][0][0]=4;
+  expected[0][0][1]=0;
+  expected[0][0][2]=252;
+  expected[0][1][0]=4;
+  expected[0][1][1]=0;
+  expected[0][1][2]=252;
+  expected[0][2][0]=4;
+  expected[0][2][1]=252;
+  expected[0][2][2]=0;
+  expected[0][3][0]=4;
+  expected[0][3][1]=0;
+  expected[0][3][2]=0;
+  expected[0][4][0]=4;
+  expected[0][4][1]=0;
+  expected[0][4][2]=0;
+  expected[0][5][0]=4;
+  expected[0][5][1]=0;
+  expected[0][5][2]=0;
+  expected[0][6][0]=4;
+  expected[0][6][1]=0;
+  expected[0][6][2]=0;
+  expected[1][0][0]=5;
+  expected[1][0][1]=101;
+  expected[1][0][2]=0;
+  expected[1][1][0]=5;
+  expected[1][1][1]=151;
+  expected[1][1][2]=0;
+  expected[1][2][0]=5;
+  expected[1][2][1]=251;
+  expected[1][2][2]=0;
+  expected[1][3][0]=5;
+  expected[1][3][1]=251;
+  expected[1][3][2]=0;
+  expected[1][4][0]=5;
+  expected[1][4][1]=251;
+  expected[1][4][2]=0;
+  expected[1][5][0]=5;
+  expected[1][5][1]=110;
+  expected[1][5][2]=0;
+  expected[1][6][0]=5;
+  expected[1][6][1]=250;
+  expected[1][6][2]=0;
+  expected[2][0][0]=10;
+  expected[2][0][1]=204;
+  expected[2][0][2]=0;
+  expected[2][1][0]=10;
+  expected[2][1][1]=246;
+  expected[2][1][2]=0;
+  expected[2][2][0]=10;
+  expected[2][2][1]=246;
+  expected[2][2][2]=0;
+  expected[2][3][0]=10;
+  expected[2][3][1]=246;
+  expected[2][3][2]=0;
+  expected[2][4][0]=10;
+  expected[2][4][1]=246;
+  expected[2][4][2]=0;
+  expected[2][5][0]=10;
+  expected[2][5][1]=201;
+  expected[2][5][2]=0;
+  expected[2][6][0]=10;
+  expected[2][6][1]=246;
+  expected[2][6][2]=0;
+  for(integer trace=0;trace<3;trace=trace+1) begin
+   for(integer d=0;d<11;d=d+1) misses[d]=0;
+   @(negedge clk); reset=1; valid=0; @(negedge clk); reset=0; valid=1;
+   for(integer i=0;i<256;i=i+1) begin
+    case(trace)
+     0:address=8'((i%4)*4);
+     1:address=8'(i%5);
+     2:address=8'(((i*13)^(i/3))%16);
+    endcase
+    @(negedge clk);
+    for(integer d=0;d<11;d=d+1) begin
+     if(hit[d] !== (kind[d]==0)) $fatal(1,"hit/classification disagreement");
+     if(kind[d] !== expected_kind[trace][d][2*i+:2]) $fatal(1,"classification trace %0d config %0d access %0d",trace,d,i);
+     if(!hit[d]) misses[d]=misses[d]+1;
+    end
+   end
+   valid=0;
+   for(integer d=0;d<11;d=d+1) begin
+    if(ac[d]!=256 || cc[d]!=expected[trace][d][0] || kc[d]!=expected[trace][d][1] || fc[d]!=expected[trace][d][2])
+      $fatal(1,"trace %0d config %0d: got %0d/%0d/%0d",trace,d,cc[d],kc[d],fc[d]);
+    if(cc[d]+kc[d]+fc[d]!=misses[d]) $fatal(1,"invalid totals");
+   end
+   if(trace==0 && !(fc[3]<fc[0])) $fatal(1,"associativity conflict comparison");
+  end
+  $display("TEST PASSED"); $finish;
+ end
+ initial begin #50000; $fatal(1,"timeout"); end
+endmodule

@@ -54,6 +54,11 @@ def beq(rs, rt, offset_words):
     return _i(4, rt, rs, offset_words)
 
 
+
+def addition_program():
+    """Compute word[2] = word[0] + word[1] with 64-bit wraparound."""
+    return [ld(1, 0, 0), ld(2, 0, 8), r_type("daddu", 3, 1, 2), sd(3, 0, 16), BREAK]
+
 def expression_program():
     return [ld(1, 0, 0), ld(2, 0, 8), r_type("daddu", 1, 1, 2), ld(2, 0, 16),
             ld(3, 0, 24), r_type("dsubu", 2, 2, 3), dmult(1, 2), mflo(1), sd(1, 0, 32), BREAK]

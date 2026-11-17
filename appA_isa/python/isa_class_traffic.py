@@ -18,6 +18,25 @@ SIZES = {
 }
 
 
+
+def addition_program(style):
+    """C=A+B in the four ISA classes (A=word 0, B=word 1, C=word 2).
+
+    The instruction bodies follow the operand conventions in the 5th edition,
+    Appendix A, Fig. A.2. A halt is appended for this interpreter and is not
+    part of the illustrated instruction sequence.
+    """
+    if style == "stack":
+        return [("load", 0), ("load", 1), ("add",), ("store", 2), ("halt",)]
+    if style == "accumulator":
+        return [("load", 0), ("add", 1), ("store", 2), ("halt",)]
+    if style == "register_memory":
+        return [("load", 1, 0), ("add", 3, 1, 1), ("store", 3, 2), ("halt",)]
+    if style == "load_store":
+        return [("load", 1, 0), ("load", 2, 1), ("add", 3, 1, 2),
+                ("store", 3, 2), ("halt",)]
+    raise ValueError("unknown ISA style")
+
 def expression_program(style):
     """Program computing memory[4] = (memory[0]+memory[1])*(memory[2]-memory[3])."""
     if style == "stack":
@@ -65,16 +84,20 @@ def sort_program(style, length):
     return program + [("halt",)]
 
 
-def execute(style, program, initial_memory, max_instructions=100000):
+def execute(style, program, initial_memory, max_instructions=100000, *, stack_storage="memory"):
     """Execute program and return memory and static/dynamic traffic counters.
 
     Branch targets are instruction indices. Undefined data words read as zero;
     stack underflow, invalid register indices, bad opcodes and bad branches fail.
-    Stack reads/writes are counted as data traffic, so they can be compared to
-    explicit memory operations instead of treating an infinite stack as free.
+    stack_storage is "memory" (each push/pop adds data traffic) or "internal"
+    (stack accesses are internal to the CPU). Memory operand accesses count in
+    either mode. Internal storage is a traffic abstraction without capacity or
+    spill modeling; the non-stack machines use only the default option.
     """
     if style not in STYLES:
         raise ValueError("unknown ISA style")
+    if stack_storage not in ("memory", "internal") or (style != "stack" and stack_storage != "memory"):
+        raise ValueError("invalid stack storage mode")
     if not isinstance(max_instructions, int) or max_instructions <= 0:
         raise ValueError("max_instructions must be a positive integer")
     code = list(program)
@@ -101,12 +124,14 @@ def execute(style, program, initial_memory, max_instructions=100000):
         nonlocal reads
         if not stack:
             raise ValueError("stack underflow")
-        reads += WORD_BYTES
+        if stack_storage == "memory":
+            reads += WORD_BYTES
         return stack.pop()
 
     def push(value):
         nonlocal writes
-        writes += WORD_BYTES
+        if stack_storage == "memory":
+            writes += WORD_BYTES
         stack.append(value)
 
     def reg(index):
@@ -155,7 +180,12 @@ def execute(style, program, initial_memory, max_instructions=100000):
         elif style == "accumulator":
             left, right = accumulator, read(args[0])
         elif style == "register_memory":
-            left, right = reg(args[0]), read(args[1])
+            # Two-operand operations update their first register. An arithmetic
+            # three-operand form writes a distinct destination, as in Fig. A.2.
+            if op != "cmp" and len(args) == 3:
+                left, right = reg(args[1]), read(args[2])
+            else:
+                left, right = reg(args[0]), read(args[1])
         else:
             left, right = (reg(args[0]), reg(args[1])) if op == "cmp" else (reg(args[1]), reg(args[2]))
         if op == "cmp":
@@ -183,18 +213,21 @@ if __name__ == "__main__":
     import rv32im_traffic as rv
     for style in STYLES:
         for name, program, values in (
+            ("addition", addition_program(style), [2, 3]),
             ("expression", expression_program(style), [2, 3, 11, 7]),
             ("sort", sort_program(style, 4), [4, 1, 3, 2]),
         ):
             print(json.dumps({"style": style, "kernel": name,
                               **execute(style, program, dict(enumerate(values)))}))
     for name, program, values in (
+        ("addition", rv.addition_program(), [2, 3]),
         ("expression", rv.expression_program(), [2, 3, 11, 7]),
         ("sort", rv.sort_program(4), [4, 1, 3, 2]),
     ):
         print(json.dumps({"style": "rv32im", "kernel": name,
                           **rv.execute(program, {4 * i: value for i, value in enumerate(values)})}))
     for name, program, values in (
+        ("addition", mips.addition_program(), [2, 3]),
         ("expression", mips.expression_program(), [2, 3, 11, 7]),
         ("sort", mips.sort_program(4), [4, 1, 3, 2]),
     ):

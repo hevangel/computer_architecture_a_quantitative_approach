@@ -1,11 +1,13 @@
 // Atomic read-modify-write and spin locks on a snooping bus (Chapter 5: synchronization).
 //
 // P cores share a write-invalidate (MSI) snooping bus.  Each core repeats N times:   acquire the lock; critical section = { load counter, CS_LEN cycles of work, store counter+1 };
-// release; think NT cycles.  Three locks, selected by LOCK:
+// release; think NT cycles.  Lock modes, selected by LOCK:
 //   0 TAS     test-and-set: spin on an ATOMIC EXCHANGE (xchg L,1) until it returns 0.  Every attempt needs the line in M, so contending cores steal it from each other: bus traffic per spin.
 //   1 TTAS    test-and-test-and-set: spin with plain LOADS (the line stays Shared in every spinner's cache: no bus traffic) and issue the atomic exchange only when the lock reads 0.
 //   2 TICKET  ticket lock: FETCH-AND-ADD on the ticket counter gives each core a number; spin with loads on now_serving until it equals the number; release stores number+1 (FIFO order).
 //   3 NONE    no lock (a control: the critical sections overlap and increments are lost).
+//   4 BACKOFF TTAS using LR/SC and bounded exponential delay after a failed reservation.
+//   5 LRSC    the same LR/SC TTAS without the backoff, for comparison.
 // Memory system: 3 lines (0 = lock / next ticket, 1 = now serving, 2 = counter).  Coherence STATES (I/S/M) of every line in every cache decide the bus traffic; the VALUES live in one coherent
 // memory image, and a memory operation performs atomically at the cycle it hits in the cache or completes on the bus.
 //   * An operation that HITS (LD in S or M, ST / atomic in M) takes 1 cycle and no bus traffic.
@@ -32,16 +34,18 @@ module spinlock_bench #(
     output logic [P-1:0]        tick_pulse                // core k drew a ticket (one cycle)
 );
   localparam int NL = 3;
-  localparam int S_THINK = 0, S_ACQ = 1, S_TT_RD = 2, S_TT_X = 3, S_TK_FAA = 4, S_TK_SPIN = 5, S_C_LD = 6, S_WORK = 7, S_C_ST = 8, S_REL = 9, S_DONE = 10;
-  localparam int FIRST = (LOCK == 0) ? S_ACQ : (LOCK == 1) ? S_TT_RD : (LOCK == 2) ? S_TK_FAA : S_C_LD;
+  localparam int S_THINK = 0, S_ACQ = 1, S_TT_RD = 2, S_TT_X = 3, S_TK_FAA = 4, S_TK_SPIN = 5, S_C_LD = 6, S_WORK = 7, S_C_ST = 8, S_REL = 9, S_DONE = 10, S_BACKOFF = 11, S_TT_LR = 12, S_TT_SC = 13;
+  localparam int FIRST = (LOCK == 0) ? S_ACQ : (LOCK == 1 || LOCK == 4 || LOCK == 5) ? S_TT_RD : (LOCK == 2) ? S_TK_FAA : S_C_LD;
   localparam logic [1:0] M_I = 2'd0, M_S = 2'd1, M_M = 2'd2;
 
   logic [3:0]  fs   [0:P-1];
   int          cnt  [0:P-1];
   int          itn  [0:P-1];
+  int          backoff [0:P-1];
   logic [31:0] my   [0:P-1];
   logic [31:0] tmp  [0:P-1];
   logic        in_cs [0:P-1];
+  logic        reserved [0:P-1];
   logic [1:0]  cst  [0:P*NL-1];
   logic [31:0] val  [0:NL-1];
   logic        busy;
@@ -61,6 +65,8 @@ module spinlock_bench #(
         S_ACQ:     begin opt[k] = 2'd2; opl[k] = 2'd0; end
         S_TT_RD:   begin opt[k] = 2'd0; opl[k] = 2'd0; end
         S_TT_X:    begin opt[k] = 2'd2; opl[k] = 2'd0; end
+        S_TT_LR:   begin opt[k] = 2'd0; opl[k] = 2'd0; end
+        S_TT_SC:   begin opt[k] = 2'd3; opl[k] = 2'd0; if (!reserved[k]) opv[k]=1'b0; end
         S_TK_FAA:  begin opt[k] = 2'd2; opl[k] = 2'd0; end
         S_TK_SPIN: begin opt[k] = 2'd0; opl[k] = 2'd1; end
         S_C_LD:    begin opt[k] = 2'd0; opl[k] = 2'd2; end
@@ -91,11 +97,25 @@ module spinlock_bench #(
         val[0] <= 32'd1;
         if (old == 0) begin fs[k] <= S_C_LD; in_cs[k] <= 1'b1; acq_pulse[k] <= 1'b1; end
       end
-      S_TT_RD: if (old == 0) fs[k] <= S_TT_X;
+      S_TT_RD: if (old == 0) fs[k] <= (LOCK == 4 || LOCK == 5) ? S_TT_LR : S_TT_X;
+      S_TT_LR: if (old == 0) begin reserved[k]<=1; fs[k]<=S_TT_SC; end else fs[k]<=S_TT_RD;
+      S_TT_SC: begin
+        reserved[k]<=0;
+        if (reserved[k] && old == 0) begin
+          val[0]<=1; fs[k]<=S_C_LD; in_cs[k]<=1; acq_pulse[k]<=1; backoff[k]<=1;
+        end else if (LOCK == 5) fs[k]<=S_TT_RD;
+        else begin
+          fs[k]<=S_BACKOFF; cnt[k]<=backoff[k]*(k+1);
+          if(backoff[k]<32) backoff[k]<=backoff[k]*2;
+        end
+      end
       S_TT_X: begin
         val[0] <= 32'd1;
-        if (old == 0) begin fs[k] <= S_C_LD; in_cs[k] <= 1'b1; acq_pulse[k] <= 1'b1; end
-        else fs[k] <= S_TT_RD;
+        if (old == 0) begin fs[k] <= S_C_LD; in_cs[k] <= 1'b1; acq_pulse[k] <= 1'b1; backoff[k] <= 1; end
+        else if (LOCK == 4) begin
+          fs[k] <= S_BACKOFF; cnt[k] <= backoff[k] * (k+1);
+          if (backoff[k] < 32) backoff[k] <= backoff[k] * 2;
+        end else fs[k] <= S_TT_RD;
       end
       S_TK_FAA: begin val[0] <= old + 1; my[k] <= old; fs[k] <= S_TK_SPIN; tick_pulse[k] <= 1'b1; end
       S_TK_SPIN: if (old == my[k]) begin fs[k] <= S_C_LD; in_cs[k] <= 1'b1; acq_pulse[k] <= 1'b1; end
@@ -123,7 +143,7 @@ module spinlock_bench #(
     if (!rst_n) begin
       busy <= 1'b0;  owner <= 0;  rem <= 0;  rr <= P - 1;
       stat_rd <= '0;  stat_rdx <= '0;  stat_cycles <= '0;  acq_pulse <= '0;  tick_pulse <= '0;
-      for (int k = 0; k < P; k++) begin fs[k] <= FIRST; cnt[k] <= 0; itn[k] <= 0; my[k] <= '0; tmp[k] <= '0; in_cs[k] <= (LOCK == 3); end
+      for (int k = 0; k < P; k++) begin fs[k] <= FIRST; cnt[k] <= 0; itn[k] <= 0; backoff[k] <= 1; reserved[k] <= 0; my[k] <= '0; tmp[k] <= '0; in_cs[k] <= (LOCK == 3); end
       for (int i = 0; i < P*NL; i++) cst[i] <= M_I;
       for (int l = 0; l < NL; l++) val[l] <= '0;
     end else begin
@@ -132,6 +152,14 @@ module spinlock_bench #(
       // cores: think / work counters, and operations that hit
       for (int k = 0; k < P; k++) begin
         if (int'(fs[k]) == S_THINK) begin if (cnt[k] <= 1) begin fs[k] <= FIRST; if (LOCK == 3) in_cs[k] <= 1'b1; end else cnt[k] <= cnt[k] - 1; end
+        else if (int'(fs[k]) == S_TT_SC && !reserved[k]) begin
+          if (LOCK == 5) fs[k] <= S_TT_RD;
+          else begin
+            fs[k] <= S_BACKOFF; cnt[k] <= backoff[k] * (k+1);
+            if (backoff[k] < 32) backoff[k] <= backoff[k] * 2;
+          end
+        end
+        else if (int'(fs[k]) == S_BACKOFF) begin if (cnt[k] <= 1) fs[k] <= S_TT_RD; else cnt[k] <= cnt[k] - 1; end
         else if (int'(fs[k]) == S_WORK) begin if (cnt[k] <= 1) fs[k] <= S_C_ST; else cnt[k] <= cnt[k] - 1; end
         else if (opv[k] && hit[k] && !(busy && owner == k)) perform(k);
       end
@@ -147,7 +175,10 @@ module spinlock_bench #(
           cst[grant*NL + int'(opl[grant])] <= M_S;
         end else begin
           stat_rdx <= stat_rdx + 1;
-          for (int j = 0; j < P; j++) if (j != grant) cst[j*NL + int'(opl[grant])] <= M_I;
+          for (int j = 0; j < P; j++) if (j != grant) begin
+            cst[j*NL + int'(opl[grant])] <= M_I;
+            if (opl[grant] == 0) reserved[j] <= 0;
+          end
           cst[grant*NL + int'(opl[grant])] <= M_M;
         end
       end

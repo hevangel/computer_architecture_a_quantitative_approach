@@ -13,4 +13,4 @@ appendix.)
 | [`restoring_divider`](restoring_divider) | shift-subtract division, one quotient bit per cycle |
 | [`csa_wallace_skip_select`](csa_wallace_skip_select) | carry-skip and carry-select adders and a carry-save multiplier |
 
-Planned: IEEE 754 single-precision adder and multiplier, SRT division, fused multiply-add.
+A [binary32 and low-precision arithmetic reference](ieee754_fpu_fma_bf16/README.md) includes an exact Python model and a tested SystemVerilog prototype. The VHDL counterpart and SRT division remain planned.
