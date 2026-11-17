@@ -11,5 +11,6 @@ appendix.)
 | [`carry_lookahead_adder`](carry_lookahead_adder) | generate/propagate, two-level lookahead |
 | [`booth_multiplier`](booth_multiplier) | radix-4 Booth recoding, 8 partial products for 16 bits |
 | [`restoring_divider`](restoring_divider) | shift-subtract division, one quotient bit per cycle |
+| [`csa_wallace_skip_select`](csa_wallace_skip_select) | carry-skip and carry-select adders and a carry-save multiplier |
 
 Planned: IEEE 754 single-precision adder and multiplier, SRT division, fused multiply-add.

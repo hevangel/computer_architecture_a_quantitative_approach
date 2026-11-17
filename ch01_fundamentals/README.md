@@ -16,6 +16,10 @@ supplies the vocabulary and the equations used everywhere else.
 | Example | What it shows |
 |---------|---------------|
 | [`amdahl_speedup`](amdahl_speedup) | Amdahl's Law as a fixed-point hardware unit |
+| [`cpi_power_counters`](cpi_power_counters) | CPI, stall classes and activity-based energy counters |
+
+The separate [Python quantitative models](python/README.md) explore die yield,
+packaging cost, reliability, power, carbon and benchmark summaries.
 
 Further performance-equation examples live with the machines that produce the numbers: the CPI breakdown in
 [`appC_pipelining/rv32i_pipeline5`](../appC_pipelining/rv32i_pipeline5) is the CPU-time equation in action.

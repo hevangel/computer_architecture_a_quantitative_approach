@@ -13,10 +13,10 @@ reorder buffer, multiple issue.
 | Example | What it shows |
 |---------|---------------|
 | [`branch_predictor`](branch_predictor) | 1-bit, 2-bit and gshare predictors on the same trace |
+| [`tournament_btb_ras`](tournament_btb_ras) | local/global tournament prediction, target buffer and return stack |
 | [`scoreboard`](scoreboard) | CDC 6600 scoreboard: RAW / WAR / WAW / structural stalls, no renaming |
 | [`tomasulo_spec`](tomasulo_spec) | Tomasulo + speculation: branch prediction, commit-time flush, wrong-path safety |
 | [`tomasulo_lsq`](tomasulo_lsq) | + load/store queue: stores at commit, memory disambiguation, store-to-load forwarding |
 | [`tomasulo_rob`](tomasulo_rob) | reservation stations, CDB, renaming, reorder buffer; out-of-order completion, in-order commit |
 
-Planned: tournament predictor and BTB, dual-issue
-superscalar (see [`docs/roadmap.md`](../docs/roadmap.md)).
+Planned: dual-issue superscalar and further work in [`docs/roadmap.md`](../docs/roadmap.md).
