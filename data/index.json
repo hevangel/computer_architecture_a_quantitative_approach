@@ -1,7 +1,7 @@
 {
   "title": "Computer Architecture: A Quantitative Approach",
   "eyebrow": "Hardware examples · SystemVerilog + VHDL",
-  "description": "Browse 62 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
+  "description": "Browse 63 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
   "labels": {
     "skip": "Skip to content",
     "navigation": "Chapters and appendices",
@@ -1711,6 +1711,33 @@
             {
               "path": "appJ_arithmetic/restoring_divider/vhdl/tb_restoring_divider.vhd",
               "title": "VHDL · tb_restoring_divider.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appJ_arithmetic/ieee754_fpu_fma_bf16",
+          "title": "Binary32 and Low-Precision FMA",
+          "description": "add, multiply, and fused multiply-add with four rounding modes and scaled BF16/FP8 operands",
+          "sources": [
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/sv/ieee754_fpu_fma_bf16.sv",
+              "title": "SystemVerilog · ieee754_fpu_fma_bf16.sv"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/sv/tb_ieee754_fpu_fma_bf16.sv",
+              "title": "SystemVerilog · tb_ieee754_fpu_fma_bf16.sv"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/ieee754_fpu_fma_bf16.vhd",
+              "title": "VHDL · ieee754_fpu_fma_bf16.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/tb_ieee754_fpu_fma_bf16.vhd",
+              "title": "VHDL · tb_ieee754_fpu_fma_bf16.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/python/fp_reference.py",
+              "title": "Python · fp_reference.py"
             }
           ]
         }

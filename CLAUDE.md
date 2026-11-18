@@ -15,7 +15,7 @@ Toolchain: `iverilog` 12 (SystemVerilog, `-g2012`), `ghdl` 4.x mcode (VHDL, `--s
 Python 3 (stdlib only). Install with `apt-get install iverilog ghdl verilator`.
 
 ```bash
-make test                          # all examples, both languages (124 checks in the current tree)
+make test                          # all examples, both languages (126 checks in the current tree)
 make test T=set_assoc_cache        # one example: T is a substring filter on the path (several words allowed)
 make test-sv T=ch03                # one language, one chapter  (also: make test-vhdl)
 make list                          # show discovered examples

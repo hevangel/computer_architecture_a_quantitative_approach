@@ -70,7 +70,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Instruction set principles and ISA survey | [`appA_isa`](../appA_isa) | 1st Ch 3–4; 5th–7th App A and K | synthetic classes, RV32IM and MIPS64 subsets; partial compressed decoding |
 | Compressed RV32C subset and fetch | [`appA_isa/rvc_compressed_decoder`](../appA_isa/rvc_compressed_decoder) | 6th App A and K.2 | done for listed subset; pipeline integration planned |
 | Embedded systems and DSPs | [`appE_embedded`](../appE_embedded) | 5th–7th App E | fixed-point DSP datapath tested |
-| Vector processors in depth | [`ch04_dlp`](../ch04_dlp) | 1st Ch 7; 5th–7th App G | partial; bank conflicts and gather/scatter planned |
+| Vector processors in depth | [`ch04_dlp`](../ch04_dlp) | 1st Ch 7; 5th–7th App G | bank conflicts and gather/scatter in a bounded vector memory model |
 | Roofline and loop dependence | [`ch04_dlp/python`](../ch04_dlp/python/README.md) | 7th Ch 4 §§4.3–4.5, 4.7 | partial Python models |
 | Large-scale multiprocessors | [`ch05_tlp`](../ch05_tlp) | 5th–7th App I | partial; transient coherence and scalable synchronization planned |
 | Advanced address translation | [`ch02_memory_hierarchy/nested_pt_walker`](../ch02_memory_hierarchy/nested_pt_walker) | 6th–7th App L | serialized nested walker, superpages, page-walk cache and ASIDs; permissions and shootdowns remain |
@@ -93,7 +93,7 @@ edition used a different ISA the example is provided for that ISA too (or is on 
 | Streaming 3×3 convolution | [`ch07_dsa/conv2d_linebuffer`](../ch07_dsa/conv2d_linebuffer) | 6-7 Ch 7 §7.3 | done |
 | Output-stationary matrix unit, activation and quantization | [`ch07_dsa/systolic_os_act_quant`](../ch07_dsa/systolic_os_act_quant) | 6-7 Ch 7 §§7.3–7.4 | done; fixed-point teaching model |
 | Computer arithmetic: CLA, Booth, division | [`appJ_arithmetic`](../appJ_arithmetic) | 1-7 (appendix) | done |
-| Binary32 and low-precision FMA | [`appJ_arithmetic/ieee754_fpu_fma_bf16`](../appJ_arithmetic/ieee754_fpu_fma_bf16) | 7th App J.3–J.7; Ch 7 | exact Python reference and tested SystemVerilog prototype, with VHDL pending |
+| Binary32 and low-precision FMA | [`appJ_arithmetic/ieee754_fpu_fma_bf16`](../appJ_arithmetic/ieee754_fpu_fma_bf16) | 7th App J.3–J.7; Ch 7 | paired HDL with a shared exact Python reference |
 | Carry-skip / carry-select / carry-save arithmetic | [`appJ_arithmetic/csa_wallace_skip_select`](../appJ_arithmetic/csa_wallace_skip_select) | 7th App J.8–J.9 | done |
 | ECC, RAID parity, symbol correction and DMA coherence | [`appD_storage`](../appD_storage) | 1-7 (main chapter through 4th, then supplemental) | done |
 | I/O queueing, rebuild-window probability and MTTDL | [`appD_storage/python`](../appD_storage/python/README.md) | 5-7 App D.4–D.5 | Python models with explicit reliability assumptions |

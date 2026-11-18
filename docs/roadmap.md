@@ -3,7 +3,7 @@
 Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking testbench passing in `make test`.
 **planned** = not started. Nothing is marked done unless it is in the tree and tested.
 
-## Implemented examples (62 examples, 124 testbenches)
+## Implemented examples (63 examples, 126 testbenches)
 
 | Topic | Example |
 |-------|---------|
@@ -19,7 +19,9 @@ Legend: **done** = implemented in both SystemVerilog and VHDL, self-checking tes
 | App E | `dsp_qmac_circular_zoloop` |
 | App F | `rr_crossbar`, `mesh_router`, `vc_router`, `torus_dateline` |
 | App H | `vliw4` |
-| App J | `carry_lookahead_adder`, `booth_multiplier`, `restoring_divider`, `csa_wallace_skip_select` |
+| App J | `carry_lookahead_adder`, `booth_multiplier`, `restoring_divider`, `csa_wallace_skip_select`, `ieee754_fpu_fma_bf16` |
+
+The [edition acceptance plan](../review/edition-acceptance.md) records the remaining design and verification work.
 
 ## Planned, by chapter
 
@@ -64,7 +66,7 @@ rebuild, plus a repairable-array MTTDL model. RAID-6, educational single-symbol 
 **App H -** software-pipelined DAXPY, predication, delayed branches for `vliw4`.
 
 **App J -** [Carry-skip, carry-select and carry-save arithmetic](../appJ_arithmetic/csa_wallace_skip_select)
-has passed its targeted tests in both languages. An [exact arithmetic reference](../appJ_arithmetic/ieee754_fpu_fma_bf16/README.md) covers binary32 add, multiply and FMA plus scaled low-precision inputs; a SystemVerilog prototype passed the generated vectors. VHDL, standard runner integration and radix-4 SRT division with fault injection remain planned.
+has passed its targeted tests in both languages. The [binary32 arithmetic example](../appJ_arithmetic/ieee754_fpu_fma_bf16/README.md) covers add, multiply and FMA with scaled low-precision inputs. Radix-4 SRT division with fault injection remains planned.
 
 ## Cross-cutting
 

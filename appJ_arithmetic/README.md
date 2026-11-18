@@ -12,5 +12,6 @@ appendix.)
 | [`booth_multiplier`](booth_multiplier) | radix-4 Booth recoding, 8 partial products for 16 bits |
 | [`restoring_divider`](restoring_divider) | shift-subtract division, one quotient bit per cycle |
 | [`csa_wallace_skip_select`](csa_wallace_skip_select) | carry-skip and carry-select adders and a carry-save multiplier |
+| [`ieee754_fpu_fma_bf16`](ieee754_fpu_fma_bf16) | binary32 arithmetic, rounding flags and scaled BF16/FP8 FMA |
 
-A [binary32 and low-precision arithmetic reference](ieee754_fpu_fma_bf16/README.md) includes an exact Python model and a tested SystemVerilog prototype. The VHDL counterpart and SRT division remain planned.
+SRT division remains planned.

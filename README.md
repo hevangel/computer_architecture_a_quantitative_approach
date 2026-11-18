@@ -30,8 +30,8 @@ make list                    # list what was discovered
 make lint                    # advisory Verilator lint of the SystemVerilog
 ```
 
-The current tree contains 62 hardware examples. The complete suite passed
-`124/124` using Icarus Verilog 14.0 development and GHDL 6.0.0. The
+The current tree contains 63 hardware examples. The complete suite passed
+`126/126` using Icarus Verilog 14.0 development and GHDL 6.0.0. The
 [CPI counters](ch01_fundamentals/cpi_power_counters/README.md) and
 [arithmetic blocks](appJ_arithmetic/csa_wallace_skip_select/README.md) also passed targeted simulations.
 
@@ -101,6 +101,7 @@ likewise compare synthetic instruction sets separately from the HDL examples.
 | | [`torus_dateline`](appF_interconnect/torus_dateline) | 4x4 torus: shorter-way-round routing, dateline VC classes; the ring and shift traffic deadlock with 1 VC and complete with 2; hops 2.01 vs 2.59 on a mesh |
 | [App H VLIW](appH_vliw) | [`vliw4`](appH_vliw/vliw4) | 4-slot VLIW, exposed pipeline; same kernel at IPC 1.01 / 1.77 / 1.94 by schedule |
 | [App J Arithmetic](appJ_arithmetic) | [`carry_lookahead_adder`](appJ_arithmetic/carry_lookahead_adder), [`booth_multiplier`](appJ_arithmetic/booth_multiplier), [`restoring_divider`](appJ_arithmetic/restoring_divider) | adder, multiplier, divider |
+| | [`ieee754_fpu_fma_bf16`](appJ_arithmetic/ieee754_fpu_fma_bf16) | binary32 arithmetic and scaled BF16/FP8 FMA |
 | | [`csa_wallace_skip_select`](appJ_arithmetic/csa_wallace_skip_select) | carry-skip / select adders and carry-save multiplier |
 
 Not yet written (adaptive routing, ...):
