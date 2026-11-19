@@ -1,6 +1,6 @@
 # Edition coverage acceptance plan
 
-The [baseline review](edition-coverage.md#6-concrete-work-item-backlog--module-specifications-agent-execution-queue) defines the numbered scope and edition references. This companion records the implementation evidence available at checkpoint `41776ad` and the checks needed to accept each item. The checkpoint has 29 paired HDL targets, five Python targets, one SystemVerilog prototype and 12 targets without a module at the specified path. A target's presence or a passing repository regression alone does not establish that it meets its review row.
+The [baseline review](edition-coverage.md#6-concrete-work-item-backlog--module-specifications-agent-execution-queue) defines the numbered scope and edition references. This companion records the implementation evidence available at checkpoint `41776ad` and the checks needed to accept each item. The checkpoint had 29 paired HDL targets, five Python targets, one SystemVerilog prototype and 12 targets without a module. The current tree has an implementation at every numbered path, with 42 paired HDL targets and five Python targets. A target's presence or a passing repository regression alone does not establish that it meets its review row.
 
 For paired examples, run `python scripts/run_tests.py -v <target>` with Icarus and GHDL. Use the same stimulus and compare architectural results, counters and cycle boundaries in both languages. Obtain expected values from an independent model, hand calculation or a validated reference. Run each Python suite with `unittest` discovery from its own directory to avoid importing an unrelated module with the same name. Keep tool versions, command output, vector provenance and any scope exclusions with the item evidence.
 
@@ -22,7 +22,7 @@ For paired examples, run `python scripts/run_tests.py -v <target>` with Icarus a
 | CH03-5 | Paired external-issue PRF engine. Verify WAW/WAR state, free-register conservation and precise restoration of the speculative map under an older commit and nested branch flush. |
 | CH03-6 | Paired preloaded two-thread core. Compare per-thread outputs and shared issue limits across all modes. Keep the specified IPC ordering tied to the qualifying workload. |
 | CH03-7 | Paired abstract timing model. Qualify through equal committed results and suppression of transient cache fills by the mitigation in the model. |
-| APPH-1 | Module pending. Use the design notes below for predication, NaT, ALAT and modulo scheduling. |
+| APPH-1 | Paired VLIW cores with predication, rotating banks, NaT and ALAT. Both compare 29 bundles against the original 31-bundle pipelined-workload baseline, and verify deferred fault and explicit recovery behavior. |
 | CH04-1 | Paired pack and shuffle unit. Check transpose and quantization against independently generated expected bytes, including signed extrema and lane order. |
 | CH04-2 | Paired coalesced SIMT wrapper. Check transaction counts by lane width, replay factors, register dependencies and barrier release only after participating warps finish their outstanding memory operations. |
 | CH04-3 | Paired banked vector memory with a 64-element command limit. Verify stride, bank counters, gather/scatter and 16+16+13 strip mining. Establish arbitrary-length command support and derive the throughput metrics separately. |
@@ -30,31 +30,31 @@ For paired examples, run `python scripts/run_tests.py -v <target>` with Icarus a
 | CH05-1 | Paired explicit-drain consistency model. Enumerate legal operation schedules for SB and MP and verify which outcomes are reachable under SC, TSO and fences. |
 | CH05-2 | Paired reservation and back-off model. Exercise invalidation, compare TAS/TTAS/back-off under identical contenders and check two barrier phases with deliberately staggered arrivals. |
 | CH05-3 | Paired serialized directory. Check dirty and clean replacement, data-source ownership and measured messages for all three sharer encodings on the same trace. |
-| CH05-4 | Module pending. Specify ownership transfer, write-back and classification precedence as below. |
-| CH05-5 | Module pending. Exercise the split-bus same-line race and all named transient states as below. |
-| CH05-6 | Module pending. Compare lock handoff and barrier metrics across several node counts as below. |
+| CH05-4 | Paired atomic four-core MOESI models. Both testbenches verify Owned forwarding without write-back, dirty replacement, 3C and true-sharing categories, and ten adjacent-word false misses versus zero with padding. |
+| CH05-5 | Paired single-line split-transaction MSI. Both testbenches cover simultaneous upgrades, backpressured data, losing-sharer retry, dirty eviction and final load data. Concurrent ordering across different lines remains outside this model. |
+| CH05-6 | Paired MCS and combining-tree models. The tests cover delayed successor publication, exclusive FIFO handoff, 2/4/8-node message counts and two barrier phases. Root traffic is constant and tree depth logarithmic while total messages remain linear. |
 | CH06-1 | Python warehouse-scale suite. Independently check PUE and TCO against edition-specific inputs and validate tail latency against uniform and heavy-tailed service traces with equal offered traffic. |
-| CH06-2 | Module pending. Compare fixed and reconfigured physical paths with equal traffic and loss accounting as below. |
+| CH06-2 | Paired Clos/OCS fabric. Both testbenches verify loss-free fixed, hot-pair reconfigured and distributed workloads. The same hot-pair workload takes 130 versus 66 cycles. A blocked packet delays configuration commit until drain. |
 | CH07-1 | Paired convolution. Compare all valid outputs to an independent 16×16 image convolution and verify initiation rate separately from boundary bubbles. |
 | CH07-2 | Paired output-stationary array and postprocessor. Check signed matrix results, bias order, activation, shifts and saturation against fixed-point golden values. |
-| CH07-3 | Module pending. Fix an accumulation order and publish separate compute and memory speedup metrics as below. |
+| CH07-3 | Paired BF16/FP8 dense and 2:4 sparse tiles. Thirty cases match exact Python results and use four versus two compute cycles and 16 versus eight weight words. The guide documents zero-product and memory interface assumptions. |
 | CH07-4 | Paired bounded halo model. Compare clamp/wrap and exact Sobel results over an 8×8 tile and count off-chip fetches independently of scratchpad accesses. |
 | APPA-1 | Paired compressed subset and mixed-width fetch. Verify the documented encoding set, rejected/reserved encodings and static and dynamic loop byte reductions under the same program semantics. |
 | APPA-2 | Python ISA traffic model. Check common results and exact instruction and byte ratios for the cited four-class sequence as well as the synthetic expression and sort. |
-| APPC-1 | Module pending. Use the pipeline's shared image and measure both control paths as below. |
-| APPC-2 | Module pending. Use an age-ordered retirement and trap trace as below. |
-| APPC-3 | Module pending. Measure load and branch penalties against an explicitly matched five-stage baseline as below. |
+| APPC-1 | Paired hardwired FSM and ROM sequencer. The original test image yields identical full state and 49 retirements. Hardwired and microcoded traces agree cycle for cycle at 197 cycles, versus 78 for the five-stage core. |
+| APPC-2 | Paired five-stage variants. Both verify MEM priority over concurrent ECALL, suppression of a faulting store, preservation of older state, isolated traps, and MEPC/MCAUSE handler state and MRET resume. Full privilege semantics remain outside the model. |
+| APPC-3 | Paired eight-stage models. A matched MIPS64 trace verifies two load bubbles, a three-cycle taken transfer, equivalent no-delay state and an optional delay slot. Cache tags and optional pipelined FP remain outside the model. |
 | APPD-1 | Paired RAID-6 and symbol ECC. Exhaust disk-erasure combinations and chip nibble faults, comparing restored data and parity with the independent field model. |
 | APPD-2 | Paired DMA and FIFO wrapper. Verify descriptor lengths, backpressure, completion IRQ and the contrast between stale and coherent CPU readback. |
 | APPD-3 | Python queueing and rebuild models. Check cited worked examples, document the disk seek parameters and independently verify the MTTDL error bound. |
 | APPE-1 | Paired DSP datapath. Exercise FIR repeat control, buffer wrap, positive and negative saturation and the 16-address FFT permutation against independent vectors. |
-| APPF-1 | Module pending. Qualify alternate routes, credit accounting and speculation timing as below. |
-| APPF-2 | Module pending. Test Omega topology and iSLIP arbitration separately as below. |
+| APPF-1 | Paired 4×4 single-flit VC models. Both deliver 80 distinct hotspot packets with 240 minimal hops and a disabled east link, and show one-cycle speculative versus two-cycle serialized hop timing. Routes may reorder packets. |
+| APPF-2 | Paired Omega and iSLIP models. Both tests verify wormhole order and transpose blocking, then measure 86 accepted matches in four rounds versus 76 in one on identical request snapshots. |
 | APPJ-1 | Paired carry and multiplier examples. Check exhaustive products, carry-chain vectors and the documented distinction between logic-depth proxies and measured timing. |
-| APPJ-2 | Module pending. Check recurrence, conversion and fault injection separately as below. |
+| APPJ-2 | Paired carry-save radix-4 SRT divider. Both testbenches check 577 vectors against exact integer and mantissa expectations and exercise the omitted-cell precision failure. The separate mathematical model verifies the remainder bound and all five cell addresses. |
 | APPJ-3 | Exact Python oracle and SystemVerilog prototype. Match the VHDL port against the shared vectors, including result bits and flags for each rounding mode. Verify input format and scale limits, exact cancellation and subnormal rounding. Register both testbenches only after parity. Both are now registered and accept the shared 7,156-vector file. |
 
-## Design and acceptance notes for missing targets
+## Design and acceptance notes
 
 ### APPH-1 · Software-pipelined VLIW
 
@@ -94,7 +94,7 @@ Assign fetch, decode, execute, address translation/cache and register-write boun
 
 ### APPF-1 · West-first routing and speculative allocation
 
-Require all necessary westward movement before taking a different direction. Select among legal minimal outputs by downstream credit and define a deterministic tie break. Speculative switch grants may use the fast path only when VC allocation succeeds and credit is available. A canceled grant must neither consume credit nor move a flit. Exercise an unloaded router hop, a congested pair with two legal routes, and a bounded-drain hotspot stream with per-flow sequence and credit conservation checks.
+Require all necessary westward movement before taking a different direction. Select among legal minimal outputs by downstream credit and define a deterministic tie break. Speculative switch grants may use the fast path only when VC allocation succeeds and credit is available. A canceled grant must neither consume credit nor move a flit. Exercise an unloaded router hop, a congested pair with two legal routes, and a bounded-drain hotspot stream with unique packet IDs, minimal-hop accounting and credit conservation checks. Adaptive paths can reorder packets.
 
 ### APPF-2 · Omega and iSLIP
 
@@ -104,6 +104,6 @@ Build three stages of 2×2 switches with explicit interstage wiring and credit r
 
 Specify normalization, the signed partial remainder recurrence, redundant digit selection from truncated remainder and divisor, and on-the-fly quotient conversion. Check the remainder range and two-bit digit cadence at each step and verify final quotient/remainder against integer or exact-rational arithmetic. Cover boundary table addresses and exceptional operands. Treat the five omitted selection entries as an explicit alternate table and require the cited positive operand pair to distinguish the two modes without changing unaffected control vectors.
 
-## After the written pass
+## Verification scope
 
-Run the integrated HDL suite and the standalone floating-point prototype. Run all existing Python suites and reconcile their tests against the table above. Then implement the pending targets and qualify their acceptance rows using the original sources and independent expected results. Keep the generated index, roadmap and guides tied to verified modules as they enter the standard suite.
+All numbered paths now have implementations. Use the checks above when expanding any bounded model or closing a remaining acceptance criterion. Run the integrated HDL suite and the standalone Python suites, and keep the generated index, roadmap and guides tied to verified behaviour.

@@ -5,7 +5,11 @@ logic: **cost** (capital and operating, dominated by servers, power and cooling)
 divided by IT power), **tail latency**, availability through software redundancy, and the power/performance of
 server-class workloads. Introduced as a chapter in the 5th edition.
 
-## Status
+## Examples
+
+The [Clos/OCS fabric](clos_ocs_fabric/README.md) compares fixed and reconfigured packet paths across eight leaves and four spines.
+
+## Analytical models
 
 The [Python model suite](python/wsc_model_suite.py) explores PUE, energy cost, undiscounted ownership cost,
 operational and allocated embodied carbon, serial transfer time, and fan-out latency with delayed hedging.

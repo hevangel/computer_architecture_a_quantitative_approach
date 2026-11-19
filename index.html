@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Browse 63 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.">
+  <meta name="description" content="Browse 75 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.">
   <title>Computer Architecture: A Quantitative Approach</title>
   <style>
     :root { color-scheme: light; --ink: #202b36; --muted: #4e5e6b; --paper: #f7f6f1; --line: #cbd3d6; --link: #16536b; }
@@ -38,7 +38,7 @@
   <header>
     <p class="eyebrow">Hardware examples · SystemVerilog + VHDL</p>
     <h1>Computer Architecture: A Quantitative Approach</h1>
-    <p>Browse 63 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.</p>
+    <p>Browse 75 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.</p>
     <nav aria-label="Chapters and appendices"><ul>
       <li><a href="#start">Start here</a></li>
       <li><a href="#ch01_fundamentals">Chapter 1 · Fundamentals of Quantitative Design and Analysis</a></li>
@@ -297,13 +297,32 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="ch05_tlp/spinlock_atomic/README.md">Atomic Read-Modify-Write and Spin Locks on a Snooping Bus</a></h3>
         <p>atomic exchange / fetch-and-add, TAS vs TTAS vs ticket locks on a snooping bus, bus traffic per acquisition</p>
         <ul class="resources"><li><a href="ch05_tlp/spinlock_atomic/sv/spinlock_bench.sv">SystemVerilog · spinlock_bench.sv</a></li><li><a href="ch05_tlp/spinlock_atomic/sv/tb_spinlock_bench.sv">SystemVerilog · tb_spinlock_bench.sv</a></li><li><a href="ch05_tlp/spinlock_atomic/vhdl/spinlock_bench.vhd">VHDL · spinlock_bench.vhd</a></li><li><a href="ch05_tlp/spinlock_atomic/vhdl/tb_spinlock_bench.vhd">VHDL · tb_spinlock_bench.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch05_tlp/mcs_combining_barrier/README.md">MCS Lock and Combining-Tree Barrier</a></h3>
+        <p>queue handoff and barrier traffic across 2, 4 and 8 cores</p>
+        <ul class="resources"><li><a href="ch05_tlp/mcs_combining_barrier/sv/mcs_combining_barrier.sv">SystemVerilog · mcs_combining_barrier.sv</a></li><li><a href="ch05_tlp/mcs_combining_barrier/sv/tb_mcs_combining_barrier.sv">SystemVerilog · tb_mcs_combining_barrier.sv</a></li><li><a href="ch05_tlp/mcs_combining_barrier/vhdl/mcs_combining_barrier.vhd">VHDL · mcs_combining_barrier.vhd</a></li><li><a href="ch05_tlp/mcs_combining_barrier/vhdl/tb_mcs_combining_barrier.vhd">VHDL · tb_mcs_combining_barrier.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch05_tlp/split_bus_transient_msi/README.md">Split-Transaction MSI</a></h3>
+        <p>ordered same-line upgrades with delayed data and dirty eviction</p>
+        <ul class="resources"><li><a href="ch05_tlp/split_bus_transient_msi/sv/split_bus_transient_msi.sv">SystemVerilog · split_bus_transient_msi.sv</a></li><li><a href="ch05_tlp/split_bus_transient_msi/sv/tb_split_bus_transient_msi.sv">SystemVerilog · tb_split_bus_transient_msi.sv</a></li><li><a href="ch05_tlp/split_bus_transient_msi/vhdl/split_bus_transient_msi.vhd">VHDL · split_bus_transient_msi.vhd</a></li><li><a href="ch05_tlp/split_bus_transient_msi/vhdl/tb_split_bus_transient_msi.vhd">VHDL · tb_split_bus_transient_msi.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch05_tlp/moesi_false_sharing/README.md">MOESI and False Sharing</a></h3>
+        <p>Owned dirty data, miss classification and adjacent-word traffic</p>
+        <ul class="resources"><li><a href="ch05_tlp/moesi_false_sharing/sv/moesi_false_sharing.sv">SystemVerilog · moesi_false_sharing.sv</a></li><li><a href="ch05_tlp/moesi_false_sharing/sv/tb_moesi_false_sharing.sv">SystemVerilog · tb_moesi_false_sharing.sv</a></li><li><a href="ch05_tlp/moesi_false_sharing/vhdl/moesi_false_sharing.vhd">VHDL · moesi_false_sharing.vhd</a></li><li><a href="ch05_tlp/moesi_false_sharing/vhdl/tb_moesi_false_sharing.vhd">VHDL · tb_moesi_false_sharing.vhd</a></li></ul>
       </article></li></ul>
     </section>
 <section id="ch06_wsc" aria-labelledby="ch06_wsc-title">
       <h2 id="ch06_wsc-title">Chapter 6 · Warehouse-Scale Computers</h2>
       <p><a href="ch06_wsc/README.md">Read the chapter guide</a></p>
-      <p>This chapter has no RTL examples. Its guide links to Python models for warehouse-scale systems.</p>
 
+      <ul class="examples"><li><article>
+        <h3><a href="ch06_wsc/clos_ocs_fabric/README.md">Clos Fabric with Optical Circuit Reconfiguration</a></h3>
+        <p>loss-free hot-pair traffic with fixed and reconfigured spine paths</p>
+        <ul class="resources"><li><a href="ch06_wsc/clos_ocs_fabric/sv/clos_ocs_fabric.sv">SystemVerilog · clos_ocs_fabric.sv</a></li><li><a href="ch06_wsc/clos_ocs_fabric/sv/tb_clos_ocs_fabric.sv">SystemVerilog · tb_clos_ocs_fabric.sv</a></li><li><a href="ch06_wsc/clos_ocs_fabric/vhdl/clos_ocs_fabric.vhd">VHDL · clos_ocs_fabric.vhd</a></li><li><a href="ch06_wsc/clos_ocs_fabric/vhdl/tb_clos_ocs_fabric.vhd">VHDL · tb_clos_ocs_fabric.vhd</a></li></ul>
+      </article></li></ul>
     </section>
 <section id="ch07_dsa" aria-labelledby="ch07_dsa-title">
       <h2 id="ch07_dsa-title">Chapter 7 · Domain-Specific Architectures</h2>
@@ -328,6 +347,11 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="ch07_dsa/stencil_halo_2d/README.md">Sobel and Box Stencils on a Scratchpad</a></h3>
         <p>4×4 parallel outputs with clamped or wrapped boundaries</p>
         <ul class="resources"><li><a href="ch07_dsa/stencil_halo_2d/sv/stencil_halo_2d.sv">SystemVerilog · stencil_halo_2d.sv</a></li><li><a href="ch07_dsa/stencil_halo_2d/sv/tb_stencil_halo_2d.sv">SystemVerilog · tb_stencil_halo_2d.sv</a></li><li><a href="ch07_dsa/stencil_halo_2d/vhdl/stencil_halo_2d.vhd">VHDL · stencil_halo_2d.vhd</a></li><li><a href="ch07_dsa/stencil_halo_2d/vhdl/tb_stencil_halo_2d.vhd">VHDL · tb_stencil_halo_2d.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="ch07_dsa/tensor_core_sparse24_fp8/README.md">Structured Sparse Tensor Tile</a></h3>
+        <p>4×4 BF16 and FP8 accumulation with packed 2:4 weights</p>
+        <ul class="resources"><li><a href="ch07_dsa/tensor_core_sparse24_fp8/sv/tensor_core_sparse24_fp8.sv">SystemVerilog · tensor_core_sparse24_fp8.sv</a></li><li><a href="ch07_dsa/tensor_core_sparse24_fp8/sv/tb_tensor_core_sparse24_fp8.sv">SystemVerilog · tb_tensor_core_sparse24_fp8.sv</a></li><li><a href="ch07_dsa/tensor_core_sparse24_fp8/vhdl/tensor_core_sparse24_fp8.vhd">VHDL · tensor_core_sparse24_fp8.vhd</a></li><li><a href="ch07_dsa/tensor_core_sparse24_fp8/vhdl/tb_tensor_core_sparse24_fp8.vhd">VHDL · tb_tensor_core_sparse24_fp8.vhd</a></li></ul>
       </article></li></ul>
     </section>
 <section id="appA_isa" aria-labelledby="appA_isa-title">
@@ -353,6 +377,21 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="appC_pipelining/rv32i_pipeline5/README.md">The Classic Five-Stage Pipeline (RV32I)</a></h3>
         <p>RISC-V RV32I (branches resolved in EX, 2-cycle penalty)</p>
         <ul class="resources"><li><a href="appC_pipelining/rv32i_pipeline5/sv/rv32i_pipeline.sv">SystemVerilog · rv32i_pipeline.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/sv/rv32i_pkg.sv">SystemVerilog · rv32i_pkg.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/sv/tb_rv32i_pipeline.sv">SystemVerilog · tb_rv32i_pipeline.sv</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/rv32i_pipeline.vhd">VHDL · rv32i_pipeline.vhd</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/rv32i_pkg.vhd">VHDL · rv32i_pkg.vhd</a></li><li><a href="appC_pipelining/rv32i_pipeline5/vhdl/tb_rv32i_pipeline.vhd">VHDL · tb_rv32i_pipeline.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appC_pipelining/multicycle_microcode_baseline/README.md">Hardwired and Microcoded Multicycle RV32I</a></h3>
+        <p>one datapath with two controllers and a five-stage pipeline comparison</p>
+        <ul class="resources"><li><a href="appC_pipelining/multicycle_microcode_baseline/sv/multicycle_microcode_baseline.sv">SystemVerilog · multicycle_microcode_baseline.sv</a></li><li><a href="appC_pipelining/multicycle_microcode_baseline/sv/tb_multicycle_microcode_baseline.sv">SystemVerilog · tb_multicycle_microcode_baseline.sv</a></li><li><a href="appC_pipelining/multicycle_microcode_baseline/vhdl/multicycle_microcode_baseline.vhd">VHDL · multicycle_microcode_baseline.vhd</a></li><li><a href="appC_pipelining/multicycle_microcode_baseline/vhdl/tb_multicycle_microcode_baseline.vhd">VHDL · tb_multicycle_microcode_baseline.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appC_pipelining/rv32i_precise_exceptions/README.md">Precise Exceptions in an RV32I Pipeline</a></h3>
+        <p>oldest-fault priority, deferred stores, interrupt drain and handler return</p>
+        <ul class="resources"><li><a href="appC_pipelining/rv32i_precise_exceptions/sv/rv32i_precise_exceptions.sv">SystemVerilog · rv32i_precise_exceptions.sv</a></li><li><a href="appC_pipelining/rv32i_precise_exceptions/sv/tb_rv32i_precise_exceptions.sv">SystemVerilog · tb_rv32i_precise_exceptions.sv</a></li><li><a href="appC_pipelining/rv32i_precise_exceptions/vhdl/rv32i_precise_exceptions.vhd">VHDL · rv32i_precise_exceptions.vhd</a></li><li><a href="appC_pipelining/rv32i_precise_exceptions/vhdl/tb_rv32i_precise_exceptions.vhd">VHDL · tb_rv32i_precise_exceptions.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appC_pipelining/r4000_superpipeline8/README.md">R4000-Style Eight-Stage MIPS Pipeline</a></h3>
+        <p>two-cycle load-use timing and optional branch delay slot</p>
+        <ul class="resources"><li><a href="appC_pipelining/r4000_superpipeline8/sv/r4000_superpipeline8.sv">SystemVerilog · r4000_superpipeline8.sv</a></li><li><a href="appC_pipelining/r4000_superpipeline8/sv/tb_r4000_superpipeline8.sv">SystemVerilog · tb_r4000_superpipeline8.sv</a></li><li><a href="appC_pipelining/r4000_superpipeline8/vhdl/r4000_superpipeline8.vhd">VHDL · r4000_superpipeline8.vhd</a></li><li><a href="appC_pipelining/r4000_superpipeline8/vhdl/tb_r4000_superpipeline8.vhd">VHDL · tb_r4000_superpipeline8.vhd</a></li></ul>
       </article></li></ul>
     </section>
 <section id="appD_storage" aria-labelledby="appD_storage-title">
@@ -413,6 +452,16 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="appF_interconnect/vc_router/README.md">Virtual-Channel Router: Removing Head-of-Line Blocking</a></h3>
         <p>virtual channels: VC allocation, separable switch allocation, per-VC credits, head-of-line blocking removed</p>
         <ul class="resources"><li><a href="appF_interconnect/vc_router/sv/tb_vc_router.sv">SystemVerilog · tb_vc_router.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_net.sv">SystemVerilog · vc_net.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_pkg.sv">SystemVerilog · vc_pkg.sv</a></li><li><a href="appF_interconnect/vc_router/sv/vc_router.sv">SystemVerilog · vc_router.sv</a></li><li><a href="appF_interconnect/vc_router/vhdl/tb_vc_router.vhd">VHDL · tb_vc_router.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_net.vhd">VHDL · vc_net.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_pkg.vhd">VHDL · vc_pkg.vhd</a></li><li><a href="appF_interconnect/vc_router/vhdl/vc_router.vhd">VHDL · vc_router.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appF_interconnect/omega_fat_tree_islip/README.md">Omega Network and iSLIP Arbitration</a></h3>
+        <p>wormhole routing, blocking permutations and iterative crossbar matching</p>
+        <ul class="resources"><li><a href="appF_interconnect/omega_fat_tree_islip/sv/omega_fat_tree_islip.sv">SystemVerilog · omega_fat_tree_islip.sv</a></li><li><a href="appF_interconnect/omega_fat_tree_islip/sv/tb_omega_fat_tree_islip.sv">SystemVerilog · tb_omega_fat_tree_islip.sv</a></li><li><a href="appF_interconnect/omega_fat_tree_islip/vhdl/omega_fat_tree_islip.vhd">VHDL · omega_fat_tree_islip.vhd</a></li><li><a href="appF_interconnect/omega_fat_tree_islip/vhdl/tb_omega_fat_tree_islip.vhd">VHDL · tb_omega_fat_tree_islip.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appF_interconnect/west_first_adaptive_spec_vc/README.md">West-First Adaptive Mesh</a></h3>
+        <p>minimal routing with single-cycle speculative VC and switch allocation</p>
+        <ul class="resources"><li><a href="appF_interconnect/west_first_adaptive_spec_vc/sv/west_first_adaptive_spec_vc.sv">SystemVerilog · west_first_adaptive_spec_vc.sv</a></li><li><a href="appF_interconnect/west_first_adaptive_spec_vc/sv/tb_west_first_adaptive_spec_vc.sv">SystemVerilog · tb_west_first_adaptive_spec_vc.sv</a></li><li><a href="appF_interconnect/west_first_adaptive_spec_vc/vhdl/west_first_adaptive_spec_vc.vhd">VHDL · west_first_adaptive_spec_vc.vhd</a></li><li><a href="appF_interconnect/west_first_adaptive_spec_vc/vhdl/tb_west_first_adaptive_spec_vc.vhd">VHDL · tb_west_first_adaptive_spec_vc.vhd</a></li></ul>
       </article></li></ul>
     </section>
 <section id="appH_vliw" aria-labelledby="appH_vliw-title">
@@ -423,6 +472,11 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="appH_vliw/vliw4/README.md">A 4-Slot VLIW Core with an Exposed Pipeline</a></h3>
         <p>4-slot bundles, exposed latencies, no interlocks; one DAXPY kernel scheduled three ways (IPC 1.01 / 1.77 / 1.94)</p>
         <ul class="resources"><li><a href="appH_vliw/vliw4/sv/tb_vliw4.sv">SystemVerilog · tb_vliw4.sv</a></li><li><a href="appH_vliw/vliw4/sv/vliw4.sv">SystemVerilog · vliw4.sv</a></li><li><a href="appH_vliw/vliw4/vhdl/tb_vliw4.vhd">VHDL · tb_vliw4.vhd</a></li><li><a href="appH_vliw/vliw4/vhdl/vliw4.vhd">VHDL · vliw4.vhd</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appH_vliw/vliw4_swpipe_pred_alat/README.md">Predicated and Software-Pipelined VLIW</a></h3>
+        <p>rotating registers, deferred faults and advanced-load checks</p>
+        <ul class="resources"><li><a href="appH_vliw/vliw4_swpipe_pred_alat/sv/vliw4_swpipe_pred_alat.sv">SystemVerilog · vliw4_swpipe_pred_alat.sv</a></li><li><a href="appH_vliw/vliw4_swpipe_pred_alat/sv/tb_vliw4_swpipe_pred_alat.sv">SystemVerilog · tb_vliw4_swpipe_pred_alat.sv</a></li><li><a href="appH_vliw/vliw4_swpipe_pred_alat/vhdl/vliw4_swpipe_pred_alat.vhd">VHDL · vliw4_swpipe_pred_alat.vhd</a></li><li><a href="appH_vliw/vliw4_swpipe_pred_alat/vhdl/tb_vliw4_swpipe_pred_alat.vhd">VHDL · tb_vliw4_swpipe_pred_alat.vhd</a></li></ul>
       </article></li></ul>
     </section>
 <section id="appJ_arithmetic" aria-labelledby="appJ_arithmetic-title">
@@ -453,6 +507,11 @@ make test-vhdl               # VHDL only</code></pre>
         <h3><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/README.md">Binary32 and Low-Precision FMA</a></h3>
         <p>add, multiply, and fused multiply-add with four rounding modes and scaled BF16/FP8 operands</p>
         <ul class="resources"><li><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/sv/ieee754_fpu_fma_bf16.sv">SystemVerilog · ieee754_fpu_fma_bf16.sv</a></li><li><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/sv/tb_ieee754_fpu_fma_bf16.sv">SystemVerilog · tb_ieee754_fpu_fma_bf16.sv</a></li><li><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/ieee754_fpu_fma_bf16.vhd">VHDL · ieee754_fpu_fma_bf16.vhd</a></li><li><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/tb_ieee754_fpu_fma_bf16.vhd">VHDL · tb_ieee754_fpu_fma_bf16.vhd</a></li><li><a href="appJ_arithmetic/ieee754_fpu_fma_bf16/python/fp_reference.py">Python · fp_reference.py</a></li></ul>
+      </article></li>
+<li><article>
+        <h3><a href="appJ_arithmetic/srt4_divider_fdiv/README.md">Radix-4 SRT Division</a></h3>
+        <p>carry-save recurrence, quotient conversion and five omitted selection cells</p>
+        <ul class="resources"><li><a href="appJ_arithmetic/srt4_divider_fdiv/sv/srt4_divider_fdiv.sv">SystemVerilog · srt4_divider_fdiv.sv</a></li><li><a href="appJ_arithmetic/srt4_divider_fdiv/sv/tb_srt4_divider_fdiv.sv">SystemVerilog · tb_srt4_divider_fdiv.sv</a></li><li><a href="appJ_arithmetic/srt4_divider_fdiv/vhdl/srt4_divider_fdiv.vhd">VHDL · srt4_divider_fdiv.vhd</a></li><li><a href="appJ_arithmetic/srt4_divider_fdiv/vhdl/tb_srt4_divider_fdiv.vhd">VHDL · tb_srt4_divider_fdiv.vhd</a></li><li><a href="appJ_arithmetic/srt4_divider_fdiv/python/srt_reference.py">Python · srt_reference.py</a></li></ul>
       </article></li></ul>
     </section>
   </main>

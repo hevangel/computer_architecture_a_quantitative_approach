@@ -1,7 +1,7 @@
 {
   "title": "Computer Architecture: A Quantitative Approach",
   "eyebrow": "Hardware examples · SystemVerilog + VHDL",
-  "description": "Browse 63 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
+  "description": "Browse 75 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
   "labels": {
     "skip": "Skip to content",
     "navigation": "Chapters and appendices",
@@ -1120,14 +1120,106 @@
               "title": "VHDL · tb_spinlock_bench.vhd"
             }
           ]
+        },
+        {
+          "path": "ch05_tlp/mcs_combining_barrier",
+          "title": "MCS Lock and Combining-Tree Barrier",
+          "description": "queue handoff and barrier traffic across 2, 4 and 8 cores",
+          "sources": [
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/sv/mcs_combining_barrier.sv",
+              "title": "SystemVerilog · mcs_combining_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/sv/tb_mcs_combining_barrier.sv",
+              "title": "SystemVerilog · tb_mcs_combining_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/vhdl/mcs_combining_barrier.vhd",
+              "title": "VHDL · mcs_combining_barrier.vhd"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/vhdl/tb_mcs_combining_barrier.vhd",
+              "title": "VHDL · tb_mcs_combining_barrier.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/split_bus_transient_msi",
+          "title": "Split-Transaction MSI",
+          "description": "ordered same-line upgrades with delayed data and dirty eviction",
+          "sources": [
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/sv/split_bus_transient_msi.sv",
+              "title": "SystemVerilog · split_bus_transient_msi.sv"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/sv/tb_split_bus_transient_msi.sv",
+              "title": "SystemVerilog · tb_split_bus_transient_msi.sv"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/vhdl/split_bus_transient_msi.vhd",
+              "title": "VHDL · split_bus_transient_msi.vhd"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/vhdl/tb_split_bus_transient_msi.vhd",
+              "title": "VHDL · tb_split_bus_transient_msi.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/moesi_false_sharing",
+          "title": "MOESI and False Sharing",
+          "description": "Owned dirty data, miss classification and adjacent-word traffic",
+          "sources": [
+            {
+              "path": "ch05_tlp/moesi_false_sharing/sv/moesi_false_sharing.sv",
+              "title": "SystemVerilog · moesi_false_sharing.sv"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/sv/tb_moesi_false_sharing.sv",
+              "title": "SystemVerilog · tb_moesi_false_sharing.sv"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/vhdl/moesi_false_sharing.vhd",
+              "title": "VHDL · moesi_false_sharing.vhd"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/vhdl/tb_moesi_false_sharing.vhd",
+              "title": "VHDL · tb_moesi_false_sharing.vhd"
+            }
+          ]
         }
       ]
     },
     {
       "path": "ch06_wsc",
       "title": "Chapter 6 · Warehouse-Scale Computers",
-      "note": "This chapter has no RTL examples. Its guide links to Python models for warehouse-scale systems.",
-      "examples": []
+      "examples": [
+        {
+          "path": "ch06_wsc/clos_ocs_fabric",
+          "title": "Clos Fabric with Optical Circuit Reconfiguration",
+          "description": "loss-free hot-pair traffic with fixed and reconfigured spine paths",
+          "sources": [
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/sv/clos_ocs_fabric.sv",
+              "title": "SystemVerilog · clos_ocs_fabric.sv"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/sv/tb_clos_ocs_fabric.sv",
+              "title": "SystemVerilog · tb_clos_ocs_fabric.sv"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/vhdl/clos_ocs_fabric.vhd",
+              "title": "VHDL · clos_ocs_fabric.vhd"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/vhdl/tb_clos_ocs_fabric.vhd",
+              "title": "VHDL · tb_clos_ocs_fabric.vhd"
+            }
+          ]
+        }
+      ]
     },
     {
       "path": "ch07_dsa",
@@ -1224,6 +1316,29 @@
               "title": "VHDL · tb_stencil_halo_2d.vhd"
             }
           ]
+        },
+        {
+          "path": "ch07_dsa/tensor_core_sparse24_fp8",
+          "title": "Structured Sparse Tensor Tile",
+          "description": "4×4 BF16 and FP8 accumulation with packed 2:4 weights",
+          "sources": [
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/sv/tensor_core_sparse24_fp8.sv",
+              "title": "SystemVerilog · tensor_core_sparse24_fp8.sv"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/sv/tb_tensor_core_sparse24_fp8.sv",
+              "title": "SystemVerilog · tb_tensor_core_sparse24_fp8.sv"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/vhdl/tensor_core_sparse24_fp8.vhd",
+              "title": "VHDL · tensor_core_sparse24_fp8.vhd"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/vhdl/tb_tensor_core_sparse24_fp8.vhd",
+              "title": "VHDL · tb_tensor_core_sparse24_fp8.vhd"
+            }
+          ]
         }
       ]
     },
@@ -1311,6 +1426,75 @@
             {
               "path": "appC_pipelining/rv32i_pipeline5/vhdl/tb_rv32i_pipeline.vhd",
               "title": "VHDL · tb_rv32i_pipeline.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appC_pipelining/multicycle_microcode_baseline",
+          "title": "Hardwired and Microcoded Multicycle RV32I",
+          "description": "one datapath with two controllers and a five-stage pipeline comparison",
+          "sources": [
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/sv/multicycle_microcode_baseline.sv",
+              "title": "SystemVerilog · multicycle_microcode_baseline.sv"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/sv/tb_multicycle_microcode_baseline.sv",
+              "title": "SystemVerilog · tb_multicycle_microcode_baseline.sv"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/vhdl/multicycle_microcode_baseline.vhd",
+              "title": "VHDL · multicycle_microcode_baseline.vhd"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/vhdl/tb_multicycle_microcode_baseline.vhd",
+              "title": "VHDL · tb_multicycle_microcode_baseline.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appC_pipelining/rv32i_precise_exceptions",
+          "title": "Precise Exceptions in an RV32I Pipeline",
+          "description": "oldest-fault priority, deferred stores, interrupt drain and handler return",
+          "sources": [
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/sv/rv32i_precise_exceptions.sv",
+              "title": "SystemVerilog · rv32i_precise_exceptions.sv"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/sv/tb_rv32i_precise_exceptions.sv",
+              "title": "SystemVerilog · tb_rv32i_precise_exceptions.sv"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/vhdl/rv32i_precise_exceptions.vhd",
+              "title": "VHDL · rv32i_precise_exceptions.vhd"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/vhdl/tb_rv32i_precise_exceptions.vhd",
+              "title": "VHDL · tb_rv32i_precise_exceptions.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appC_pipelining/r4000_superpipeline8",
+          "title": "R4000-Style Eight-Stage MIPS Pipeline",
+          "description": "two-cycle load-use timing and optional branch delay slot",
+          "sources": [
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/sv/r4000_superpipeline8.sv",
+              "title": "SystemVerilog · r4000_superpipeline8.sv"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/sv/tb_r4000_superpipeline8.sv",
+              "title": "SystemVerilog · tb_r4000_superpipeline8.sv"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/vhdl/r4000_superpipeline8.vhd",
+              "title": "VHDL · r4000_superpipeline8.vhd"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/vhdl/tb_r4000_superpipeline8.vhd",
+              "title": "VHDL · tb_r4000_superpipeline8.vhd"
             }
           ]
         }
@@ -1586,6 +1770,52 @@
               "title": "VHDL · vc_router.vhd"
             }
           ]
+        },
+        {
+          "path": "appF_interconnect/omega_fat_tree_islip",
+          "title": "Omega Network and iSLIP Arbitration",
+          "description": "wormhole routing, blocking permutations and iterative crossbar matching",
+          "sources": [
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/sv/omega_fat_tree_islip.sv",
+              "title": "SystemVerilog · omega_fat_tree_islip.sv"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/sv/tb_omega_fat_tree_islip.sv",
+              "title": "SystemVerilog · tb_omega_fat_tree_islip.sv"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/vhdl/omega_fat_tree_islip.vhd",
+              "title": "VHDL · omega_fat_tree_islip.vhd"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/vhdl/tb_omega_fat_tree_islip.vhd",
+              "title": "VHDL · tb_omega_fat_tree_islip.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appF_interconnect/west_first_adaptive_spec_vc",
+          "title": "West-First Adaptive Mesh",
+          "description": "minimal routing with single-cycle speculative VC and switch allocation",
+          "sources": [
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/sv/west_first_adaptive_spec_vc.sv",
+              "title": "SystemVerilog · west_first_adaptive_spec_vc.sv"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/sv/tb_west_first_adaptive_spec_vc.sv",
+              "title": "SystemVerilog · tb_west_first_adaptive_spec_vc.sv"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/vhdl/west_first_adaptive_spec_vc.vhd",
+              "title": "VHDL · west_first_adaptive_spec_vc.vhd"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/vhdl/tb_west_first_adaptive_spec_vc.vhd",
+              "title": "VHDL · tb_west_first_adaptive_spec_vc.vhd"
+            }
+          ]
         }
       ]
     },
@@ -1613,6 +1843,29 @@
             {
               "path": "appH_vliw/vliw4/vhdl/vliw4.vhd",
               "title": "VHDL · vliw4.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appH_vliw/vliw4_swpipe_pred_alat",
+          "title": "Predicated and Software-Pipelined VLIW",
+          "description": "rotating registers, deferred faults and advanced-load checks",
+          "sources": [
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/sv/vliw4_swpipe_pred_alat.sv",
+              "title": "SystemVerilog · vliw4_swpipe_pred_alat.sv"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/sv/tb_vliw4_swpipe_pred_alat.sv",
+              "title": "SystemVerilog · tb_vliw4_swpipe_pred_alat.sv"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/vhdl/vliw4_swpipe_pred_alat.vhd",
+              "title": "VHDL · vliw4_swpipe_pred_alat.vhd"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/vhdl/tb_vliw4_swpipe_pred_alat.vhd",
+              "title": "VHDL · tb_vliw4_swpipe_pred_alat.vhd"
             }
           ]
         }
@@ -1738,6 +1991,33 @@
             {
               "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/python/fp_reference.py",
               "title": "Python · fp_reference.py"
+            }
+          ]
+        },
+        {
+          "path": "appJ_arithmetic/srt4_divider_fdiv",
+          "title": "Radix-4 SRT Division",
+          "description": "carry-save recurrence, quotient conversion and five omitted selection cells",
+          "sources": [
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/sv/srt4_divider_fdiv.sv",
+              "title": "SystemVerilog · srt4_divider_fdiv.sv"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/sv/tb_srt4_divider_fdiv.sv",
+              "title": "SystemVerilog · tb_srt4_divider_fdiv.sv"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/vhdl/srt4_divider_fdiv.vhd",
+              "title": "VHDL · srt4_divider_fdiv.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/vhdl/tb_srt4_divider_fdiv.vhd",
+              "title": "VHDL · tb_srt4_divider_fdiv.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/python/srt_reference.py",
+              "title": "Python · srt_reference.py"
             }
           ]
         }
