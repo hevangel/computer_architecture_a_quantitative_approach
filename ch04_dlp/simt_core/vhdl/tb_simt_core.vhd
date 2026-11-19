@@ -76,7 +76,7 @@ architecture sim of simt_harness is
   signal dmem : dmem_t := init_dmem;
 begin
   dut : entity work.simt_core generic map (NW => NW, WS => WS, LD_LAT => 6)
-    port map (clk, rst_n, imem_addr, imem_rdata, dmem_addr, dmem_wdata, dmem_we, dmem_rdata, all_done, cycles, issued, lane_ops, idle);
+    port map (clk, rst_n, imem_addr, imem_rdata, dmem_addr, dmem_wdata, dmem_we, dmem_rdata, all_done, cycles, issued, lane_ops, idle, open, '1', open, open, open, open, open, '0', (others=>'0'), (others=>'0'), (others=>'0'));
 
   imem_rdata <= imem(to_integer(unsigned(imem_addr(4 downto 0))));
   rd_ports : process (all)
@@ -138,6 +138,50 @@ end architecture;
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+entity async_harness is port(clk,rst_n:in std_logic; finished:out std_logic); end;
+architecture test of async_harness is
+  signal ia:std_logic_vector(7 downto 0); signal instr:std_logic_vector(31 downto 0);
+  signal addr:std_logic_vector(15 downto 0); signal wdata:std_logic_vector(31 downto 0);
+  signal we,mask:std_logic_vector(0 downto 0); signal req,wr,resp,all_done:std_logic:='0';
+  signal warp:unsigned(7 downto 0); signal req_rd,resp_rd:unsigned(2 downto 0):=(others=>'0'); signal resp_data:std_logic_vector(31 downto 0):=std_logic_vector(to_unsigned(42,32)); signal cycles,issued,ops,idle:unsigned(31 downto 0);
+  function ins(op,rd,ra,rb,imm:natural) return std_logic_vector is
+  begin return std_logic_vector(to_unsigned(op,5)) & std_logic_vector(to_unsigned(rd,4)) &
+    std_logic_vector(to_unsigned(ra,4)) & std_logic_vector(to_unsigned(rb,4)) & std_logic_vector(to_unsigned(imm,15)); end;
+begin
+  with ia select instr <=
+    ins(8,2,0,0,0) when x"00", ins(8,5,0,0,0) when x"01", ins(8,7,0,0,0) when x"02",
+    ins(6,3,0,0,11) when x"03", ins(6,2,0,0,99) when x"04", ins(1,4,2,3,0) when x"05",
+    ins(1,6,4,7,0) when x"06", ins(1,6,6,5,0) when x"07", ins(9,0,0,6,0) when x"08", ins(14,0,0,0,0) when others;
+  dut:entity work.simt_core generic map(NW=>1,WS=>1,ASYNC_MEM=>true)
+    port map(clk,rst_n,ia,instr,addr,wdata,we,(others=>'0'),all_done,cycles,issued,ops,idle,
+      req,'1',wr,open,warp,req_rd,mask,resp,to_unsigned(0,8),resp_rd,resp_data);
+  process begin wait for 20 us; assert finished='1' report "async test timeout" severity failure; wait; end process;
+  process
+    procedure respond(tag:natural) is
+    begin wait until falling_edge(clk); resp_rd<=to_unsigned(tag,3); if tag=5 then resp_data<=std_logic_vector(to_unsigned(9,32)); else resp_data<=std_logic_vector(to_unsigned(42,32)); end if; resp<='1'; wait until falling_edge(clk); resp<='0'; end;
+  begin
+    finished<='0'; wait until rst_n='1';
+    wait until req='1' and req_rd=7;
+    respond(5); -- same edge as acceptance of the r7 request
+    for i in 1 to 10 loop wait until falling_edge(clk); end loop;
+    assert issued=4 and all_done='0' report "overlapping loads or WAW stall" severity failure;
+    respond(2);
+    for i in 1 to 10 loop wait until falling_edge(clk); end loop;
+    assert issued=6 and all_done='0' report "RAW stall after simultaneous response/request" severity failure;
+    respond(7);
+    wait until req='1' and wr='1'; wait for 1 ns;
+    assert unsigned(wdata)=161 report "RAW/WAW result" severity failure;
+    wait until falling_edge(clk); for i in 1 to 4 loop wait until falling_edge(clk); end loop;
+    assert all_done='0' report "exit before store response" severity failure;
+    respond(0); wait until all_done='1'; wait until falling_edge(clk);
+    assert issued=10 report "async issue count" severity failure;
+    finished<='1'; wait;
+  end process;
+end architecture;
+
+library ieee;
+use ieee.std_logic_1164.all;
 use std.env.all;
 
 entity tb_simt_core is end entity;
@@ -146,10 +190,12 @@ architecture sim of tb_simt_core is
   signal clk : std_logic := '0';
   signal rst_n : std_logic := '0';
   signal d : std_logic_vector(3 downto 0);
+  signal async_done : std_logic;
   type int4 is array (0 to 3) of integer;
   signal er : int4;
 begin
   clk <= not clk after 5 ns;
+  ha : entity work.async_harness port map(clk,rst_n,async_done);
   h0 : entity work.simt_harness generic map (1, 0) port map (clk, rst_n, d(0), er(0));
   h1 : entity work.simt_harness generic map (4, 0) port map (clk, rst_n, d(1), er(1));
   h2 : entity work.simt_harness generic map (1, 1) port map (clk, rst_n, d(2), er(2));
@@ -159,7 +205,7 @@ begin
   begin
     wait until falling_edge(clk);  wait until falling_edge(clk);
     rst_n <= '1';
-    wait until d = "1111";
+    wait until d = "1111" and async_done = '1';
     wait for 1 ns;
     if er(0) + er(1) + er(2) + er(3) = 0 then report "TEST PASSED";
     else report "TEST FAILED: " & integer'image(er(0) + er(1) + er(2) + er(3)) & " errors" severity error;

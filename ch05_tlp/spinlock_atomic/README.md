@@ -30,6 +30,8 @@ A **spin lock** busy-waits on such an atomic. How it waits decides how much it l
 
 Outputs: transaction counts (`stat_rd`, `stat_rdx`), cycles until all cores are done, the counter, the number of cores inside the critical section, and per-core pulses when a lock is acquired / a ticket is drawn.
 
+Modes 4 and 5 add LR/SC-based TTAS with and without exponential backoff. Their reservation, barrier and traffic checks are described in the [synchronization example](../llsc_backoff_barrier).
+
 ## Verification
 
 **One core, no contention** - everything after the first iteration hits, so the totals follow from the operation costs (`B` = `BUS_LAT` 4, `CS_LEN` 2, `NT` 3, `N` 5):

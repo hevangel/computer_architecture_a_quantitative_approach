@@ -1,11 +1,13 @@
 -- Atomic read-modify-write and spin locks on a snooping bus (Chapter 5: synchronization).
 --
 -- P cores share a write-invalidate (MSI) snooping bus.  Each core repeats N times:   acquire the lock; critical section = { load counter, CS_LEN cycles of work, store counter+1 };
--- release; think NT cycles.  Three locks, selected by LOCK:
+-- release; think NT cycles.  Lock modes, selected by LOCK:
 --   0 TAS     test-and-set: spin on an ATOMIC EXCHANGE (xchg L,1) until it returns 0.  Every attempt needs the line in M, so contending cores steal it from each other: bus traffic per spin.
 --   1 TTAS    test-and-test-and-set: spin with plain LOADS (the line stays Shared in every spinner's cache: no bus traffic) and issue the atomic exchange only when the lock reads 0.
 --   2 TICKET  ticket lock: FETCH-AND-ADD on the ticket counter gives each core a number; spin with loads on now_serving until it equals the number; release stores number+1 (FIFO order).
 --   3 NONE    no lock (a control: the critical sections overlap and increments are lost).
+--   4 BACKOFF TTAS using LR/SC and bounded exponential delay after a failed reservation.
+--   5 LRSC    the same LR/SC TTAS without the backoff, for comparison.
 -- Memory system: 3 lines (0 = lock / next ticket, 1 = now serving, 2 = counter).  Coherence STATES (I/S/M) of every line in every cache decide the bus traffic; the VALUES live in one coherent
 -- memory image, and a memory operation performs atomically at the cycle it hits in the cache or completes on the bus.
 --   * An operation that HITS (LD in S or M, ST / atomic in M) takes 1 cycle and no bus traffic.
@@ -35,17 +37,19 @@ end entity;
 architecture rtl of spinlock_bench is
   constant NL : positive := 3;
   constant S_THINK : natural := 0;  constant S_ACQ : natural := 1;  constant S_TT_RD : natural := 2;  constant S_TT_X : natural := 3;  constant S_TK_FAA : natural := 4;
-  constant S_TK_SPIN : natural := 5;  constant S_C_LD : natural := 6;  constant S_WORK : natural := 7;  constant S_C_ST : natural := 8;  constant S_REL : natural := 9;  constant S_DONE : natural := 10;
+  constant S_TK_SPIN : natural := 5;  constant S_C_LD : natural := 6;  constant S_WORK : natural := 7;  constant S_C_ST : natural := 8;  constant S_REL : natural := 9;  constant S_DONE : natural := 10; constant S_BACKOFF : natural := 11; constant S_TT_LR : natural := 12; constant S_TT_SC : natural := 13;
   constant M_I : natural := 0;  constant M_S : natural := 1;  constant M_M : natural := 2;
   function first_state return natural is
   begin
-    if LOCK = 0 then return S_ACQ; elsif LOCK = 1 then return S_TT_RD; elsif LOCK = 2 then return S_TK_FAA; else return S_C_LD; end if;
+    if LOCK = 0 then return S_ACQ; elsif LOCK = 1 or LOCK = 4 or LOCK = 5 then return S_TT_RD; elsif LOCK = 2 then return S_TK_FAA; else return S_C_LD; end if;
   end function;
   constant FIRST : natural := first_state;
   type nat_t is array (natural range <>) of natural;
 
   signal fs, cnt, itn, my, tmp : nat_t(0 to P-1) := (others => 0);
+  signal backoff : nat_t(0 to P-1) := (others => 1);
   signal in_cs : std_logic_vector(0 to P-1) := (others => '0');
+  signal reserved : std_logic_vector(0 to P-1) := (others=>'0');
   signal cst : nat_t(0 to P*NL-1) := (others => M_I);
   signal val : nat_t(0 to NL-1) := (others => 0);
   signal busy : std_logic := '0';
@@ -73,6 +77,8 @@ begin
         when S_ACQ     => ot(k) := 2; ol(k) := 0;
         when S_TT_RD   => ot(k) := 0; ol(k) := 0;
         when S_TT_X    => ot(k) := 2; ol(k) := 0;
+        when S_TT_LR   => ot(k) := 0; ol(k) := 0;
+        when S_TT_SC   => ot(k) := 3; ol(k) := 0; if reserved(k)='0' then ov(k):='0'; end if;
         when S_TK_FAA  => ot(k) := 2; ol(k) := 0;
         when S_TK_SPIN => ot(k) := 0; ol(k) := 1;
         when S_C_LD    => ot(k) := 0; ol(k) := 2;
@@ -121,10 +127,24 @@ begin
         when S_ACQ =>                                               -- xchg(L, 1)
           val(0) <= 1;
           if old = 0 then fs(k) <= S_C_LD; in_cs(k) <= '1'; acq_i(k) <= '1'; end if;
-        when S_TT_RD => if old = 0 then fs(k) <= S_TT_X; end if;
+        when S_TT_RD => if old = 0 then if LOCK=4 or LOCK=5 then fs(k)<=S_TT_LR; else fs(k)<=S_TT_X; end if; end if;
+        when S_TT_LR => if old=0 then reserved(k)<='1'; fs(k)<=S_TT_SC; else fs(k)<=S_TT_RD; end if;
+        when S_TT_SC =>
+          reserved(k)<='0';
+          if reserved(k)='1' and old=0 then
+            val(0)<=1; fs(k)<=S_C_LD; in_cs(k)<='1'; acq_i(k)<='1'; backoff(k)<=1;
+          elsif LOCK=5 then fs(k)<=S_TT_RD;
+          else
+            fs(k)<=S_BACKOFF; cnt(k)<=backoff(k)*(k+1);
+            if backoff(k)<32 then backoff(k)<=backoff(k)*2; end if;
+          end if;
         when S_TT_X =>
           val(0) <= 1;
-          if old = 0 then fs(k) <= S_C_LD; in_cs(k) <= '1'; acq_i(k) <= '1'; else fs(k) <= S_TT_RD; end if;
+          if old = 0 then fs(k) <= S_C_LD; in_cs(k) <= '1'; acq_i(k) <= '1'; backoff(k)<=1;
+          elsif LOCK=4 then
+            fs(k)<=S_BACKOFF; cnt(k)<=backoff(k)*(k+1);
+            if backoff(k)<32 then backoff(k)<=backoff(k)*2; end if;
+          else fs(k) <= S_TT_RD; end if;
         when S_TK_FAA => val(0) <= old + 1; my(k) <= old; fs(k) <= S_TK_SPIN; tick_i(k) <= '1';
         when S_TK_SPIN => if old = my(k) then fs(k) <= S_C_LD; in_cs(k) <= '1'; acq_i(k) <= '1'; end if;
         when S_C_LD =>
@@ -144,7 +164,7 @@ begin
     if rst_n = '0' then
       busy <= '0';  owner <= 0;  rcnt <= 0;  rr <= P - 1;
       s_rd <= 0;  s_rdx <= 0;  s_cycles <= 0;  acq_i <= (others => '0');  tick_i <= (others => '0');
-      fs <= (others => FIRST);  cnt <= (others => 0);  itn <= (others => 0);  my <= (others => 0);  tmp <= (others => 0);
+      fs <= (others => FIRST);  cnt <= (others => 0);  itn <= (others => 0); backoff <= (others => 1); reserved <= (others=>'0');  my <= (others => 0);  tmp <= (others => 0);
       if LOCK = 3 then in_cs <= (others => '1'); else in_cs <= (others => '0'); end if;
       cst <= (others => M_I);  val <= (others => 0);
     elsif rising_edge(clk) then
@@ -154,6 +174,14 @@ begin
       for k in 0 to P-1 loop
         if fs(k) = S_THINK then
           if cnt(k) <= 1 then fs(k) <= FIRST; if LOCK = 3 then in_cs(k) <= '1'; end if; else cnt(k) <= cnt(k) - 1; end if;
+        elsif fs(k)=S_TT_SC and reserved(k)='0' then
+          if LOCK=5 then fs(k)<=S_TT_RD;
+          else
+            fs(k)<=S_BACKOFF; cnt(k)<=backoff(k)*(k+1);
+            if backoff(k)<32 then backoff(k)<=backoff(k)*2; end if;
+          end if;
+        elsif fs(k) = S_BACKOFF then
+          if cnt(k)<=1 then fs(k)<=S_TT_RD; else cnt(k)<=cnt(k)-1; end if;
         elsif fs(k) = S_WORK then
           if cnt(k) <= 1 then fs(k) <= S_C_ST; else cnt(k) <= cnt(k) - 1; end if;
         elsif opv(k) = '1' and hit(k) = '1' and not (busy = '1' and owner = k) then
@@ -172,7 +200,12 @@ begin
           cst(grant*NL + opl(grant)) <= M_S;
         else
           s_rdx <= s_rdx + 1;
-          for j in 0 to P-1 loop if j /= grant then cst(j*NL + opl(grant)) <= M_I; end if; end loop;
+          for j in 0 to P-1 loop
+            if j /= grant then
+              cst(j*NL + opl(grant)) <= M_I;
+              if opl(grant)=0 then reserved(j)<='0'; end if;
+            end if;
+          end loop;
           cst(grant*NL + opl(grant)) <= M_M;
         end if;
       end if;

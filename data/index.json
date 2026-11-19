@@ -1,7 +1,7 @@
 {
   "title": "Computer Architecture: A Quantitative Approach",
   "eyebrow": "Hardware examples · SystemVerilog + VHDL",
-  "description": "Browse 38 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
+  "description": "Browse 75 original hardware examples accompanying editions 1–7 of Hennessy and Patterson’s textbook. Each example includes a guide, two HDL implementations, and self-checking testbenches; check each guide for verification status.",
   "labels": {
     "skip": "Skip to content",
     "navigation": "Chapters and appendices",
@@ -67,10 +67,22 @@
           "title": "CPI and Switching-Energy Counters",
           "description": "instruction and stall classes, CPI, switching activity and energy",
           "sources": [
-            {"path": "ch01_fundamentals/cpi_power_counters/sv/cpi_power_counters.sv", "title": "SystemVerilog · cpi_power_counters.sv"},
-            {"path": "ch01_fundamentals/cpi_power_counters/sv/tb_cpi_power_counters.sv", "title": "SystemVerilog · tb_cpi_power_counters.sv"},
-            {"path": "ch01_fundamentals/cpi_power_counters/vhdl/cpi_power_counters.vhd", "title": "VHDL · cpi_power_counters.vhd"},
-            {"path": "ch01_fundamentals/cpi_power_counters/vhdl/tb_cpi_power_counters.vhd", "title": "VHDL · tb_cpi_power_counters.vhd"}
+            {
+              "path": "ch01_fundamentals/cpi_power_counters/sv/cpi_power_counters.sv",
+              "title": "SystemVerilog · cpi_power_counters.sv"
+            },
+            {
+              "path": "ch01_fundamentals/cpi_power_counters/sv/tb_cpi_power_counters.sv",
+              "title": "SystemVerilog · tb_cpi_power_counters.sv"
+            },
+            {
+              "path": "ch01_fundamentals/cpi_power_counters/vhdl/cpi_power_counters.vhd",
+              "title": "VHDL · cpi_power_counters.vhd"
+            },
+            {
+              "path": "ch01_fundamentals/cpi_power_counters/vhdl/tb_cpi_power_counters.vhd",
+              "title": "VHDL · tb_cpi_power_counters.vhd"
+            }
           ]
         },
         {
@@ -103,14 +115,169 @@
       "title": "Chapter 2 · Memory Hierarchy Design (with Appendix B)",
       "examples": [
         {
+          "path": "ch02_memory_hierarchy/nested_pt_walker",
+          "title": "Nested Guest and Host Page-Table Walker",
+          "description": "two-stage walks, page-walk caching, superpages and ASID-tagged TLB",
+          "sources": [
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/sv/nested_pt_walker.sv",
+              "title": "SystemVerilog · nested_pt_walker.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/sv/tb_nested_pt_walker.sv",
+              "title": "SystemVerilog · tb_nested_pt_walker.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/vhdl/nested_pt_walker.vhd",
+              "title": "VHDL · nested_pt_walker.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/vhdl/tb_nested_pt_walker.vhd",
+              "title": "VHDL · tb_nested_pt_walker.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/python/nested_reference.py",
+              "title": "Python · nested_reference.py"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nested_pt_walker/python/test_nested_reference.py",
+              "title": "Python · test_nested_reference.py"
+            }
+          ]
+        },
+        {
+          "path": "ch02_memory_hierarchy/way_predict_vipt",
+          "title": "VIPT Way Prediction and Critical-Word-First Refill",
+          "description": "predicted and secondary hits, safe VIPT indexing and early refill response",
+          "sources": [
+            {
+              "path": "ch02_memory_hierarchy/way_predict_vipt/sv/way_predict_vipt.sv",
+              "title": "SystemVerilog · way_predict_vipt.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/way_predict_vipt/sv/tb_way_predict_vipt.sv",
+              "title": "SystemVerilog · tb_way_predict_vipt.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/way_predict_vipt/vhdl/way_predict_vipt.vhd",
+              "title": "VHDL · way_predict_vipt.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/way_predict_vipt/vhdl/tb_way_predict_vipt.vhd",
+              "title": "VHDL · tb_way_predict_vipt.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch02_memory_hierarchy/nb_set_assoc_cache",
+          "title": "Two-Way Non-Blocking Write-Back Cache",
+          "description": "two-way LRU, multiple misses and buffered-victim forwarding, checked against a cycle model",
+          "sources": [
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/sv/tb_nb_set_assoc_cache.sv",
+              "title": "SystemVerilog · testbench"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/vhdl/tb_nb_set_assoc_cache.vhd",
+              "title": "VHDL · testbench"
+            },
+            {
+              "path": "ch02_memory_hierarchy/writeback_nbcache/sv/wb_cache.sv",
+              "title": "SystemVerilog · shared cache RTL"
+            },
+            {
+              "path": "ch02_memory_hierarchy/writeback_nbcache/vhdl/wb_cache.vhd",
+              "title": "VHDL · shared cache RTL"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/sv/nb_reference_pkg.sv",
+              "title": "SystemVerilog · reference vectors"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/vhdl/nb_reference_pkg.vhd",
+              "title": "VHDL · reference vectors"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/python/cycle_reference.py",
+              "title": "Python · cycle model"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/python/generate_trace.py",
+              "title": "Python · vector generator"
+            },
+            {
+              "path": "ch02_memory_hierarchy/nb_set_assoc_cache/python/test_cycle_reference.py",
+              "title": "Python · model tests"
+            }
+          ]
+        },
+        {
+          "path": "ch02_memory_hierarchy/cache_3c_policies",
+          "title": "Cache Miss Classification and Replacement Policies",
+          "description": "compulsory, capacity and conflict/policy misses with LRU, FIFO, random and pseudo-LRU",
+          "sources": [
+            {
+              "path": "ch02_memory_hierarchy/cache_3c_policies/sv/cache_3c_policies.sv",
+              "title": "SystemVerilog · cache_3c_policies.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/cache_3c_policies/sv/tb_cache_3c_policies.sv",
+              "title": "SystemVerilog · tb_cache_3c_policies.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/cache_3c_policies/vhdl/cache_3c_policies.vhd",
+              "title": "VHDL · cache_3c_policies.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/cache_3c_policies/vhdl/tb_cache_3c_policies.vhd",
+              "title": "VHDL · tb_cache_3c_policies.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch02_memory_hierarchy/alloy_dram_cache",
+          "title": "Direct-Mapped DRAM Cache and Miss Prediction",
+          "description": "tag/data cache and illustrative parallel miss prediction",
+          "sources": [
+            {
+              "path": "ch02_memory_hierarchy/alloy_dram_cache/sv/alloy_dram_cache.sv",
+              "title": "SystemVerilog · alloy_dram_cache.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/alloy_dram_cache/sv/tb_alloy_dram_cache.sv",
+              "title": "SystemVerilog · tb_alloy_dram_cache.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/alloy_dram_cache/vhdl/alloy_dram_cache.vhd",
+              "title": "VHDL · alloy_dram_cache.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/alloy_dram_cache/vhdl/tb_alloy_dram_cache.vhd",
+              "title": "VHDL · tb_alloy_dram_cache.vhd"
+            }
+          ]
+        },
+        {
           "path": "ch02_memory_hierarchy/prime_probe_qos",
           "title": "Prime+Probe and Way Partitioning",
           "description": "shared-cache replacement channel and two-domain isolation",
           "sources": [
-            {"path": "ch02_memory_hierarchy/prime_probe_qos/sv/prime_probe_qos.sv", "title": "SystemVerilog · prime_probe_qos.sv"},
-            {"path": "ch02_memory_hierarchy/prime_probe_qos/sv/tb_prime_probe_qos.sv", "title": "SystemVerilog · tb_prime_probe_qos.sv"},
-            {"path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/prime_probe_qos.vhd", "title": "VHDL · prime_probe_qos.vhd"},
-            {"path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/tb_prime_probe_qos.vhd", "title": "VHDL · tb_prime_probe_qos.vhd"}
+            {
+              "path": "ch02_memory_hierarchy/prime_probe_qos/sv/prime_probe_qos.sv",
+              "title": "SystemVerilog · prime_probe_qos.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/prime_probe_qos/sv/tb_prime_probe_qos.sv",
+              "title": "SystemVerilog · tb_prime_probe_qos.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/prime_probe_qos.vhd",
+              "title": "VHDL · prime_probe_qos.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/prime_probe_qos/vhdl/tb_prime_probe_qos.vhd",
+              "title": "VHDL · tb_prime_probe_qos.vhd"
+            }
           ]
         },
         {
@@ -118,10 +285,22 @@
           "title": "Sequential Stream Buffer",
           "description": "four-entry prefetch FIFO, direct-mapped L1 and demand versus prefetch traffic",
           "sources": [
-            {"path": "ch02_memory_hierarchy/stream_buffer/sv/stream_buffer.sv", "title": "SystemVerilog · stream_buffer.sv"},
-            {"path": "ch02_memory_hierarchy/stream_buffer/sv/tb_stream_buffer.sv", "title": "SystemVerilog · tb_stream_buffer.sv"},
-            {"path": "ch02_memory_hierarchy/stream_buffer/vhdl/stream_buffer.vhd", "title": "VHDL · stream_buffer.vhd"},
-            {"path": "ch02_memory_hierarchy/stream_buffer/vhdl/tb_stream_buffer.vhd", "title": "VHDL · tb_stream_buffer.vhd"}
+            {
+              "path": "ch02_memory_hierarchy/stream_buffer/sv/stream_buffer.sv",
+              "title": "SystemVerilog · stream_buffer.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/stream_buffer/sv/tb_stream_buffer.sv",
+              "title": "SystemVerilog · tb_stream_buffer.sv"
+            },
+            {
+              "path": "ch02_memory_hierarchy/stream_buffer/vhdl/stream_buffer.vhd",
+              "title": "VHDL · stream_buffer.vhd"
+            },
+            {
+              "path": "ch02_memory_hierarchy/stream_buffer/vhdl/tb_stream_buffer.vhd",
+              "title": "VHDL · tb_stream_buffer.vhd"
+            }
           ]
         },
         {
@@ -316,14 +495,180 @@
       "title": "Chapter 3 · Instruction-Level Parallelism and Its Exploitation",
       "examples": [
         {
+          "path": "ch03_ilp/smt_multithread_core",
+          "title": "Two-Thread Hardware Multithreading",
+          "description": "physical register renaming and shared issue in four thread scheduling modes",
+          "sources": [
+            {
+              "path": "ch03_ilp/smt_multithread_core/sv/smt_multithread_core.sv",
+              "title": "SystemVerilog · smt_multithread_core.sv"
+            },
+            {
+              "path": "ch03_ilp/smt_multithread_core/sv/tb_smt_multithread_core.sv",
+              "title": "SystemVerilog · tb_smt_multithread_core.sv"
+            },
+            {
+              "path": "ch03_ilp/smt_multithread_core/vhdl/smt_multithread_core.vhd",
+              "title": "VHDL · smt_multithread_core.vhd"
+            },
+            {
+              "path": "ch03_ilp/smt_multithread_core/vhdl/tb_smt_multithread_core.vhd",
+              "title": "VHDL · tb_smt_multithread_core.vhd"
+            },
+            {
+              "path": "ch03_ilp/smt_multithread_core/python/rename_reference.py",
+              "title": "Python · rename_reference.py"
+            },
+            {
+              "path": "ch03_ilp/smt_multithread_core/python/test_rename_reference.py",
+              "title": "Python · test_rename_reference.py"
+            }
+          ]
+        },
+        {
+          "path": "ch03_ilp/prf_rename_ooo",
+          "title": "Physical Register Renaming and Out-of-Order Execution",
+          "description": "physical registers, rename maps, free-list pressure and precise branch rollback",
+          "sources": [
+            {
+              "path": "ch03_ilp/prf_rename_ooo/sv/prf_rename_ooo.sv",
+              "title": "SystemVerilog · prf_rename_ooo.sv"
+            },
+            {
+              "path": "ch03_ilp/prf_rename_ooo/sv/tb_prf_rename_ooo.sv",
+              "title": "SystemVerilog · tb_prf_rename_ooo.sv"
+            },
+            {
+              "path": "ch03_ilp/prf_rename_ooo/vhdl/prf_rename_ooo.vhd",
+              "title": "VHDL · prf_rename_ooo.vhd"
+            },
+            {
+              "path": "ch03_ilp/prf_rename_ooo/vhdl/tb_prf_rename_ooo.vhd",
+              "title": "VHDL · tb_prf_rename_ooo.vhd"
+            },
+            {
+              "path": "ch03_ilp/prf_rename_ooo/python/prf_reference.py",
+              "title": "Python · prf_reference.py"
+            },
+            {
+              "path": "ch03_ilp/prf_rename_ooo/python/test_prf_reference.py",
+              "title": "Python · test_prf_reference.py"
+            }
+          ]
+        },
+        {
+          "path": "ch03_ilp/tomasulo_mem_spec_replay",
+          "title": "Tomasulo Memory Speculation and Recovery",
+          "description": "loads bypass unresolved stores; violations and branches recover younger work",
+          "sources": [
+            {
+              "path": "ch03_ilp/tomasulo_mem_spec_replay/sv/tomasulo_mem_spec_replay.sv",
+              "title": "SystemVerilog · tomasulo_mem_spec_replay.sv"
+            },
+            {
+              "path": "ch03_ilp/tomasulo_mem_spec_replay/sv/tb_tomasulo_mem_spec_replay.sv",
+              "title": "SystemVerilog · tb_tomasulo_mem_spec_replay.sv"
+            },
+            {
+              "path": "ch03_ilp/tomasulo_mem_spec_replay/vhdl/tomasulo_mem_spec_replay.vhd",
+              "title": "VHDL · tomasulo_mem_spec_replay.vhd"
+            },
+            {
+              "path": "ch03_ilp/tomasulo_mem_spec_replay/vhdl/tb_tomasulo_mem_spec_replay.vhd",
+              "title": "VHDL · tb_tomasulo_mem_spec_replay.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch03_ilp/superscalar_dual_issue",
+          "title": "Dual-Issue In-Order RV32I Pipeline",
+          "description": "two-wide issue, dependency checks, forwarding and scheduled dot product",
+          "sources": [
+            {
+              "path": "ch03_ilp/superscalar_dual_issue/sv/superscalar_dual_issue.sv",
+              "title": "SystemVerilog · superscalar_dual_issue.sv"
+            },
+            {
+              "path": "ch03_ilp/superscalar_dual_issue/sv/tb_superscalar_dual_issue.sv",
+              "title": "SystemVerilog · tb_superscalar_dual_issue.sv"
+            },
+            {
+              "path": "ch03_ilp/superscalar_dual_issue/vhdl/superscalar_dual_issue.vhd",
+              "title": "VHDL · superscalar_dual_issue.vhd"
+            },
+            {
+              "path": "ch03_ilp/superscalar_dual_issue/vhdl/tb_superscalar_dual_issue.vhd",
+              "title": "VHDL · tb_superscalar_dual_issue.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch03_ilp/tage_predictor",
+          "title": "Tagged Geometric-History Branch Predictor",
+          "description": "longest matching history, usefulness counters and a gshare baseline",
+          "sources": [
+            {
+              "path": "ch03_ilp/tage_predictor/sv/tage_predictor.sv",
+              "title": "SystemVerilog · tage_predictor.sv"
+            },
+            {
+              "path": "ch03_ilp/tage_predictor/sv/tb_tage_predictor.sv",
+              "title": "SystemVerilog · tb_tage_predictor.sv"
+            },
+            {
+              "path": "ch03_ilp/tage_predictor/vhdl/tage_predictor.vhd",
+              "title": "VHDL · tage_predictor.vhd"
+            },
+            {
+              "path": "ch03_ilp/tage_predictor/vhdl/tb_tage_predictor.vhd",
+              "title": "VHDL · tb_tage_predictor.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch03_ilp/spectre_transient_demo",
+          "title": "Speculative Cache Footprint and Mitigation",
+          "description": "bounds speculation, cache-probe timing and a delaying mitigation",
+          "sources": [
+            {
+              "path": "ch03_ilp/spectre_transient_demo/sv/spectre_transient_demo.sv",
+              "title": "SystemVerilog · spectre_transient_demo.sv"
+            },
+            {
+              "path": "ch03_ilp/spectre_transient_demo/sv/tb_spectre_transient_demo.sv",
+              "title": "SystemVerilog · tb_spectre_transient_demo.sv"
+            },
+            {
+              "path": "ch03_ilp/spectre_transient_demo/vhdl/spectre_transient_demo.vhd",
+              "title": "VHDL · spectre_transient_demo.vhd"
+            },
+            {
+              "path": "ch03_ilp/spectre_transient_demo/vhdl/tb_spectre_transient_demo.vhd",
+              "title": "VHDL · tb_spectre_transient_demo.vhd"
+            }
+          ]
+        },
+        {
           "path": "ch03_ilp/tournament_btb_ras",
           "title": "Tournament Predictor, BTB and Return Stack",
           "description": "local and global history selection, direct-mapped targets and four nested returns",
           "sources": [
-            {"path": "ch03_ilp/tournament_btb_ras/sv/tournament_btb_ras.sv", "title": "SystemVerilog · tournament_btb_ras.sv"},
-            {"path": "ch03_ilp/tournament_btb_ras/sv/tb_tournament_btb_ras.sv", "title": "SystemVerilog · tb_tournament_btb_ras.sv"},
-            {"path": "ch03_ilp/tournament_btb_ras/vhdl/tournament_btb_ras.vhd", "title": "VHDL · tournament_btb_ras.vhd"},
-            {"path": "ch03_ilp/tournament_btb_ras/vhdl/tb_tournament_btb_ras.vhd", "title": "VHDL · tb_tournament_btb_ras.vhd"}
+            {
+              "path": "ch03_ilp/tournament_btb_ras/sv/tournament_btb_ras.sv",
+              "title": "SystemVerilog · tournament_btb_ras.sv"
+            },
+            {
+              "path": "ch03_ilp/tournament_btb_ras/sv/tb_tournament_btb_ras.sv",
+              "title": "SystemVerilog · tb_tournament_btb_ras.sv"
+            },
+            {
+              "path": "ch03_ilp/tournament_btb_ras/vhdl/tournament_btb_ras.vhd",
+              "title": "VHDL · tournament_btb_ras.vhd"
+            },
+            {
+              "path": "ch03_ilp/tournament_btb_ras/vhdl/tb_tournament_btb_ras.vhd",
+              "title": "VHDL · tb_tournament_btb_ras.vhd"
+            }
           ]
         },
         {
@@ -448,6 +793,29 @@
       "title": "Chapter 4 · Data-Level Parallelism in Vector, SIMD and GPU Architectures",
       "examples": [
         {
+          "path": "ch04_dlp/simd_pack_shuffle",
+          "title": "SIMD Packing, Extension and Shuffle",
+          "description": "saturating narrowing, signed and zero extension, lane shuffle and byte transpose",
+          "sources": [
+            {
+              "path": "ch04_dlp/simd_pack_shuffle/sv/simd_pack_shuffle.sv",
+              "title": "SystemVerilog · simd_pack_shuffle.sv"
+            },
+            {
+              "path": "ch04_dlp/simd_pack_shuffle/sv/tb_simd_pack_shuffle.sv",
+              "title": "SystemVerilog · tb_simd_pack_shuffle.sv"
+            },
+            {
+              "path": "ch04_dlp/simd_pack_shuffle/vhdl/simd_pack_shuffle.vhd",
+              "title": "VHDL · simd_pack_shuffle.vhd"
+            },
+            {
+              "path": "ch04_dlp/simd_pack_shuffle/vhdl/tb_simd_pack_shuffle.vhd",
+              "title": "VHDL · tb_simd_pack_shuffle.vhd"
+            }
+          ]
+        },
+        {
           "path": "ch04_dlp/simd_alu",
           "title": "Packed-Subword SIMD ALU",
           "description": "packed-subword SIMD ALU: lane-isolated adder, saturation, PMADD, PSAD; kernels with 4-8x fewer instructions",
@@ -538,6 +906,76 @@
               "title": "VHDL · vector_unit.vhd"
             }
           ]
+        },
+        {
+          "path": "ch04_dlp/vector_bank_gather_strip",
+          "title": "Banked Vector Memory and Strip-Mining",
+          "description": "eight banks, conflict stalls, indexed gather and scatter",
+          "sources": [
+            {
+              "path": "ch04_dlp/vector_bank_gather_strip/sv/vector_bank_gather_strip.sv",
+              "title": "SystemVerilog · vector_bank_gather_strip.sv"
+            },
+            {
+              "path": "ch04_dlp/vector_bank_gather_strip/sv/tb_vector_bank_gather_strip.sv",
+              "title": "SystemVerilog · tb_vector_bank_gather_strip.sv"
+            },
+            {
+              "path": "ch04_dlp/vector_bank_gather_strip/vhdl/vector_bank_gather_strip.vhd",
+              "title": "VHDL · vector_bank_gather_strip.vhd"
+            },
+            {
+              "path": "ch04_dlp/vector_bank_gather_strip/vhdl/tb_vector_bank_gather_strip.vhd",
+              "title": "VHDL · tb_vector_bank_gather_strip.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch04_dlp/simt_coalesce_bankconflict",
+          "title": "SIMT Memory Counts and Warp Synchronization",
+          "description": "queued coalescing and shared replay, warp barrier and per-register scoreboard",
+          "sources": [
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/sv/simt_coalesce_bankconflict.sv",
+              "title": "SystemVerilog · simt_coalesce_bankconflict.sv"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/sv/tb_simt_coalesce_bankconflict.sv",
+              "title": "SystemVerilog · tb_simt_coalesce_bankconflict.sv"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/vhdl/simt_coalesce_bankconflict.vhd",
+              "title": "VHDL · simt_coalesce_bankconflict.vhd"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/vhdl/tb_simt_coalesce_bankconflict.vhd",
+              "title": "VHDL · tb_simt_coalesce_bankconflict.vhd"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/sv/simt_memory_engine.sv",
+              "title": "SystemVerilog · simt_memory_engine.sv"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/vhdl/simt_memory_engine.vhd",
+              "title": "VHDL · simt_memory_engine.vhd"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/sv/simt_memory_system.sv",
+              "title": "SystemVerilog · simt_memory_system.sv"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/vhdl/simt_memory_system.vhd",
+              "title": "VHDL · simt_memory_system.vhd"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/sv/simt_coalesced_core.sv",
+              "title": "SystemVerilog · simt_coalesced_core.sv"
+            },
+            {
+              "path": "ch04_dlp/simt_coalesce_bankconflict/vhdl/simt_coalesced_core.vhd",
+              "title": "VHDL · simt_coalesced_core.vhd"
+            }
+          ]
         }
       ]
     },
@@ -545,6 +983,75 @@
       "path": "ch05_tlp",
       "title": "Chapter 5 · Thread-Level Parallelism",
       "examples": [
+        {
+          "path": "ch05_tlp/directory_limited_evict",
+          "title": "Directory Replacement and Limited Sharers",
+          "description": "clean and dirty evictions, limited pointers and coarse sharer vectors",
+          "sources": [
+            {
+              "path": "ch05_tlp/directory_limited_evict/sv/directory_limited_evict.sv",
+              "title": "SystemVerilog · directory_limited_evict.sv"
+            },
+            {
+              "path": "ch05_tlp/directory_limited_evict/sv/tb_directory_limited_evict.sv",
+              "title": "SystemVerilog · tb_directory_limited_evict.sv"
+            },
+            {
+              "path": "ch05_tlp/directory_limited_evict/vhdl/directory_limited_evict.vhd",
+              "title": "VHDL · directory_limited_evict.vhd"
+            },
+            {
+              "path": "ch05_tlp/directory_limited_evict/vhdl/tb_directory_limited_evict.vhd",
+              "title": "VHDL · tb_directory_limited_evict.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/llsc_backoff_barrier",
+          "title": "LR/SC, Backoff and Sense Barrier",
+          "description": "reservation invalidation, snooping-bus contention and reusable barrier phases",
+          "sources": [
+            {
+              "path": "ch05_tlp/llsc_backoff_barrier/sv/llsc_barrier.sv",
+              "title": "SystemVerilog · llsc_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/llsc_backoff_barrier/sv/tb_llsc_backoff_barrier.sv",
+              "title": "SystemVerilog · tb_llsc_backoff_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/llsc_backoff_barrier/vhdl/llsc_barrier.vhd",
+              "title": "VHDL · llsc_barrier.vhd"
+            },
+            {
+              "path": "ch05_tlp/llsc_backoff_barrier/vhdl/tb_llsc_backoff_barrier.vhd",
+              "title": "VHDL · tb_llsc_backoff_barrier.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/consistency_litmus_tsosb",
+          "title": "SC and TSO Consistency Litmus Tests",
+          "description": "store buffering, forwarding, fences and message passing",
+          "sources": [
+            {
+              "path": "ch05_tlp/consistency_litmus_tsosb/sv/consistency_litmus_tsosb.sv",
+              "title": "SystemVerilog · consistency_litmus_tsosb.sv"
+            },
+            {
+              "path": "ch05_tlp/consistency_litmus_tsosb/sv/tb_consistency_litmus_tsosb.sv",
+              "title": "SystemVerilog · tb_consistency_litmus_tsosb.sv"
+            },
+            {
+              "path": "ch05_tlp/consistency_litmus_tsosb/vhdl/consistency_litmus_tsosb.vhd",
+              "title": "VHDL · consistency_litmus_tsosb.vhd"
+            },
+            {
+              "path": "ch05_tlp/consistency_litmus_tsosb/vhdl/tb_consistency_litmus_tsosb.vhd",
+              "title": "VHDL · tb_consistency_litmus_tsosb.vhd"
+            }
+          ]
+        },
         {
           "path": "ch05_tlp/directory_msi",
           "title": "Directory-Based MSI Cache Coherence",
@@ -613,19 +1120,157 @@
               "title": "VHDL · tb_spinlock_bench.vhd"
             }
           ]
+        },
+        {
+          "path": "ch05_tlp/mcs_combining_barrier",
+          "title": "MCS Lock and Combining-Tree Barrier",
+          "description": "queue handoff and barrier traffic across 2, 4 and 8 cores",
+          "sources": [
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/sv/mcs_combining_barrier.sv",
+              "title": "SystemVerilog · mcs_combining_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/sv/tb_mcs_combining_barrier.sv",
+              "title": "SystemVerilog · tb_mcs_combining_barrier.sv"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/vhdl/mcs_combining_barrier.vhd",
+              "title": "VHDL · mcs_combining_barrier.vhd"
+            },
+            {
+              "path": "ch05_tlp/mcs_combining_barrier/vhdl/tb_mcs_combining_barrier.vhd",
+              "title": "VHDL · tb_mcs_combining_barrier.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/split_bus_transient_msi",
+          "title": "Split-Transaction MSI",
+          "description": "ordered same-line upgrades with delayed data and dirty eviction",
+          "sources": [
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/sv/split_bus_transient_msi.sv",
+              "title": "SystemVerilog · split_bus_transient_msi.sv"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/sv/tb_split_bus_transient_msi.sv",
+              "title": "SystemVerilog · tb_split_bus_transient_msi.sv"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/vhdl/split_bus_transient_msi.vhd",
+              "title": "VHDL · split_bus_transient_msi.vhd"
+            },
+            {
+              "path": "ch05_tlp/split_bus_transient_msi/vhdl/tb_split_bus_transient_msi.vhd",
+              "title": "VHDL · tb_split_bus_transient_msi.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch05_tlp/moesi_false_sharing",
+          "title": "MOESI and False Sharing",
+          "description": "Owned dirty data, miss classification and adjacent-word traffic",
+          "sources": [
+            {
+              "path": "ch05_tlp/moesi_false_sharing/sv/moesi_false_sharing.sv",
+              "title": "SystemVerilog · moesi_false_sharing.sv"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/sv/tb_moesi_false_sharing.sv",
+              "title": "SystemVerilog · tb_moesi_false_sharing.sv"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/vhdl/moesi_false_sharing.vhd",
+              "title": "VHDL · moesi_false_sharing.vhd"
+            },
+            {
+              "path": "ch05_tlp/moesi_false_sharing/vhdl/tb_moesi_false_sharing.vhd",
+              "title": "VHDL · tb_moesi_false_sharing.vhd"
+            }
+          ]
         }
       ]
     },
     {
       "path": "ch06_wsc",
       "title": "Chapter 6 · Warehouse-Scale Computers",
-      "note": "This chapter has no RTL examples. Its guide discusses system-level modelling; a Python companion is planned.",
-      "examples": []
+      "examples": [
+        {
+          "path": "ch06_wsc/clos_ocs_fabric",
+          "title": "Clos Fabric with Optical Circuit Reconfiguration",
+          "description": "loss-free hot-pair traffic with fixed and reconfigured spine paths",
+          "sources": [
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/sv/clos_ocs_fabric.sv",
+              "title": "SystemVerilog · clos_ocs_fabric.sv"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/sv/tb_clos_ocs_fabric.sv",
+              "title": "SystemVerilog · tb_clos_ocs_fabric.sv"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/vhdl/clos_ocs_fabric.vhd",
+              "title": "VHDL · clos_ocs_fabric.vhd"
+            },
+            {
+              "path": "ch06_wsc/clos_ocs_fabric/vhdl/tb_clos_ocs_fabric.vhd",
+              "title": "VHDL · tb_clos_ocs_fabric.vhd"
+            }
+          ]
+        }
+      ]
     },
     {
       "path": "ch07_dsa",
       "title": "Chapter 7 · Domain-Specific Architectures",
       "examples": [
+        {
+          "path": "ch07_dsa/systolic_os_act_quant",
+          "title": "Output-Stationary Matrix Unit and Quantization",
+          "description": "4×4 int8 matrix multiply, bias, activation and signed narrowing",
+          "sources": [
+            {
+              "path": "ch07_dsa/systolic_os_act_quant/sv/systolic_os_act_quant.sv",
+              "title": "SystemVerilog · systolic_os_act_quant.sv"
+            },
+            {
+              "path": "ch07_dsa/systolic_os_act_quant/sv/tb_systolic_os_act_quant.sv",
+              "title": "SystemVerilog · tb_systolic_os_act_quant.sv"
+            },
+            {
+              "path": "ch07_dsa/systolic_os_act_quant/vhdl/systolic_os_act_quant.vhd",
+              "title": "VHDL · systolic_os_act_quant.vhd"
+            },
+            {
+              "path": "ch07_dsa/systolic_os_act_quant/vhdl/tb_systolic_os_act_quant.vhd",
+              "title": "VHDL · tb_systolic_os_act_quant.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch07_dsa/conv2d_linebuffer",
+          "title": "Streaming 3×3 Convolution",
+          "description": "signed int8 sliding-window convolution with two line buffers",
+          "sources": [
+            {
+              "path": "ch07_dsa/conv2d_linebuffer/sv/conv2d_linebuffer.sv",
+              "title": "SystemVerilog · conv2d_linebuffer.sv"
+            },
+            {
+              "path": "ch07_dsa/conv2d_linebuffer/sv/tb_conv2d_linebuffer.sv",
+              "title": "SystemVerilog · tb_conv2d_linebuffer.sv"
+            },
+            {
+              "path": "ch07_dsa/conv2d_linebuffer/vhdl/conv2d_linebuffer.vhd",
+              "title": "VHDL · conv2d_linebuffer.vhd"
+            },
+            {
+              "path": "ch07_dsa/conv2d_linebuffer/vhdl/tb_conv2d_linebuffer.vhd",
+              "title": "VHDL · tb_conv2d_linebuffer.vhd"
+            }
+          ]
+        },
         {
           "path": "ch07_dsa/systolic_array",
           "title": "Systolic Matrix-Multiply Unit (TPU-style)",
@@ -646,6 +1291,81 @@
             {
               "path": "ch07_dsa/systolic_array/vhdl/tb_systolic_array.vhd",
               "title": "VHDL · tb_systolic_array.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch07_dsa/stencil_halo_2d",
+          "title": "Sobel and Box Stencils on a Scratchpad",
+          "description": "4×4 parallel outputs with clamped or wrapped boundaries",
+          "sources": [
+            {
+              "path": "ch07_dsa/stencil_halo_2d/sv/stencil_halo_2d.sv",
+              "title": "SystemVerilog · stencil_halo_2d.sv"
+            },
+            {
+              "path": "ch07_dsa/stencil_halo_2d/sv/tb_stencil_halo_2d.sv",
+              "title": "SystemVerilog · tb_stencil_halo_2d.sv"
+            },
+            {
+              "path": "ch07_dsa/stencil_halo_2d/vhdl/stencil_halo_2d.vhd",
+              "title": "VHDL · stencil_halo_2d.vhd"
+            },
+            {
+              "path": "ch07_dsa/stencil_halo_2d/vhdl/tb_stencil_halo_2d.vhd",
+              "title": "VHDL · tb_stencil_halo_2d.vhd"
+            }
+          ]
+        },
+        {
+          "path": "ch07_dsa/tensor_core_sparse24_fp8",
+          "title": "Structured Sparse Tensor Tile",
+          "description": "4×4 BF16 and FP8 accumulation with packed 2:4 weights",
+          "sources": [
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/sv/tensor_core_sparse24_fp8.sv",
+              "title": "SystemVerilog · tensor_core_sparse24_fp8.sv"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/sv/tb_tensor_core_sparse24_fp8.sv",
+              "title": "SystemVerilog · tb_tensor_core_sparse24_fp8.sv"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/vhdl/tensor_core_sparse24_fp8.vhd",
+              "title": "VHDL · tensor_core_sparse24_fp8.vhd"
+            },
+            {
+              "path": "ch07_dsa/tensor_core_sparse24_fp8/vhdl/tb_tensor_core_sparse24_fp8.vhd",
+              "title": "VHDL · tb_tensor_core_sparse24_fp8.vhd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "appA_isa",
+      "title": "Appendix A · Instruction-Set Principles",
+      "examples": [
+        {
+          "path": "appA_isa/rvc_compressed_decoder",
+          "title": "RV32C Subset Expansion and Fetch",
+          "description": "compressed instruction expansion and mixed-width PC advancement",
+          "sources": [
+            {
+              "path": "appA_isa/rvc_compressed_decoder/sv/rvc_compressed_decoder.sv",
+              "title": "SystemVerilog · rvc_compressed_decoder.sv"
+            },
+            {
+              "path": "appA_isa/rvc_compressed_decoder/sv/tb_rvc_compressed_decoder.sv",
+              "title": "SystemVerilog · tb_rvc_compressed_decoder.sv"
+            },
+            {
+              "path": "appA_isa/rvc_compressed_decoder/vhdl/rvc_compressed_decoder.vhd",
+              "title": "VHDL · rvc_compressed_decoder.vhd"
+            },
+            {
+              "path": "appA_isa/rvc_compressed_decoder/vhdl/tb_rvc_compressed_decoder.vhd",
+              "title": "VHDL · tb_rvc_compressed_decoder.vhd"
             }
           ]
         }
@@ -708,6 +1428,75 @@
               "title": "VHDL · tb_rv32i_pipeline.vhd"
             }
           ]
+        },
+        {
+          "path": "appC_pipelining/multicycle_microcode_baseline",
+          "title": "Hardwired and Microcoded Multicycle RV32I",
+          "description": "one datapath with two controllers and a five-stage pipeline comparison",
+          "sources": [
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/sv/multicycle_microcode_baseline.sv",
+              "title": "SystemVerilog · multicycle_microcode_baseline.sv"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/sv/tb_multicycle_microcode_baseline.sv",
+              "title": "SystemVerilog · tb_multicycle_microcode_baseline.sv"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/vhdl/multicycle_microcode_baseline.vhd",
+              "title": "VHDL · multicycle_microcode_baseline.vhd"
+            },
+            {
+              "path": "appC_pipelining/multicycle_microcode_baseline/vhdl/tb_multicycle_microcode_baseline.vhd",
+              "title": "VHDL · tb_multicycle_microcode_baseline.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appC_pipelining/rv32i_precise_exceptions",
+          "title": "Precise Exceptions in an RV32I Pipeline",
+          "description": "oldest-fault priority, deferred stores, interrupt drain and handler return",
+          "sources": [
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/sv/rv32i_precise_exceptions.sv",
+              "title": "SystemVerilog · rv32i_precise_exceptions.sv"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/sv/tb_rv32i_precise_exceptions.sv",
+              "title": "SystemVerilog · tb_rv32i_precise_exceptions.sv"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/vhdl/rv32i_precise_exceptions.vhd",
+              "title": "VHDL · rv32i_precise_exceptions.vhd"
+            },
+            {
+              "path": "appC_pipelining/rv32i_precise_exceptions/vhdl/tb_rv32i_precise_exceptions.vhd",
+              "title": "VHDL · tb_rv32i_precise_exceptions.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appC_pipelining/r4000_superpipeline8",
+          "title": "R4000-Style Eight-Stage MIPS Pipeline",
+          "description": "two-cycle load-use timing and optional branch delay slot",
+          "sources": [
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/sv/r4000_superpipeline8.sv",
+              "title": "SystemVerilog · r4000_superpipeline8.sv"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/sv/tb_r4000_superpipeline8.sv",
+              "title": "SystemVerilog · tb_r4000_superpipeline8.sv"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/vhdl/r4000_superpipeline8.vhd",
+              "title": "VHDL · r4000_superpipeline8.vhd"
+            },
+            {
+              "path": "appC_pipelining/r4000_superpipeline8/vhdl/tb_r4000_superpipeline8.vhd",
+              "title": "VHDL · tb_r4000_superpipeline8.vhd"
+            }
+          ]
         }
       ]
     },
@@ -758,6 +1547,89 @@
             {
               "path": "appD_storage/raid5_parity/vhdl/tb_raid5_parity.vhd",
               "title": "VHDL · tb_raid5_parity.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appD_storage/raid6_p_q_chipkill",
+          "title": "RAID-6 P/Q and Single-Symbol Correction",
+          "description": "dual-erasure reconstruction and single-nibble correction",
+          "sources": [
+            {
+              "path": "appD_storage/raid6_p_q_chipkill/sv/raid6_p_q_chipkill.sv",
+              "title": "SystemVerilog · raid6_p_q_chipkill.sv"
+            },
+            {
+              "path": "appD_storage/raid6_p_q_chipkill/sv/tb_raid6_p_q_chipkill.sv",
+              "title": "SystemVerilog · tb_raid6_p_q_chipkill.sv"
+            },
+            {
+              "path": "appD_storage/raid6_p_q_chipkill/vhdl/raid6_p_q_chipkill.vhd",
+              "title": "VHDL · raid6_p_q_chipkill.vhd"
+            },
+            {
+              "path": "appD_storage/raid6_p_q_chipkill/vhdl/tb_raid6_p_q_chipkill.vhd",
+              "title": "VHDL · tb_raid6_p_q_chipkill.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appD_storage/dma_split_bus_coherence",
+          "title": "DMA and I/O Cache Coherence",
+          "description": "split transactions, peripheral FIFOs and snoop invalidation",
+          "sources": [
+            {
+              "path": "appD_storage/dma_split_bus_coherence/sv/dma_split_bus_coherence.sv",
+              "title": "SystemVerilog · dma_split_bus_coherence.sv"
+            },
+            {
+              "path": "appD_storage/dma_split_bus_coherence/sv/tb_dma_split_bus_coherence.sv",
+              "title": "SystemVerilog · tb_dma_split_bus_coherence.sv"
+            },
+            {
+              "path": "appD_storage/dma_split_bus_coherence/vhdl/dma_split_bus_coherence.vhd",
+              "title": "VHDL · dma_split_bus_coherence.vhd"
+            },
+            {
+              "path": "appD_storage/dma_split_bus_coherence/vhdl/tb_dma_split_bus_coherence.vhd",
+              "title": "VHDL · tb_dma_split_bus_coherence.vhd"
+            },
+            {
+              "path": "appD_storage/dma_split_bus_coherence/sv/peripheral_fifo_wrapper.sv",
+              "title": "SystemVerilog · peripheral_fifo_wrapper.sv"
+            },
+            {
+              "path": "appD_storage/dma_split_bus_coherence/vhdl/peripheral_fifo_wrapper.vhd",
+              "title": "VHDL · peripheral_fifo_wrapper.vhd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "appE_embedded",
+      "title": "Appendix E · Embedded Systems and DSPs",
+      "examples": [
+        {
+          "path": "appE_embedded/dsp_qmac_circular_zoloop",
+          "title": "Fixed-Point DSP MAC and Circular Addressing",
+          "description": "saturating Q1.15 MAC, repeat counter and FFT bit reversal",
+          "sources": [
+            {
+              "path": "appE_embedded/dsp_qmac_circular_zoloop/sv/dsp_qmac_circular_zoloop.sv",
+              "title": "SystemVerilog · dsp_qmac_circular_zoloop.sv"
+            },
+            {
+              "path": "appE_embedded/dsp_qmac_circular_zoloop/sv/tb_dsp_qmac_circular_zoloop.sv",
+              "title": "SystemVerilog · tb_dsp_qmac_circular_zoloop.sv"
+            },
+            {
+              "path": "appE_embedded/dsp_qmac_circular_zoloop/vhdl/dsp_qmac_circular_zoloop.vhd",
+              "title": "VHDL · dsp_qmac_circular_zoloop.vhd"
+            },
+            {
+              "path": "appE_embedded/dsp_qmac_circular_zoloop/vhdl/tb_dsp_qmac_circular_zoloop.vhd",
+              "title": "VHDL · tb_dsp_qmac_circular_zoloop.vhd"
             }
           ]
         }
@@ -898,6 +1770,52 @@
               "title": "VHDL · vc_router.vhd"
             }
           ]
+        },
+        {
+          "path": "appF_interconnect/omega_fat_tree_islip",
+          "title": "Omega Network and iSLIP Arbitration",
+          "description": "wormhole routing, blocking permutations and iterative crossbar matching",
+          "sources": [
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/sv/omega_fat_tree_islip.sv",
+              "title": "SystemVerilog · omega_fat_tree_islip.sv"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/sv/tb_omega_fat_tree_islip.sv",
+              "title": "SystemVerilog · tb_omega_fat_tree_islip.sv"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/vhdl/omega_fat_tree_islip.vhd",
+              "title": "VHDL · omega_fat_tree_islip.vhd"
+            },
+            {
+              "path": "appF_interconnect/omega_fat_tree_islip/vhdl/tb_omega_fat_tree_islip.vhd",
+              "title": "VHDL · tb_omega_fat_tree_islip.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appF_interconnect/west_first_adaptive_spec_vc",
+          "title": "West-First Adaptive Mesh",
+          "description": "minimal routing with single-cycle speculative VC and switch allocation",
+          "sources": [
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/sv/west_first_adaptive_spec_vc.sv",
+              "title": "SystemVerilog · west_first_adaptive_spec_vc.sv"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/sv/tb_west_first_adaptive_spec_vc.sv",
+              "title": "SystemVerilog · tb_west_first_adaptive_spec_vc.sv"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/vhdl/west_first_adaptive_spec_vc.vhd",
+              "title": "VHDL · west_first_adaptive_spec_vc.vhd"
+            },
+            {
+              "path": "appF_interconnect/west_first_adaptive_spec_vc/vhdl/tb_west_first_adaptive_spec_vc.vhd",
+              "title": "VHDL · tb_west_first_adaptive_spec_vc.vhd"
+            }
+          ]
         }
       ]
     },
@@ -927,6 +1845,29 @@
               "title": "VHDL · vliw4.vhd"
             }
           ]
+        },
+        {
+          "path": "appH_vliw/vliw4_swpipe_pred_alat",
+          "title": "Predicated and Software-Pipelined VLIW",
+          "description": "rotating registers, deferred faults and advanced-load checks",
+          "sources": [
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/sv/vliw4_swpipe_pred_alat.sv",
+              "title": "SystemVerilog · vliw4_swpipe_pred_alat.sv"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/sv/tb_vliw4_swpipe_pred_alat.sv",
+              "title": "SystemVerilog · tb_vliw4_swpipe_pred_alat.sv"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/vhdl/vliw4_swpipe_pred_alat.vhd",
+              "title": "VHDL · vliw4_swpipe_pred_alat.vhd"
+            },
+            {
+              "path": "appH_vliw/vliw4_swpipe_pred_alat/vhdl/tb_vliw4_swpipe_pred_alat.vhd",
+              "title": "VHDL · tb_vliw4_swpipe_pred_alat.vhd"
+            }
+          ]
         }
       ]
     },
@@ -939,10 +1880,22 @@
           "title": "Carry-Skip, Carry-Select and Carry-Save Arithmetic",
           "description": "16-bit adders and 8-bit carry-save multiplier",
           "sources": [
-            {"path": "appJ_arithmetic/csa_wallace_skip_select/sv/arithmetic.sv", "title": "SystemVerilog · arithmetic.sv"},
-            {"path": "appJ_arithmetic/csa_wallace_skip_select/sv/tb_arithmetic.sv", "title": "SystemVerilog · tb_arithmetic.sv"},
-            {"path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/arithmetic.vhd", "title": "VHDL · arithmetic.vhd"},
-            {"path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/tb_arithmetic.vhd", "title": "VHDL · tb_arithmetic.vhd"}
+            {
+              "path": "appJ_arithmetic/csa_wallace_skip_select/sv/arithmetic.sv",
+              "title": "SystemVerilog · arithmetic.sv"
+            },
+            {
+              "path": "appJ_arithmetic/csa_wallace_skip_select/sv/tb_arithmetic.sv",
+              "title": "SystemVerilog · tb_arithmetic.sv"
+            },
+            {
+              "path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/arithmetic.vhd",
+              "title": "VHDL · arithmetic.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/csa_wallace_skip_select/vhdl/tb_arithmetic.vhd",
+              "title": "VHDL · tb_arithmetic.vhd"
+            }
           ]
         },
         {
@@ -1011,6 +1964,60 @@
             {
               "path": "appJ_arithmetic/restoring_divider/vhdl/tb_restoring_divider.vhd",
               "title": "VHDL · tb_restoring_divider.vhd"
+            }
+          ]
+        },
+        {
+          "path": "appJ_arithmetic/ieee754_fpu_fma_bf16",
+          "title": "Binary32 and Low-Precision FMA",
+          "description": "add, multiply, and fused multiply-add with four rounding modes and scaled BF16/FP8 operands",
+          "sources": [
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/sv/ieee754_fpu_fma_bf16.sv",
+              "title": "SystemVerilog · ieee754_fpu_fma_bf16.sv"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/sv/tb_ieee754_fpu_fma_bf16.sv",
+              "title": "SystemVerilog · tb_ieee754_fpu_fma_bf16.sv"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/ieee754_fpu_fma_bf16.vhd",
+              "title": "VHDL · ieee754_fpu_fma_bf16.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/vhdl/tb_ieee754_fpu_fma_bf16.vhd",
+              "title": "VHDL · tb_ieee754_fpu_fma_bf16.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/ieee754_fpu_fma_bf16/python/fp_reference.py",
+              "title": "Python · fp_reference.py"
+            }
+          ]
+        },
+        {
+          "path": "appJ_arithmetic/srt4_divider_fdiv",
+          "title": "Radix-4 SRT Division",
+          "description": "carry-save recurrence, quotient conversion and five omitted selection cells",
+          "sources": [
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/sv/srt4_divider_fdiv.sv",
+              "title": "SystemVerilog · srt4_divider_fdiv.sv"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/sv/tb_srt4_divider_fdiv.sv",
+              "title": "SystemVerilog · tb_srt4_divider_fdiv.sv"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/vhdl/srt4_divider_fdiv.vhd",
+              "title": "VHDL · srt4_divider_fdiv.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/vhdl/tb_srt4_divider_fdiv.vhd",
+              "title": "VHDL · tb_srt4_divider_fdiv.vhd"
+            },
+            {
+              "path": "appJ_arithmetic/srt4_divider_fdiv/python/srt_reference.py",
+              "title": "Python · srt_reference.py"
             }
           ]
         }

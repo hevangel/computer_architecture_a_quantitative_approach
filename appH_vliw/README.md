@@ -9,5 +9,4 @@ Itanium/EPIC) rotating registers and speculative loads. Prominent in the 3rd and
 | Example | What it shows |
 |---------|---------------|
 | [`vliw4`](vliw4) | 4-slot bundles, exposed latencies, no interlocks; one DAXPY kernel scheduled three ways (IPC 1.01 / 1.77 / 1.94) |
-
-Planned: software-pipelined loop, predication, delayed branches (see [`docs/roadmap.md`](../docs/roadmap.md)).
+| [`vliw4_swpipe_pred_alat`](vliw4_swpipe_pred_alat) | modulo scheduling, predicates, NaT checks and a four-entry ALAT |

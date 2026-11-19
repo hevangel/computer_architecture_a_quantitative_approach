@@ -2,9 +2,54 @@ import itertools
 import unittest
 
 import isa_class_traffic as isa
+import rv32im_traffic as rv
+import mips64_traffic as mips
 
 
 class ISATrafficTests(unittest.TestCase):
+    def test_textbook_four_class_addition(self):
+        # 5th ed. Fig. A.2 (PDF p. 527), 1st ed. Fig. 3.3 (PDF p. 122).
+        # Fig. A.2 contains four, three, three and four body instructions.
+        # Interpreter halt and toy encoding lengths are separate assumptions.
+        body_counts = {"stack": 4, "accumulator": 3, "register_memory": 3, "load_store": 4}
+        body_bytes = {"stack": 10, "accumulator": 9, "register_memory": 12, "load_store": 16}
+        for values in ((2, 3), (-5, 8), (0, 0), (100, -100)):
+            for style in isa.STYLES:
+                options = {"stack_storage": "internal"} if style == "stack" else {}
+                memory = {0: values[0], 1: values[1], 2: 999}
+                result = isa.execute(style, isa.addition_program(style), memory, **options)
+                self.assertEqual(result["memory"][2], sum(values))
+                self.assertEqual((result["memory"][0], result["memory"][1]), values)
+                self.assertEqual(result["instructions"]-1, body_counts[style])
+                self.assertEqual(result["static_code_bytes"]-isa.SIZES[style]["halt"], body_bytes[style])
+                self.assertEqual((result["data_read_bytes"], result["data_write_bytes"]), (8, 4))
+        resident = isa.execute("stack", isa.addition_program("stack"), {0: 2, 1: 3}, stack_storage="internal")
+        backed = isa.execute("stack", isa.addition_program("stack"), {0: 2, 1: 3})
+        self.assertEqual((resident["data_read_bytes"], resident["data_write_bytes"]), (8, 4))
+        self.assertEqual((backed["data_read_bytes"], backed["data_write_bytes"]), (20, 16))
+        self.assertEqual(backed["memory"][2], resident["memory"][2])
+        with self.assertRaises(ValueError):
+            isa.execute("stack", isa.addition_program("stack"), {}, stack_storage="unknown")
+        with self.assertRaises(ValueError):
+            isa.execute("load_store", isa.addition_program("load_store"), {}, stack_storage="internal")
+
+    def test_encoded_load_store_addition(self):
+        # Same four-operation load/store body, encoded in two real ISAs.
+        self.assertEqual(rv.addition_program(),
+                         [0x00002083, 0x00402103, 0x002081b3, 0x00302423, rv.EBREAK])
+        self.assertEqual(mips.addition_program(),
+                         [0xdc010000, 0xdc020008, 0x0022182d, 0xfc030010, mips.BREAK])
+        for implementation, word_bytes, mask in ((rv, 4, 0xffffffff), (mips, 8, (1 << 64)-1)):
+            for a, b in ((2, 3), (-5, 8), (mask, 2)):
+                result = implementation.execute(implementation.addition_program(),
+                                                {0: a, word_bytes: b, 2*word_bytes: 999})
+                self.assertEqual(result["memory"][2*word_bytes], (a+b)&mask)
+                self.assertEqual(result["instructions"], 5)
+                self.assertEqual(result["static_code_bytes"], 20)
+                self.assertEqual(result["dynamic_code_bytes"], 20)
+                self.assertEqual((result["data_read_bytes"], result["data_write_bytes"]),
+                                 (2*word_bytes, word_bytes))
+
     def test_expression_results_and_hand_counted_traffic(self):
         # Counts follow directly from the listed instruction streams. For stack,
         # each push writes a word and each pop reads a word in addition to loads.

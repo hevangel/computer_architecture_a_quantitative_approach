@@ -69,6 +69,76 @@ def package_cost(die_costs, assembly_cost, assembly_yield):
     return (fsum(costs) + assembly_cost) / assembly_yield
 
 
+
+def uniform_chiplet_cost(wafer_cost, wafer_diameter_mm, chiplet_area_mm2, chiplet_count,
+                         defect_density_per_mm2, assembly_cost, assembly_yield,
+                         clustering=3.0, wafer_yield=1.0):
+    """Expected good-package cost for identical known-good chiplets.
+
+    Each assembly attempt consumes all chiplets; costs exclude interposer and
+    testing unless supplied in assembly_cost. All dies share the same yield model.
+    """
+    if isinstance(chiplet_count, bool) or not isinstance(chiplet_count, int) or chiplet_count < 1:
+        raise ValueError("chiplet_count must be a positive integer")
+    cost = good_die_cost(wafer_cost, wafer_diameter_mm, chiplet_area_mm2,
+                         defect_density_per_mm2, clustering, wafer_yield)
+    return package_cost([cost * chiplet_count], assembly_cost, assembly_yield)
+
+
+def chiplet_break_even_density(*, wafer_cost, wafer_diameter_mm, monolithic_area_mm2,
+                               chiplet_area_mm2, chiplet_count, monolithic_assembly_cost,
+                               monolithic_assembly_yield, chiplet_assembly_cost,
+                               chiplet_assembly_yield, density_low, density_high,
+                               clustering=3.0, wafer_yield=1.0, density_tolerance=1e-12,
+                               max_iterations=200):
+    """Find one monolithic/chiplet package-cost crossing in a supplied bracket.
+
+    Density is defects/mm². Bisection requires opposite signs at the endpoints
+    (or one endpoint exactly at a crossing). It does not prove uniqueness or
+    search outside the interval. Package costs include assembly yield and assume
+    independently tested known-good dies, not die-to-die defect correlation.
+    """
+    low = _nonnegative(density_low, "density_low")
+    high = _nonnegative(density_high, "density_high")
+    _positive(density_tolerance, "density_tolerance")
+    if low >= high:
+        raise ValueError("density_low must be less than density_high")
+    if isinstance(max_iterations, bool) or not isinstance(max_iterations, int) or max_iterations < 1:
+        raise ValueError("max_iterations must be a positive integer")
+
+    def difference(density):
+        mono = package_cost([good_die_cost(wafer_cost, wafer_diameter_mm, monolithic_area_mm2,
+                                           density, clustering, wafer_yield)],
+                            monolithic_assembly_cost, monolithic_assembly_yield)
+        multi = uniform_chiplet_cost(wafer_cost, wafer_diameter_mm, chiplet_area_mm2,
+                                    chiplet_count, density, chiplet_assembly_cost,
+                                    chiplet_assembly_yield, clustering, wafer_yield)
+        if not isfinite(mono) or not isfinite(multi):
+            raise ValueError("package cost is not finite")
+        return mono - multi
+
+    left, right = difference(low), difference(high)
+    if left == 0 and right == 0:
+        raise ValueError("both endpoints are crossings; bracket is ambiguous")
+    if left == 0:
+        return low
+    if right == 0:
+        return high
+    if (left < 0) == (right < 0):
+        raise ValueError("density interval does not bracket a cost crossing")
+    for _ in range(max_iterations):
+        mid = low + (high - low) / 2
+        if high - low <= density_tolerance or mid == low or mid == high:
+            return mid
+        value = difference(mid)
+        if value == 0:
+            return mid
+        if (value < 0) == (left < 0):
+            low, left = mid, value
+        else:
+            high, right = mid, value
+    raise ValueError("break-even search did not converge within max_iterations")
+
 def fit_to_mttf(failures_per_billion_hours):
     """Convert FIT to mean time to failure in hours."""
     return 1e9 / _positive(failures_per_billion_hours, "FIT")
@@ -159,3 +229,19 @@ def benchmark_summary(values, weights=None):
         "geometric": exp(mean_log),
         "geometric_stddev": exp(sqrt(fsum((x - mean_log) ** 2 for x in logs) / len(logs))),
     }
+
+
+def redundant_pair_repair_mttf(component_mttf, repair_mttr):
+    """Mean time to first service failure for two repairable active components.
+
+    Both begin operational and either one suffices. Failures are independent,
+    exponential, and constant-rate. While one component is down, its repair is
+    exponential and competes with failure of the remaining component. Repairs
+    restore a component to as-good-as-new. Stop at the first simultaneous outage;
+    this is not steady-state availability and excludes common-cause failure.
+    """
+    mttf = _positive(component_mttf, "component_mttf")
+    mttr = _positive(repair_mttr, "repair_mttr")
+    # First-step equations: T2=1/(2λ)+T1;
+    # T1=1/(λ+μ)+μ/(λ+μ)*T2, where λ=1/MTTF and μ=1/MTTR.
+    return 1.5 * mttf + mttf * mttf / (2 * mttr)

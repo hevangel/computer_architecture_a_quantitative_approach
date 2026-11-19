@@ -22,9 +22,9 @@ A GPU achieves throughput not with deep out-of-order pipelines but with **many t
 
 * `NW` warps x `WS` lanes (defaults 4 x 8), per-lane registers `r0..r7` (`r0 = 0`), a single issue slot per cycle, round-robin warp selection.
 * **Scheduler.** Each cycle the first *ready* warp after the last one issued is chosen (ready = not finished and not waiting for a load). If none is ready the cycle
-  is idle.
+  is idle. In async mode, a selected instruction with a pending dependency stalls and the scheduler tries the next warp.
 * **Loads.** The data is captured when the load issues and written to the registers `LD_LAT - 1` edges later; the warp cannot issue again until then, i.e. its
-  next instruction issues `LD_LAT` edges after the load (`LD_LAT = 6`). Other warps keep running.
+  next instruction issues `LD_LAT` edges after the load (`LD_LAT = 6`). Other warps keep running. This applies to the default fixed-latency mode.
 * **Divergence stack** (the SSY/SYNC scheme used by NVIDIA GPUs of the Tesla/Fermi era):
 
   | Instruction | Action |
@@ -32,9 +32,9 @@ A GPU achieves throughput not with deep out-of-order pipelines but with **many t
   | `SSY` | push a token holding the current active mask |
   | `BEQZ ra, T` | lanes with `ra == 0` jump to `T`, the others fall through. All jump / none jump: no divergence. Otherwise **push** `{pc = T, mask = taken}` and continue with the not-taken lanes |
   | `SYNC` | **pop**. A pending path: run it (`pc`, `mask` from the entry). An SSY token: restore its mask and continue after the `SYNC` |
-* ISA: `ADD SUB MUL ANDI ADDI TID LD ST BEQZ BRA SSY SYNC EXIT`; word-addressed memory with one port per lane. `TID` yields the global thread id (`warp*WS + lane`).
-* **Simplified on purpose:** a warp blocks on any load (real GPUs track per-register scoreboards so independent instructions continue); no caches, coalescing
-  or bank conflicts; one issue slot; one SIMT stack scheme (recent GPUs have independent thread scheduling).
+* ISA: `ADD SUB MUL ANDI ADDI TID LD ST BEQZ BRA SSY SYNC EXIT`; asynchronous mode adds shared-memory `LDS`, `STS` and `BARRIER` (opcodes 15, 16 and 17). Memory is word-addressed with one port per lane. `TID` yields the global thread id (`warp*WS + lane`).
+* **Optional asynchronous memory.** `ASYNC_MEM` changes loads and stores to a ready/valid request and a response tagged with warp and destination register. The active mask, addresses, data and tags remain stable while a request is stalled. Each warp may have loads to different registers pending at once; reads or writes of pending destinations stall. Stores wait for earlier operations and block later memory operations until their responses; barrier and exit wait for all pending operations. The memory endpoint must return exactly one response per accepted request, with the same warp and destination tag, no earlier than the following cycle. A stalled memory request holds the scheduler until accepted. The default fixed-latency interface is unchanged. The [coalesced core wrapper](../simt_coalesce_bankconflict) connects this mode to global and banked shared memory. A barrier waits for all `NW` warps and their prior outstanding operations, then releases all of them. Every warp must reach each barrier in the same order; early exit or nonuniform participation can deadlock.
+* **Simplified on purpose:** stores serialize a warp's memory operations, and the fixed-latency mode blocks the entire warp; one issue slot; one SIMT stack scheme (recent GPUs have independent thread scheduling).
 
 ## Verification
 
@@ -68,6 +68,8 @@ others. **Uniform kernel (PROG 1)** has a `BEQZ` that every lane takes and one t
 7 warp-instructions and 56 lane-ops per warp, no idle cycles. Breaking the reconvergence (a `SYNC` that does not restore the mask) corrupts every lane's result,
 and shortening the load latency changes the cycle and idle counts; both are caught.
 
+The asynchronous-mode test issues three loads from one warp, returns them out of order (including a response concurrent with a new request), and checks independent issue, write-after-write and second-source read-after-write stalls, the computed store value, and exit waiting for the store response.
+
 ## Run it
 
 ```bash
@@ -77,7 +79,7 @@ make test T=simt_core
 ## Exercises
 
 1. Sweep `NW` from 1 to 8 on the divergent kernel and plot idle cycles: how many warps does it take to hide a 6-cycle load, and how does that change with `LD_LAT`?
-2. Add a per-register scoreboard so a warp can keep issuing independent instructions after a load (and measure the benefit).
+2. Compare the queued single-engine wrapper with multiple memory engines capable of out-of-order responses.
 3. Add **nested** divergence (an `if` inside an `if`) and check the stack depth needed.
-4. Add address **coalescing**: count how many distinct memory lines a warp's load touches and charge latency accordingly.
+4. Extend the coalesced core with a latency-bearing memory system and compare its throughput at different line latencies.
 5. Compare the lane-op throughput with [`vector_lanes`](../vector_lanes) for the same DAXPY kernel.

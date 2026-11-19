@@ -12,5 +12,5 @@ appendix.)
 | [`booth_multiplier`](booth_multiplier) | radix-4 Booth recoding, 8 partial products for 16 bits |
 | [`restoring_divider`](restoring_divider) | shift-subtract division, one quotient bit per cycle |
 | [`csa_wallace_skip_select`](csa_wallace_skip_select) | carry-skip and carry-select adders and a carry-save multiplier |
-
-Planned: IEEE 754 single-precision adder and multiplier, SRT division, fused multiply-add.
+| [`ieee754_fpu_fma_bf16`](ieee754_fpu_fma_bf16) | binary32 arithmetic, rounding flags and scaled BF16/FP8 FMA |
+| [`srt4_divider_fdiv`](srt4_divider_fdiv) | radix-4 carry-save division with a five-cell fault mode |
